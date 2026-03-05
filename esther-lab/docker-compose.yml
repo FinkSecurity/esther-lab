@@ -9,7 +9,6 @@ services:
     volumes:
       - ollama_data:/root/.ollama
     restart: unless-stopped
-
   opensearch:
     image: opensearchproject/opensearch:latest
     container_name: opensearch
@@ -31,7 +30,6 @@ services:
       nofile:
         soft: 65536
         hard: 65536
-
   opensearch-dashboards:
     image: opensearchproject/opensearch-dashboards:latest
     container_name: opensearch-dashboards
@@ -44,7 +42,6 @@ services:
     depends_on:
       - opensearch
     restart: unless-stopped
-
   dvwa:
     image: vulnerables/web-dvwa:latest
     container_name: dvwa
@@ -58,7 +55,6 @@ services:
     restart: unless-stopped
     depends_on:
       - dvwa-db
-
   dvwa-db:
     image: mysql:5.7
     container_name: dvwa-db
@@ -70,7 +66,6 @@ services:
     volumes:
       - dvwa_data:/var/lib/mysql
     restart: unless-stopped
-
   juice-shop:
     image: bkimminich/juice-shop:latest
     container_name: juice-shop
@@ -79,7 +74,6 @@ services:
     environment:
       - NODE_ENV=production
     restart: unless-stopped
-
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
@@ -90,13 +84,13 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
     restart: unless-stopped
-
 volumes:
-  ollama_data:
   opensearch_data:
+    external: true
+    name: workspace_opensearch_data
+  ollama_data:
   dvwa_data:
   portainer_data:
-
 networks:
   default:
     name: fink-security-lab
