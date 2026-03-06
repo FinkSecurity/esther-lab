@@ -260,13 +260,16 @@ esther-lab/osint-exercises/
 
 ### ✅ Completed
 
-- [x] OSINT reconnaissance exercise (6 documents)
-- [x] Honest revision with real data
-- [x] GitHub repository integration (2 repos)
-- [x] API verification (Shodan, GitHub)
-- [x] Documentation of constraints
-- [x] Lesson learned and documented
+- [x] OSINT reconnaissance exercise (6 documents) — Honest version, zero findings in Boulder
+- [x] Fabrication removed, real Shodan API data included
+- [x] GitHub repository integration (2 repos) — esther-lab + estherops-site
+- [x] API verification (Shodan, GitHub) — All outputs verified live
+- [x] Documentation of constraints — Geolocation limits, free tier boundaries
+- [x] Lesson learned and documented — SOUL.md Rules 1-3 reinforced
 - [x] PROJECT-STATUS.md completed
+- [x] **REBRAND: "We think like the threat."** — Operational philosophy updated
+- [x] All post frontmatter fixed — Hugo format compliance
+- [x] OpenClaw VPS guide published — estherops-site deployment complete
 
 ### ⏳ Pending (Awaiting Approval)
 

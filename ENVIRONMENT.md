@@ -1,59 +1,66 @@
-# ENVIRONMENT.md — Service Credentials & Configuration
+# ENVIRONMENT.md — API Keys & Configuration
 
-## Services
+## Status: 2026-03-06
 
-### OpenSearch
-- **URL:** https://localhost:9200
-- **Admin Username:** admin
-- **Admin Password:** Stored in `esther-lab/.env` as `OPENSEARCH_PASSWORD`
-- **Status:** Running in Docker via docker-compose
-- **Container Name:** opensearch
+### API Keys Configured
 
-### OpenSearch Dashboards
-- **URL:** http://localhost:5601
-- **Username:** admin
-- **Password:** Stored in `esther-lab/.env` (synchronized with OpenSearch)
-- **Container Name:** opensearch-dashboards
+#### Shodan API
+- **Status:** ✅ Active
+- **Key Location:** `~/.openclaw/.env` → `SHODAN_API_KEY`
+- **Verification:** Successfully authenticated and executed 8 queries (2026-03-06)
+- **Last Used:** 2026-03-06 19:20 UTC
+- **Capabilities:** Internet-wide host search, filtering, geolocation queries
 
-### MySQL (DVWA Backend)
-- **Host:** localhost:3306
-- **Root Password:** Stored in `esther-lab/.env` as `MYSQL_ROOT_PASSWORD`
-- **User Password:** Stored in `esther-lab/.env` as `MYSQL_PASSWORD`
-- **Container Name:** mysql
+#### GitHub CLI (gh)
+- **Status:** ✅ Active
+- **Configuration:** `~/.gitconfig` + system Git
+- **User:** ESTHER / esther@finksecurity.com
+- **Verification:** Successfully pushed to FinkSecurity org repositories
+- **Last Used:** 2026-03-06 19:35 UTC
 
-### DVWA (Damn Vulnerable Web Application)
-- **URL:** http://localhost:80
-- **Admin Username:** admin
-- **Admin Password:** password
-- **Status:** Running in Docker via docker-compose
-- **Container Name:** dvwa
+#### Brave Search API
+- **Status:** ❌ Not Configured
+- **Location:** Would be `~/.openclaw/.env` → `BRAVE_API_KEY`
+- **Action Required:** Configure when available
 
-## Environment Files
+#### Tavily Search API
+- **Status:** ❌ Not Configured
+- **Location:** Would be `~/.openclaw/.env` → `TAVILY_API_KEY`
+- **Action Required:** Configure when available
 
-**DO NOT commit secrets to version control.**
+### Git Configuration
 
-- **esther-lab/.env** — Production secrets (git-ignored)
-  - OPENSEARCH_PASSWORD
-  - MYSQL_ROOT_PASSWORD
-  - MYSQL_PASSWORD
+**User:** ESTHER  
+**Email:** esther@finksecurity.com  
+**Remote Repos:**
+- esther-lab: https://github.com/FinkSecurity/esther-lab.git
+- estherops-site: https://github.com/FinkSecurity/estherops-site.git
 
-## Docker Compose
+**Verified Pushes (2026-03-06):**
+- esther-lab: OSINT exercise (real data, honest findings)
+- estherops-site: OpenClaw VPS setup guide
 
-All services are managed via `esther-lab/docker-compose.yml`:
+### Environment Variables (Checked 2026-03-06)
 
-```bash
-cd esther-lab
-docker-compose up -d      # Start all services
-docker-compose down       # Stop all services
-docker-compose logs -f    # View logs
+**Active:**
+```
+SHODAN_API_KEY=<configured>
 ```
 
-## API Keys & Tokens
+**Available but Not Active:**
+```
+(None at this time)
+```
 
-(None configured yet — add here as services expand)
+**Recommended Setup:**
+```
+BRAVE_API_KEY=<pending>
+TAVILY_API_KEY=<pending>
+HIBP_API_KEY=<pending>
+CENSYS_API_KEY=<pending>
+```
 
-## Notes
+---
 
-- All services use self-signed SSL certificates (localhost:9200 requires `-k` with curl)
-- Passwords are environment-specific; do not hardcode credentials in code
-- Monitor `.env` file access; it contains sensitive data
+**Last Updated:** 2026-03-06 19:45 UTC  
+**Next Review:** Monday 2026-03-10
