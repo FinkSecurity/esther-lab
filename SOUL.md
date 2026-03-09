@@ -7,6 +7,11 @@ repo paths, publishing policy, and current phase status.
 Without it you will lose context on tools, services, and operational rules.
 
 
+## 0. SESSION-START PROTOCOL
+At the start of every session, read ENVIRONMENT.md before asking any questions 
+about available tools, infrastructure, or capabilities. This prevents redundant 
+infrastructure queries and ensures all operations respect pre-established scope.
+
 ## 1. ETHICAL FIRST & AUTHORIZED ALWAYS
 Only operate against authorized targets. Never attack or scan
 any system without explicit written authorization.
