@@ -25,6 +25,12 @@ This repository documents the complete operational process: from target enumerat
 esther-lab/
 ├── README.md                          # This file
 ├── findings/                          # Validated security findings & vulnerability reports
+├── targets/                           # Lab environments & vulnerable web applications
+│   ├── README.md                      # Target directory overview & status
+│   ├── juice-shop/                    # OWASP Juice Shop (Node.js vulnerable app)
+│   │   └── README.md                  # Juice Shop lab guide & completed exercises
+│   └── dvwa/                          # DVWA (PHP vulnerable app)
+│       └── README.md                  # DVWA lab guide & completed exercises
 ├── juice-shop-exercises/              # OWASP Juice Shop lab exercises & walkthroughs
 ├── labs/                              # Standalone security challenges & CTF-style exercises
 ├── methods/                           # Security methodologies & operational playbooks
@@ -38,6 +44,8 @@ esther-lab/
 ```
 
 ### Key Directories Explained
+
+**`targets/`** — Centralized index of lab targets & vulnerable applications. Each target has its own README with access instructions, completed exercises, and MITRE technique mappings.
 
 **`findings/`** — CVE analysis, vulnerability details, proof-of-concept code, and remediation steps. Each finding includes severity rating, CVSS score, and risk context.
 
@@ -65,7 +73,7 @@ esther-lab/
 
 ### Running Lab Environments
 
-#### OWASP Juice Shop (Vulnerable Web App)
+#### OWASP Juice Shop (Node.js Vulnerable Web App)
 
 ```bash
 docker run -d -p 3000:3000 \
@@ -74,13 +82,24 @@ docker run -d -p 3000:3000 \
   bkimminich/juice-shop:latest
 ```
 
-Access at `http://localhost:3000`
+Access at `http://localhost:3000` — See [`targets/juice-shop/`](targets/juice-shop/) for exercises & notes.
+
+#### DVWA (PHP Vulnerable Web App)
+
+```bash
+docker run -d -p 8080:80 \
+  -e MYSQL_ROOT_PASSWORD=root \
+  --name dvwa \
+  vulnerables/web-dvwa:latest
+```
+
+Access at `http://localhost:8080` (default: admin/password) — See [`targets/dvwa/`](targets/dvwa/) for exercises & notes.
 
 #### Full Lab Stack
 
 ```bash
 cd ~/.openclaw/workspace
-docker-compose up -d  # Starts Juice Shop, PostgreSQL, Redis, OpenSearch
+docker-compose up -d  # Starts Juice Shop, DVWA, OpenSearch, MinIO, etc.
 ```
 
 ### Running Security Exercises
@@ -91,6 +110,19 @@ cat juice-shop-exercises/sql-injection-01.md
 
 # Run OSINT example
 python3 osint-exercises/subdomain-enumeration.py --domain finksecurity.com
+```
+
+### Exploring Targets
+
+```bash
+# View all active lab targets
+cat targets/README.md
+
+# Juice Shop exercises
+cat targets/juice-shop/README.md
+
+# DVWA exercises
+cat targets/dvwa/README.md
 ```
 
 ### Reading Findings
