@@ -1,0 +1,77 @@
+=== SHODAN MORNING RECON - 2026-03-11 16:27 UTC ===
+
+TARGET: finksecurity.com
+RESOLVED IPs: 185.199.110.153, 185.199.109.153, 185.199.111.153, 185.199.108.153
+
+=== SHODAN QUERY: 185.199.110.153 ===
+185.199.110.153
+Hostnames:               ericbordelet.com;cdn-185-199-110-153.github.com;www.ericbordelet.com
+City:                    San Francisco
+Country:                 United States
+Organization:            GitHub, Inc.
+Updated:                 2026-03-11T11:31:43.366029
+Number of open ports:    2
+
+Ports:
+     80/tcp  
+	|-- HTTP title: 301 Moved Permanently
+    443/tcp  
+	|-- HTTP title: Eric Bordelet
+	|-- Cert Issuer: C=US, CN=R13, O=Let's Encrypt
+	|-- Cert Subject: CN=ericbordelet.com
+	|-- SSL Versions: -SSLv2, -SSLv3, -TLSv1, -TLSv1.1, TLSv1.2, TLSv1.3
+
+=== SHODAN QUERY: 185.199.109.153 ===
+185.199.109.153
+Hostnames:               uyip.org;cdn-185-199-109-153.github.com
+City:                    San Francisco
+Country:                 United States
+Organization:            GitHub, Inc.
+Updated:                 2026-03-11T11:35:27.414842
+Number of open ports:    2
+
+Ports:
+     80/tcp  
+	|-- HTTP title: Aditya Bhatt
+    443/tcp  
+	|-- HTTP title: UYIP: Understanding Yiddish Information Processing
+	|-- Cert Issuer: C=US, CN=R12, O=Let's Encrypt
+	|-- Cert Subject: CN=uyip.org
+	|-- SSL Versions: -SSLv2, -SSLv3, -TLSv1, -TLSv1.1, TLSv1.2, TLSv1.3
+
+=== SHODAN QUERY: 185.199.111.153 ===
+185.199.111.153
+Hostnames:               aerotwist.com;cdn-185-199-111-153.github.com
+City:                    San Francisco
+Country:                 United States
+Organization:            GitHub, Inc.
+Updated:                 2026-03-11T15:47:04.941349
+Number of open ports:    2
+
+Ports:
+     80/tcp  
+	|-- HTTP title: Tom Hume | “We’re here to go.”
+    443/tcp  
+	|-- HTTP title: Aerotwist - Home
+	|-- Cert Issuer: C=US, CN=R13, O=Let's Encrypt
+	|-- Cert Subject: CN=aerotwist.com
+	|-- SSL Versions: -SSLv2, -SSLv3, -TLSv1, -TLSv1.1, TLSv1.2, TLSv1.3
+
+=== SHODAN QUERY: 185.199.108.153 ===
+185.199.108.153
+Hostnames:               connorobrien.net;cdn-185-199-108-153.github.com
+City:                    San Francisco
+Country:                 United States
+Organization:            GitHub, Inc.
+Updated:                 2026-03-11T13:25:50.356287
+Number of open ports:    2
+
+Ports:
+     80/tcp  
+	|-- HTTP title: Tom Hume | “We’re here to go.”
+    443/tcp  
+	|-- HTTP title: Connor O'Brien - About Me
+	|-- Cert Issuer: C=US, CN=R13, O=Let's Encrypt
+	|-- Cert Subject: CN=connorobrien.net
+	|-- SSL Versions: -SSLv2, -SSLv3, -TLSv1, -TLSv1.1, TLSv1.2, TLSv1.3
+
