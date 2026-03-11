@@ -1,0 +1,3 @@
+* Could not resolve host: cdn-pl-staging.wooga.com
+* Store negative name resolve for cdn-pl-staging.wooga.com:443
+* shutting down connection #0
