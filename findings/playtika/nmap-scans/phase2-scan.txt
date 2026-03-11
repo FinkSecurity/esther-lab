@@ -1,0 +1,213 @@
+=== Scanning playtika.com ===
+Testing http://playtika.com:80
+HTTP/1.1 301 Moved Permanently
+Date: Wed, 11 Mar 2026 18:59:56 GMT
+Content-Type: text/html
+Content-Length: 155
+Connection: keep-alive
+
+Testing https://playtika.com:443
+HTTP/2 301 
+date: Wed, 11 Mar 2026 18:59:57 GMT
+content-type: text/html
+content-length: 155
+location: https://www.playtika.com/
+
+Testing http://playtika.com:8080
+
+Testing https://playtika.com:8443
+
+Testing http://playtika.com:8888
+
+
+=== Scanning slotomania.com ===
+Testing http://slotomania.com:80
+HTTP/1.1 301 Moved Permanently
+Server: awselb/2.0
+Date: Wed, 11 Mar 2026 19:00:12 GMT
+Content-Type: text/html
+Content-Length: 134
+
+Testing https://slotomania.com:443
+HTTP/2 301 
+server: awselb/2.0
+date: Wed, 11 Mar 2026 19:00:13 GMT
+content-type: text/html
+content-length: 134
+
+Testing http://slotomania.com:8080
+
+Testing https://slotomania.com:8443
+
+Testing http://slotomania.com:8888
+
+
+=== Scanning bi.wooga.com ===
+
+
+
+
+
+
+=== Scanning cdn2-g9-config.wooga.com ===
+HTTP/1.1 403 Forbidden
+x-amz-bucket-region: eu-west-1
+Content-Type: application/xml
+
+HTTP/1.1 403 Forbidden
+x-amz-bucket-region: eu-west-1
+Content-Type: application/xml
+
+
+
+
+
+=== Scanning cdn2-g9.wooga.com ===
+HTTP/1.1 403 Forbidden
+x-amz-bucket-region: eu-west-1
+Content-Type: application/xml
+
+HTTP/1.1 403 Forbidden
+x-amz-bucket-region: eu-west-1
+Content-Type: application/xml
+
+
+
+
+
+=== Scanning cdn-g9-config.wooga.com ===
+HTTP/1.1 403 Forbidden
+x-amz-bucket-region: eu-west-1
+Content-Type: application/xml
+
+HTTP/1.1 403 Forbidden
+x-amz-bucket-region: eu-west-1
+Content-Type: application/xml
+
+
+
+
+
+=== Scanning cdn-g9.wooga.com ===
+HTTP/1.1 403 Forbidden
+x-amz-bucket-region: eu-west-1
+Content-Type: application/xml
+
+HTTP/1.1 403 Forbidden
+x-amz-bucket-region: eu-west-1
+Content-Type: application/xml
+
+
+
+
+
+=== Scanning cdn-mkt.wooga.com ===
+HTTP/1.1 403 Forbidden
+Content-Type: application/xml
+Content-Length: 1
+
+HTTP/2 403 
+content-type: application/xml
+content-length: 1
+
+
+
+
+
+=== Scanning cdn-pl-dev.wooga.com ===
+
+
+
+
+
+
+=== Scanning cdn-pl-live.wooga.com ===
+
+
+
+
+
+
+=== Scanning cdn-pl-staging.wooga.com ===
+
+
+
+
+
+
+=== Scanning cdn-sbs-config-staging.wooga.com ===
+HTTP/1.1 404 Not Found
+Content-Type: text/html
+Content-Length: 9
+
+HTTP/2 404 
+content-type: text/html
+content-length: 9
+
+
+
+
+
+=== Scanning cdn-sbs-config.wooga.com ===
+HTTP/1.1 404 Not Found
+Content-Type: text/html
+Content-Length: 9
+
+HTTP/2 404 
+content-type: text/html
+content-length: 9
+
+
+
+
+
+=== Scanning cdn-sbs-manifest1.wooga.com ===
+HTTP/1.1 301 Moved Permanently
+Server: CloudFront
+Date: Wed, 11 Mar 2026 19:02:34 GMT
+
+HTTP/2 404 
+content-type: application/json; charset=utf-8
+content-length: 2
+
+
+
+
+
+=== Scanning cdn-sbs-manifest2.wooga.com ===
+HTTP/1.1 404 Not Found
+Content-Type: text/html
+Content-Length: 9
+
+HTTP/2 404 
+content-type: text/html
+content-length: 9
+
+
+
+
+
+=== Scanning cdn-sbs-manifest.wooga.com ===
+HTTP/1.1 404 Not Found
+Content-Type: text/html
+Content-Length: 9
+
+HTTP/2 404 
+content-type: text/html
+content-length: 9
+
+
+
+
+
+=== Scanning cdn-sbs.wooga.com ===
+HTTP/1.1 403 Forbidden
+x-amz-bucket-region: eu-west-1
+Content-Type: application/xml
+
+HTTP/2 403 
+x-amz-bucket-region: eu-west-1
+content-type: application/xml
+
+
+
