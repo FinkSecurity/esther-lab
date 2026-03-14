@@ -1,0 +1,96 @@
+# Passwords loaded from .env file — never commit real credentials
+# Copy .env.example to .env and fill in your values
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+  opensearch:
+    image: opensearchproject/opensearch:latest
+    container_name: opensearch
+    environment:
+      - discovery.type=single-node
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_PASSWORD}
+      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m
+      - DISABLE_SECURITY_PLUGIN=false
+    ports:
+      - "9200:9200"
+      - "9600:9600"
+    volumes:
+      - opensearch_data:/usr/share/opensearch/data
+    restart: unless-stopped
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:latest
+    container_name: opensearch-dashboards
+    ports:
+      - "5601:5601"
+    environment:
+      - OPENSEARCH_HOSTS=https://opensearch:9200
+      - OPENSEARCH_USERNAME=admin
+      - OPENSEARCH_PASSWORD=${OPENSEARCH_PASSWORD}
+    depends_on:
+      - opensearch
+    restart: unless-stopped
+  dvwa:
+    image: vulnerables/web-dvwa:latest
+    container_name: dvwa
+    ports:
+      - "80:80"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=dvwa
+      - MYSQL_USER=dvwa
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    restart: unless-stopped
+    depends_on:
+      - dvwa-db
+  dvwa-db:
+    image: mysql:5.7
+    container_name: dvwa-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=dvwa
+      - MYSQL_USER=dvwa
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - dvwa_data:/var/lib/mysql
+    restart: unless-stopped
+  juice-shop:
+    image: bkimminich/juice-shop:latest
+    container_name: juice-shop
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    ports:
+      - "9000:9000"
+      - "8000:8000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    restart: unless-stopped
+volumes:
+  opensearch_data:
+    external: true
+    name: workspace_opensearch_data
+  ollama_data:
+  dvwa_data:
+  portainer_data:
+networks:
+  default:
+    name: fink-security-lab
