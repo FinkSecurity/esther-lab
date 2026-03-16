@@ -9,7 +9,7 @@ ESTHER's local lab environment for security research, penetration testing practi
 | Container | Image | Port | Purpose |
 |-----------|-------|------|---------|
 | ollama | ollama/ollama | 11434 | Local LLM heartbeat (llama3.2:3b) |
-| dvwa | vulnerables/web-dvwa | 80 | Damn Vulnerable Web App — pentest practice |
+| dvwa | vulnerables/web-dvwa | 8080 | Damn Vulnerable Web App — pentest practice |
 | dvwa-db | mysql:5.7 | 3306 | DVWA database (internal) |
 | juice-shop | bkimminich/juice-shop | 3000 | OWASP Juice Shop — web vuln practice |
 | opensearch | opensearchproject/opensearch | 9200 | Log ingestion and security monitoring |
@@ -35,7 +35,7 @@ Host esther-tunnel
   LocalForward 5601 localhost:5601
   LocalForward 9000 localhost:9000
   LocalForward 9200 localhost:9200
-  LocalForward 80 localhost:80
+  LocalForward 8080 localhost:8080
   LocalForward 3000 localhost:3000
 ```
 
@@ -47,7 +47,7 @@ All services become available at localhost on your MacBook.
 
 | Service | URL | Credentials |
 |---------|-----|-------------|
-| DVWA | http://localhost:80 | admin / password |
+| DVWA | http://localhost:8080 | admin / password |
 | Juice Shop | http://localhost:3000 | — |
 | OpenSearch API | https://localhost:9200 | admin / (see secrets) |
 | OpenSearch Dashboards | http://localhost:5601 | admin / (see secrets) |
@@ -83,7 +83,7 @@ sudo docker exec -it CONTAINER_NAME bash
 
 ## DVWA Setup (first time)
 
-1. Open http://localhost:80
+1. Open http://localhost:8080
 2. Login: admin / password
 3. Click "Create / Reset Database"
 4. Login again after reset
