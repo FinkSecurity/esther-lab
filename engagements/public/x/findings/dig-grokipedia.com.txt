@@ -1,0 +1,4 @@
+cartman.ns.cloudflare.com.
+104.18.19.2
+robin.ns.cloudflare.com.
+104.18.18.2

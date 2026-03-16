@@ -1,0 +1,5 @@
+chad.ns.cloudflare.com.
+104.18.21.112
+anita.ns.cloudflare.com.
+104.18.20.112
+anita.ns.cloudflare.com. dns.cloudflare.com. 2399168186 10000 2400 604800 1800
