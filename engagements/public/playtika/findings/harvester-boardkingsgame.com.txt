@@ -1,0 +1,509 @@
+2026-03-16 02:42:09,286 - theHarvester.discovery.hudsonrocksearch - INFO - Starting Hudson Rock processing for: boardkingsgame.com
+2026-03-16 02:42:09,286 - theHarvester.discovery.hudsonrocksearch - INFO - Starting Hudson Rock search for: boardkingsgame.com
+2026-03-16 02:42:14,400 - theHarvester.discovery.hudsonrocksearch - INFO - Domain statistics: 0 total compromised, 0 employees, 0 users
+2026-03-16 02:42:15,400 - theHarvester.discovery.hudsonrocksearch - INFO - Hudson Rock search completed. Found 0 hosts, 0 IPs, 0 emails
+2026-03-16 02:42:15,400 - theHarvester.discovery.hudsonrocksearch - INFO - Hudson Rock processing completed successfully: 0 hosts, 0 IPs, 0 emails, 0 stealers
+Read proxies.yaml from /etc/theHarvester/proxies.yaml
+*******************************************************************
+*  _   _                                            _             *
+* | |_| |__   ___    /\  /\__ _ _ ____   _____  ___| |_ ___ _ __  *
+* | __|  _ \ / _ \  / /_/ / _` | '__\ \ / / _ \/ __| __/ _ \ '__| *
+* | |_| | | |  __/ / __  / (_| | |   \ V /  __/\__ \ ||  __/ |    *
+*  \__|_| |_|\___| \/ /_/ \__,_|_|    \_/ \___||___/\__\___|_|    *
+*                                                                 *
+* theHarvester 4.10.1                                             *
+* Coded by Christian Martorella                                   *
+* Edge-Security Research                                          *
+* cmartorella@edge-security.com                                   *
+*                                                                 *
+*******************************************************************
+
+[*] Target: boardkingsgame.com 
+
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Failed to process bevigil search for word: 'boardkingsgame.com'
+Error Message: 
+[!] Missing API key for bevigil. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+
+[!] Missing API key for Bitbucket. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Failed to process bufferoverun search for word: 'boardkingsgame.com'
+Error Message: 
+[!] Missing API key for bufferoverun. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Failed to perform BuiltWith search for word: 'boardkingsgame.com'
+A Missing Key Error occurred in builtwith: 
+[!] Missing API key for BuiltWith. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Failed to process brave search for word: 'boardkingsgame.com'
+Error Message: 
+[!] Missing API key for Brave Search. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Censys API key is missing or invalid: 
+[!] Missing API key for Censys ID and/or Secret. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing key error occurred in criminalip: 
+[!] Missing API key for criminalip. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in dehashed: 
+[!] Missing API key for Dehashed. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+
+[!] Missing API key for DNSDumpster. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in fullhunt: 
+[!] Missing API key for fullhunt. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Error initializing SearchGithubCode: 
+[!] Missing API key for Github. 
+A Missing Key error occurred in github-code: 
+[!] Missing API key for Github. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+
+[!] Missing API key for HaveIBeenPwned. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in Hunter: 
+[!] Missing API key for Hunter. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in Hunter How: 
+[!] Missing API key for hunterhow. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in intelx: 
+[!] Missing API key for Intelx. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in Netlas: 
+[!] Missing API key for netlas. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Unexpected error occurred in Onyphe module: 
+[!] Missing API key for onyphe. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in PentestTools search: 
+[!] Missing API key for PentestTools. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in ProjectDiscovery: 
+[!] Missing API key for ProjectDiscovery. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in RocketReach: 
+[!] Missing API key for RocketReach. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+
+[!] Missing API key for SecurityScorecard. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred Security Trails: 
+[!] Missing API key for Securitytrail. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in Shodan search: 
+[!] Missing API key for Shodan. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in Tomba: 
+[!] Missing API key for Tomba Key and/or Secret. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in venacus search: 
+[!] Missing API key for Venacus. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in virustotal search: 
+[!] Missing API key for virustotal. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in whoisxml search: 
+[!] Missing API key for whoisxml. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in zoomeye: 
+[!] Missing API key for zoomeye. 
+	Searching results.
+[*] Searching Certspotter. 
+[*] Searching Chaos. 
+[*] Searching Baidu. 
+[*] Searching Duckduckgo. 
+[*] Searching CRTsh. 
+[*] Searching Fofa. 
+[*] Searching Hackertarget. 
+[*] Searching Gitlab. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+[*] Searching Hudsonrock. 
+[*] Searching Leaklookup. 
+LeakIX API requires authentication: "Incorrect API Key"
+[*] Searching Otx. 
+[*] Searching Rapiddns. 
+[*] Searching Commoncrawl. 
+[*] Searching Subdomaincenter. 
+[*] Searching Robtex. 
+[*] Searching Thc. 
+[*] Searching Subdomainfinderc99. 
+[*] Searching Threatcrowd. 
+[*] Searching Urlscan. 
+[*] Windvane API key not found. Using limited unauthenticated access.
+[*] API unavailable, using fallback subdomain pattern search...
+[*] Found 1 subdomains using DNS fallback
+[*] Searching Windvane. 
+[*] Searching Yahoo. 
+[*] Searching Waybackarchive. 
+[*] Searching Leakix. 
+
+[*] ASNS found: 5
+--------------------
+AS16509
+AS201011
+AS20940
+AS26496
+AS61149
+
+[*] Interesting Urls found: 9
+--------------------
+http://api.boardkingsgame.com/
+http://boardkingsgame.com/
+http://boardkingsgame.com/?reqp=1&reqr=
+http://messaging-dsa.boardkingsgame.com/
+http://messaging-origin.boardkingsgame.com/
+http://messaging.boardkingsgame.com/
+http://s3repo.boardkingsgame.com/
+http://socket.boardkingsgame.com:8081/
+https://prod-bk-dp.boardkingsgame.com/
+
+[*] No LinkedIn users found.
+
+
+
+[*] LinkedIn Links found: 0
+---------------------
+
+[*] IPs found: 10
+-------------------
+185.16.89.139
+185.16.89.32
+2.21.242.197
+2a01:4a0:1338:28::c38a:ff08
+50.63.202.40
+52.48.68.176
+52.50.60.249
+72.247.178.120
+
+[*] Emails found: 1
+----------------------
+bk_support@boardkingsgame.com
+
+[*] No people found.
+
+[*] Hosts found: 303
+---------------------
+*.boardkingsgame.com
+118.boardkingsgame.com
+1187.boardkingsgame.com
+119.boardkingsgame.com
+1197.boardkingsgame.com
+121.boardkingsgame.com
+1219.boardkingsgame.com
+18.boardkingsgame.com
+185.boardkingsgame.com
+190.boardkingsgame.com
+1907.boardkingsgame.com
+2.boardkingsgame.com
+208.boardkingsgame.com
+2087.boardkingsgame.com
+209.boardkingsgame.com
+2099.boardkingsgame.com
+221-.boardkingsgame.com
+221.boardkingsgame.com
+222.boardkingsgame.com
+2227.boardkingsgame.com
+223.boardkingsgame.com
+2237.boardkingsgame.com
+227.boardkingsgame.com
+227g.boardkingsgame.com
+228.boardkingsgame.com
+2289.boardkingsgame.com
+229.boardkingsgame.com
+2297.boardkingsgame.com
+231.boardkingsgame.com
+2319.boardkingsgame.com
+232.boardkingsgame.com
+2327.boardkingsgame.com
+234.boardkingsgame.com
+236.boardkingsgame.com
+2367.boardkingsgame.com
+238.boardkingsgame.com
+2387.boardkingsgame.com
+33.boardkingsgame.com
+335.boardkingsgame.com
+52.boardkingsgame.com
+525.boardkingsgame.com
+87.boardkingsgame.com
+875.boardkingsgame.com
+a.boardkingsgame.com
+ad.boardkingsgame.com
+admin.boardkingsgame.com
+ads.boardkingsgame.com
+ads5.boardkingsgame.com
+api-collectibles.boardkingsgame.com
+api-collectiblesw.boardkingsgame.com
+api-gw-ca1.boardkingsgame.com
+api-gw-va2.boardkingsgame.com
+api-gw-va2e.boardkingsgame.com
+api-gw.boardkingsgame.com
+api-missions.boardkingsgame.com
+api-missionse.boardkingsgame.com
+api.boardkingsgame.com
+api.boardkingsgame.com:api-gw-va2.boardkingsgame.com
+apiq.boardkingsgame.com
+app.boardkingsgame.com
+appk.boardkingsgame.com
+au.boardkingsgame.com
+austin.boardkingsgame.com
+autodiscover.boardkingsgame.com
+autodiscoverc.boardkingsgame.com
+aws.boardkingsgame.com
+aws9.boardkingsgame.com
+backoffice-collectibles-dub.boardkingsgame.com
+backoffice-collectibles-dubu.boardkingsgame.com
+backoffice-collectibles-va2.boardkingsgame.com
+backoffice-collectibles-va2s.boardkingsgame.com
+backoffice-collectibles.boardkingsgame.com
+backoffice-collectiblese.boardkingsgame.com
+backoffice-dashboard-ca1.boardkingsgame.com
+backoffice-dashboard-ca1i.boardkingsgame.com
+backoffice-dashboard-dub.boardkingsgame.com
+backoffice-dashboard-dubm.boardkingsgame.com
+backoffice-dashboard-va2.boardkingsgame.com
+backoffice-dashboard-va2s.boardkingsgame.com
+backoffice-dashboard.boardkingsgame.com
+be.boardkingsgame.com
+be5.boardkingsgame.com
+beta.boardkingsgame.com
+bk-api-ca1.boardkingsgame.com
+bk-api-ca1e.boardkingsgame.com
+bk-api-f5-ve-ca1.boardkingsgame.com
+bk-api-f5-ve-ca1q.boardkingsgame.com
+bk-api-qa.dev.boardkingsgame.com
+bk-api-va2.boardkingsgame.com
+bk-api.boardkingsgame.com
+bk-clientlogs-dsa-ca1.boardkingsgame.com
+bk-clientlogs-dsa-va2.boardkingsgame.com
+bk-crmmissions.boardkingsgame.com
+bk-dailybonus.boardkingsgame.com
+bk-dev-rproxy.boardkingsgame.com
+bk-dev-rproxym.boardkingsgame.com
+bk-elevator.boardkingsgame.com
+bk-elevator5.boardkingsgame.com
+bk-gw-f5-ve-ca1.boardkingsgame.com
+bk-preprod-api-gw.boardkingsgame.com
+bk-preprod-clientlogs-dashboard.boardkingsgame.com
+bk-preprod-gw.boardkingsgame.com
+bk-preprod-gwc.boardkingsgame.com
+bk-preprod-websocket.boardkingsgame.com
+bk-prod-assets-browser-s3-ca1.boardkingsgame.com
+bk-prod-assets-browser-s3-ca1e.boardkingsgame.com
+bk-prod-assets-browser-s3-va2.boardkingsgame.com
+bk-prod-assets-browser-s3-va2w.boardkingsgame.com
+bk-prod-assets-browser-s3.boardkingsgame.com
+bk-prod-assets-browser-s3w.boardkingsgame.com
+bk-prod-backoffice-ca1.boardkingsgame.com
+bk-prod-backoffice-va2.boardkingsgame.com
+bk-prod-backoffice.boardkingsgame.com
+bk-prod-backofficei.boardkingsgame.com
+bk-prod-ftue-webapi.boardkingsgame.com
+bk-prod-train-webapi.boardkingsgame.com
+bk-prod-websocket.boardkingsgame.com
+bk-prod-websocketg.boardkingsgame.com
+bk-static-s3-ca1.boardkingsgame.com
+bk-static-s3-ca1o.boardkingsgame.com
+bk-static-s3-va2.boardkingsgame.com
+bk-static-s3.boardkingsgame.com
+blog.boardkingsgame.com
+br.boardkingsgame.com
+br5.boardkingsgame.com
+c.boardkingsgame.com
+ca.boardkingsgame.com
+cache-prod-local.boardkingsgame.com
+cache-prod-localm.boardkingsgame.com
+canvas-qa.boardkingsgame.com
+canvas-qaw.boardkingsgame.com
+cc.boardkingsgame.com
+cc9.boardkingsgame.com
+chem.boardkingsgame.com
+ci.boardkingsgame.com
+ci1.boardkingsgame.com
+ci19.boardkingsgame.com
+cl-logs-f5-ve-ca1.boardkingsgame.com
+cl-logs-f5-ve-ca1g.boardkingsgame.com
+client-logs-ca1.boardkingsgame.com
+client-logs-ca1u.boardkingsgame.com
+client-logs-dashboard-ca1.boardkingsgame.com
+client-logs-dashboard-ca1c.boardkingsgame.com
+client-logs-dashboard-va2.boardkingsgame.com
+client-logs-dashboard-va2.boardkingsgame.com:10.150.67.23
+client-logs-dashboard-va2e.boardkingsgame.com
+client-logs-dashboard-va2~h.boardkingsgame.com
+client-logs-dashboard.boardkingsgame.com
+client-logs-dashboard.dev.boardkingsgame.com
+client-logs-dashboard.dev.boardkingsgame.com:10.105.67.130
+client-logs-dashboardi.dev.boardkingsgame.com
+client-logs-va2.boardkingsgame.com
+client-logs.boardkingsgame.com
+cloud.boardkingsgame.com
+cn.boardkingsgame.com
+cn1.boardkingsgame.com
+co.boardkingsgame.com
+co5.boardkingsgame.com
+collectibles-dashboard.boardkingsgame.com
+com.boardkingsgame.com
+com5.boardkingsgame.com
+comg.ar.ci1.boardkingsgame.com
+corp.boardkingsgame.com
+cs.boardkingsgame.com
+csu.boardkingsgame.com
+db-0-stg.boardkingsgame.com
+db-0-stgi.boardkingsgame.com
+db-0.boardkingsgame.com
+db-1.boardkingsgame.com
+db-2.boardkingsgame.com
+de.boardkingsgame.com
+demo.boardkingsgame.com
+demotest.boardkingsgame.com
+demotesta.boardkingsgame.com
+dev.boardkingsgame.com
+devo.boardkingsgame.com
+dev~h.boardkingsgame.com
+dhcp.boardkingsgame.com
+dial.boardkingsgame.com
+dialup.boardkingsgame.com
+dmz.boardkingsgame.com
+dmz7.boardkingsgame.com
+dsl.boardkingsgame.com
+dslw.boardkingsgame.com
+dummy-cname-test-bk.boardkingsgame.com
+dummy-cname-test-bkm.boardkingsgame.com
+dyn-.boardkingsgame.com
+dyn.boardkingsgame.com
+ee.boardkingsgame.com
+ee5.boardkingsgame.com
+email.boardkingsgame.com
+emea.boardkingsgame.com
+en.boardkingsgame.com
+eng-.boardkingsgame.com
+eng.boardkingsgame.com
+eu.boardkingsgame.com
+eug.boardkingsgame.com
+ext.boardkingsgame.com
+ext1.boardkingsgame.com
+files.boardkingsgame.com
+fls.boardkingsgame.com
+fr.boardkingsgame.com
+fr7.boardkingsgame.com
+ftp.boardkingsgame.com
+ftp.boardkingsgame.com:boardkingsgame.com
+ftpg.boardkingsgame.com
+home.boardkingsgame.com
+houston.boardkingsgame.com
+hq.boardkingsgame.com
+i.boardkingsgame.com
+informatik.boardkingsgame.com
+internal.boardkingsgame.com
+intra.boardkingsgame.com
+ip.boardkingsgame.com
+ip1.boardkingsgame.com
+itcs.boardkingsgame.com
+its.boardkingsgame.com
+le-test.boardkingsgame.com
+lib.boardkingsgame.com
+library.boardkingsgame.com
+local.boardkingsgame.com
+logs-ca1.boardkingsgame.com:185.16.91.77
+logs-ca1.boardkingsgame.com:64:ff9b::b910:5b4d
+logs-ca1c.boardkingsgame.com
+logs-ca1~h.boardkingsgame.com
+logs-va2.boardkingsgame.com
+logs-va2.boardkingsgame.com:185.16.89.73
+logs-va2c.boardkingsgame.com
+logs.boardkingsgame.com:185.16.91.77
+logs.boardkingsgame.com:logs-ca1.boardkingsgame.com
+logs.boardkingsgame.com:logs-ca1.boardkingsgame.com.
+logs.boardkingsgame.com:logs-va2.boardkingsgame.com
+logs~h.boardkingsgame.com
+mail.boardkingsgame.com
+math.boardkingsgame.com
+messaging-ca1.boardkingsgame.com
+messaging-ca1m.boardkingsgame.com
+messaging-dsa-ca1.boardkingsgame.com
+messaging-dsa-ca1w.boardkingsgame.com
+messaging-dsa-va2.boardkingsgame.com
+messaging-dsa.boardkingsgame.com
+messaging-dsa.boardkingsgame.com:23.44.201.215
+messaging-dsa.boardkingsgame.com:a1815.b.akamai.net
+messaging-dsa.boardkingsgame.com:akm-dsa-prod.edgesuite.net
+messaging-dsa.boardkingsgame.com:akm-dsa-prod.edgesuite.net.
+messaging-dsa~h.boardkingsgame.com
+messaging-f5-ve-ca1.boardkingsgame.com
+messaging-origin.boardkingsgame.com
+messaging.boardkingsgame.com
+ns.boardkingsgame.com
+ppp.boardkingsgame.com
+preprod-backoffice-collectibles.boardkingsgame.com
+preprod-backoffice-dashboard.boardkingsgame.com
+preprod-common-dashboard.boardkingsgame.com
+prod-bk-dp.boardkingsgame.com
+prod-bk-dp.boardkingsgame.com:api-gw-va2.boardkingsgame.com
+prod-bk-dpo.boardkingsgame.com
+qa.boardkingsgame.com
+redis.boardkingsgame.com
+resnet.boardkingsgame.com
+rev.boardkingsgame.com
+rsc.boardkingsgame.com
+rz.boardkingsgame.com
+s3.boardkingsgame.com
+s3repo-qa.boardkingsgame.com
+s3repo-qa.boardkingsgame.com:10.102.13.14
+s3repo-qaq.boardkingsgame.com
+s3repo-sit.boardkingsgame.com
+s3repo.boardkingsgame.com
+s3repo.boardkingsgame.com:23.219.36.105
+s3repo.boardkingsgame.com:23.45.51.122
+s3repo.boardkingsgame.com:23.45.51.153
+s3repo.boardkingsgame.com:a1852.dscg1.akamai.net
+s3repo.boardkingsgame.com:akm-dsa-prod-pltk.edgesuite.net
+s3repo.boardkingsgame.com:s3repo.boardkingsgame.edgesuite.net
+s3repo.boardkingsgame.com:s3repo.boardkingsgame.edgesuite.net.
+s3repo~h.boardkingsgame.com
+safeframe.boardkingsgame.com
+scm.boardkingsgame.com
+sepport.boardkingsgame.com
+slapi-collectibles.boardkingsgame.com
+slapi-collectibleso.boardkingsgame.com
+slsocket.boardkingsgame.com
+socket.boardkingsgame.com
+srv.boardkingsgame.com
+stage.boardkingsgame.com
+staging.boardkingsgame.com
+static.boardkingsgame.com
+stg.boardkingsgame.com
+test.boardkingsgame.com
+uat.boardkingsgame.com
+us.boardkingsgame.com
+users.boardkingsgame.com
+vpn.boardkingsgame.com
+vps.boardkingsgame.com
+web.boardkingsgame.com
+wireless.boardkingsgame.com
+wlan.boardkingsgame.com
+wwwc.dev.boardkingsgame.com
+wwwk.boardkingsgame.com
+www~h.boardkingsgame.com
+xvxjg0cos7pbd8n2i93aoulhm5twtlnzfcmzk6hb.boardkingsgame.com
+zmxk4jitox8f0mpnbg5alqypos3earu726qzecvr.boardkingsgame.com
+
+[*] Performing SecurityScorecard scan...
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+An exception has occurred in SecurityScorecard scanning: 
+[!] Missing API key for SecurityScorecard. 
+
+[*] Performing BuiltWith scan...
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+
+[!] Missing API key for BuiltWith. 

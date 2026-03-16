@@ -1,0 +1,14 @@
+{
+  "domain": "boardkingsgame.com",
+  "scan_date": "2026-03-16T02:44:25.020231Z",
+  "tools": [
+    "theHarvester"
+  ],
+  "hosts_discovered": 303,
+  "emails_discovered": 2,
+  "sample_emails": [
+    "bk_support@boardkingsgame.com",
+    "cmartorella@edge-security.com"
+  ],
+  "status": "passive_recon_complete"
+}

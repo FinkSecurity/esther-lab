@@ -1,0 +1,191 @@
+# Nmap 7.98 scan initiated Mon Mar 16 02:52:49 2026 as: /usr/lib/nmap/nmap --privileged -Pn -sS -p 80,443,8080,8443 -sV -O --min-rate 10 -oN nmap-seriously.txt 13.248.160.137 76.223.34.124
+Nmap scan report for aa089eb6179d1ae2b.awsglobalaccelerator.com (13.248.160.137)
+Host is up (0.023s latency).
+
+PORT     STATE SERVICE     VERSION
+80/tcp   open  http        urllo
+443/tcp  open  ssl/https   urllo
+8080/tcp open  http-proxy?
+8443/tcp open  https-alt?
+2 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port80-TCP:V=7.98%I=7%D=3/16%Time=69B77088%P=x86_64-pc-linux-gnu%r(GetR
+SF:equest,273,"HTTP/1\.1\x20404\x20Not\x20Found\r\nDate:\x20Mon,\x2016\x20
+SF:Mar\x202026\x2002:52:47\x20GMT\r\nContent-Type:\x20text/html;\x20charse
+SF:t=utf-8\r\nContent-Length:\x20433\r\nConnection:\x20close\r\nServer:\x2
+SF:0urllo\r\nCache-Control:\x20public;\x20max-age=300\r\n\r\n<!DOCTYPE\x20
+SF:html>\n<html>\n<head>\n<meta\x20name=\"viewport\"\x20content=\"width=de
+SF:vice-width,\x20initial-scale=1\">\n<meta\x20charset=\"utf-8\">\n<title>
+SF:404\x20Not\x20Found</title>\n<style\x20media=\"screen\">\nhtml,body,ifr
+SF:ame\x20{\nmargin:\x200;\npadding:\x200;\n}\nhtml,body\x20{\nheight:\x20
+SF:100%;\noverflow:\x20hidden;\n}\niframe\x20{\nwidth:\x20100%;\nheight:\x
+SF:20100%;\nborder:\x200;\n}\n</style>\n</head>\n<body>\n<iframe\x20src=\"
+SF:https://www\.urllo-cdn\.com/pages/v2/404-edge-direct\.html\"></iframe>\
+SF:n</body>\n</html>\n")%r(HTTPOptions,273,"HTTP/1\.1\x20404\x20Not\x20Fou
+SF:nd\r\nDate:\x20Mon,\x2016\x20Mar\x202026\x2002:52:47\x20GMT\r\nContent-
+SF:Type:\x20text/html;\x20charset=utf-8\r\nContent-Length:\x20433\r\nConne
+SF:ction:\x20close\r\nServer:\x20urllo\r\nCache-Control:\x20public;\x20max
+SF:-age=300\r\n\r\n<!DOCTYPE\x20html>\n<html>\n<head>\n<meta\x20name=\"vie
+SF:wport\"\x20content=\"width=device-width,\x20initial-scale=1\">\n<meta\x
+SF:20charset=\"utf-8\">\n<title>404\x20Not\x20Found</title>\n<style\x20med
+SF:ia=\"screen\">\nhtml,body,iframe\x20{\nmargin:\x200;\npadding:\x200;\n}
+SF:\nhtml,body\x20{\nheight:\x20100%;\noverflow:\x20hidden;\n}\niframe\x20
+SF:{\nwidth:\x20100%;\nheight:\x20100%;\nborder:\x200;\n}\n</style>\n</hea
+SF:d>\n<body>\n<iframe\x20src=\"https://www\.urllo-cdn\.com/pages/v2/404-e
+SF:dge-direct\.html\"></iframe>\n</body>\n</html>\n")%r(RTSPRequest,1298,"
+SF:HTTP/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Mon,\x2016\x20Mar\x20202
+SF:6\x2002:52:47\x20GMT\r\nContent-Type:\x20text/html;\x20charset=utf-8\r\
+SF:nContent-Length:\x204599\r\nConnection:\x20close\r\nServer:\x20urllo\r\
+SF:n\r\n<!DOCTYPE\x20html>\n<html>\n<head>\n\x20\x20<link\x20rel=\"preconn
+SF:ect\"\x20href=\"https://fonts\.googleapis\.com\">\n\x20\x20<link\x20rel
+SF:=\"preconnect\"\x20href=\"https://fonts\.gstatic\.com\"\x20crossorigin>
+SF:\n\x20\x20<link\x20href=\"https://fonts\.googleapis\.com/css2\?family=A
+SF:lbert\+Sans:wght@100\.\.900&display=swap\"\x20rel=\"stylesheet\">\n\x20
+SF:\x20<meta\x20charset=\"utf-8\">\n\x20\x20<meta\x20content=\"width=devic
+SF:e-width,initial-scale=1\.0,minimum-scale=1\.0,maximum-scale=1\.0,user-s
+SF:calable=no\"\x20name=\"viewport\">\n\x20\x20<title>400\x20Bad\x20Reques
+SF:t</title>\n\x20\x20<style>\n\x20\x20\x20\x20html,\n\x20\x20\x20\x20body
+SF:\x20{\n\x20\x20\x20\x20\x20\x20font-family:\x20\"Albert\x20Sans\",\x20s
+SF:ans-serif;\n\x20\x20\x20\x20\x20\x20-ms-text-size-adjust:\x20100%;\n\x2
+SF:0\x20\x20\x20\x20\x20-webkit-text-size-adjust:\x20100%;\n\x20\x20\x20\x
+SF:20\x20\x20background-color:\x20#F3F3F3;\n\x20\x20\x20\x20\x20\x20height
+SF::\x20100%;\n\x20\x20\x20\x20\x20\x20-webkit-font-smoothing:\x20antialia
+SF:sed;\n\x20\x20\x20\x20}\n\x20\x20\x20\x20body\x20{\n\x20\x20\x20\x20\x2
+SF:0\x20margin:\x200;\n\x20");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port443-TCP:V=7.98%T=SSL%I=7%D=3/16%Time=69B7708E%P=x86_64-pc-linux-gnu
+SF:%r(GetRequest,273,"HTTP/1\.1\x20404\x20Not\x20Found\r\nDate:\x20Mon,\x2
+SF:016\x20Mar\x202026\x2002:52:53\x20GMT\r\nContent-Type:\x20text/html;\x2
+SF:0charset=utf-8\r\nContent-Length:\x20433\r\nConnection:\x20close\r\nSer
+SF:ver:\x20urllo\r\nCache-Control:\x20public;\x20max-age=300\r\n\r\n<!DOCT
+SF:YPE\x20html>\n<html>\n<head>\n<meta\x20name=\"viewport\"\x20content=\"w
+SF:idth=device-width,\x20initial-scale=1\">\n<meta\x20charset=\"utf-8\">\n
+SF:<title>404\x20Not\x20Found</title>\n<style\x20media=\"screen\">\nhtml,b
+SF:ody,iframe\x20{\nmargin:\x200;\npadding:\x200;\n}\nhtml,body\x20{\nheig
+SF:ht:\x20100%;\noverflow:\x20hidden;\n}\niframe\x20{\nwidth:\x20100%;\nhe
+SF:ight:\x20100%;\nborder:\x200;\n}\n</style>\n</head>\n<body>\n<iframe\x2
+SF:0src=\"https://www\.urllo-cdn\.com/pages/v2/404-edge-direct\.html\"></i
+SF:frame>\n</body>\n</html>\n")%r(HTTPOptions,273,"HTTP/1\.1\x20404\x20Not
+SF:\x20Found\r\nDate:\x20Mon,\x2016\x20Mar\x202026\x2002:52:53\x20GMT\r\nC
+SF:ontent-Type:\x20text/html;\x20charset=utf-8\r\nContent-Length:\x20433\r
+SF:\nConnection:\x20close\r\nServer:\x20urllo\r\nCache-Control:\x20public;
+SF:\x20max-age=300\r\n\r\n<!DOCTYPE\x20html>\n<html>\n<head>\n<meta\x20nam
+SF:e=\"viewport\"\x20content=\"width=device-width,\x20initial-scale=1\">\n
+SF:<meta\x20charset=\"utf-8\">\n<title>404\x20Not\x20Found</title>\n<style
+SF:\x20media=\"screen\">\nhtml,body,iframe\x20{\nmargin:\x200;\npadding:\x
+SF:200;\n}\nhtml,body\x20{\nheight:\x20100%;\noverflow:\x20hidden;\n}\nifr
+SF:ame\x20{\nwidth:\x20100%;\nheight:\x20100%;\nborder:\x200;\n}\n</style>
+SF:\n</head>\n<body>\n<iframe\x20src=\"https://www\.urllo-cdn\.com/pages/v
+SF:2/404-edge-direct\.html\"></iframe>\n</body>\n</html>\n")%r(FourOhFourR
+SF:equest,273,"HTTP/1\.1\x20404\x20Not\x20Found\r\nDate:\x20Mon,\x2016\x20
+SF:Mar\x202026\x2002:52:53\x20GMT\r\nContent-Type:\x20text/html;\x20charse
+SF:t=utf-8\r\nContent-Length:\x20433\r\nConnection:\x20close\r\nServer:\x2
+SF:0urllo\r\nCache-Control:\x20public;\x20max-age=300\r\n\r\n<!DOCTYPE\x20
+SF:html>\n<html>\n<head>\n<meta\x20name=\"viewport\"\x20content=\"width=de
+SF:vice-width,\x20initial-scale=1\">\n<meta\x20charset=\"utf-8\">\n<title>
+SF:404\x20Not\x20Found</title>\n<style\x20media=\"screen\">\nhtml,body,ifr
+SF:ame\x20{\nmargin:\x200;\npadding:\x200;\n}\nhtml,body\x20{\nheight:\x20
+SF:100%;\noverflow:\x20hidden;\n}\niframe\x20{\nwidth:\x20100%;\nheight:\x
+SF:20100%;\nborder:\x200;\n}\n</style>\n</head>\n<body>\n<iframe\x20src=\"
+SF:https://www\.urllo-cdn\.com/pages/v2/404-edge-direct\.html\"></iframe>\
+SF:n</body>\n</html>\n");
+Warning: OSScan results may be unreliable because we could not find at least 1 open and 1 closed port
+OS fingerprint not ideal because: Missing a closed TCP port so results incomplete
+No OS matches for host
+
+Nmap scan report for aa089eb6179d1ae2b.awsglobalaccelerator.com (76.223.34.124)
+Host is up (0.023s latency).
+
+PORT     STATE    SERVICE    VERSION
+80/tcp   open     http       urllo
+443/tcp  open     ssl/https  urllo
+8080/tcp filtered http-proxy
+8443/tcp filtered https-alt
+2 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port80-TCP:V=7.98%I=7%D=3/16%Time=69B77089%P=x86_64-pc-linux-gnu%r(GetR
+SF:equest,273,"HTTP/1\.1\x20404\x20Not\x20Found\r\nDate:\x20Mon,\x2016\x20
+SF:Mar\x202026\x2002:52:48\x20GMT\r\nContent-Type:\x20text/html;\x20charse
+SF:t=utf-8\r\nContent-Length:\x20433\r\nConnection:\x20close\r\nServer:\x2
+SF:0urllo\r\nCache-Control:\x20public;\x20max-age=300\r\n\r\n<!DOCTYPE\x20
+SF:html>\n<html>\n<head>\n<meta\x20name=\"viewport\"\x20content=\"width=de
+SF:vice-width,\x20initial-scale=1\">\n<meta\x20charset=\"utf-8\">\n<title>
+SF:404\x20Not\x20Found</title>\n<style\x20media=\"screen\">\nhtml,body,ifr
+SF:ame\x20{\nmargin:\x200;\npadding:\x200;\n}\nhtml,body\x20{\nheight:\x20
+SF:100%;\noverflow:\x20hidden;\n}\niframe\x20{\nwidth:\x20100%;\nheight:\x
+SF:20100%;\nborder:\x200;\n}\n</style>\n</head>\n<body>\n<iframe\x20src=\"
+SF:https://www\.urllo-cdn\.com/pages/v2/404-edge-direct\.html\"></iframe>\
+SF:n</body>\n</html>\n")%r(HTTPOptions,273,"HTTP/1\.1\x20404\x20Not\x20Fou
+SF:nd\r\nDate:\x20Mon,\x2016\x20Mar\x202026\x2002:52:48\x20GMT\r\nContent-
+SF:Type:\x20text/html;\x20charset=utf-8\r\nContent-Length:\x20433\r\nConne
+SF:ction:\x20close\r\nServer:\x20urllo\r\nCache-Control:\x20public;\x20max
+SF:-age=300\r\n\r\n<!DOCTYPE\x20html>\n<html>\n<head>\n<meta\x20name=\"vie
+SF:wport\"\x20content=\"width=device-width,\x20initial-scale=1\">\n<meta\x
+SF:20charset=\"utf-8\">\n<title>404\x20Not\x20Found</title>\n<style\x20med
+SF:ia=\"screen\">\nhtml,body,iframe\x20{\nmargin:\x200;\npadding:\x200;\n}
+SF:\nhtml,body\x20{\nheight:\x20100%;\noverflow:\x20hidden;\n}\niframe\x20
+SF:{\nwidth:\x20100%;\nheight:\x20100%;\nborder:\x200;\n}\n</style>\n</hea
+SF:d>\n<body>\n<iframe\x20src=\"https://www\.urllo-cdn\.com/pages/v2/404-e
+SF:dge-direct\.html\"></iframe>\n</body>\n</html>\n")%r(RTSPRequest,1298,"
+SF:HTTP/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Mon,\x2016\x20Mar\x20202
+SF:6\x2002:52:48\x20GMT\r\nContent-Type:\x20text/html;\x20charset=utf-8\r\
+SF:nContent-Length:\x204599\r\nConnection:\x20close\r\nServer:\x20urllo\r\
+SF:n\r\n<!DOCTYPE\x20html>\n<html>\n<head>\n\x20\x20<link\x20rel=\"preconn
+SF:ect\"\x20href=\"https://fonts\.googleapis\.com\">\n\x20\x20<link\x20rel
+SF:=\"preconnect\"\x20href=\"https://fonts\.gstatic\.com\"\x20crossorigin>
+SF:\n\x20\x20<link\x20href=\"https://fonts\.googleapis\.com/css2\?family=A
+SF:lbert\+Sans:wght@100\.\.900&display=swap\"\x20rel=\"stylesheet\">\n\x20
+SF:\x20<meta\x20charset=\"utf-8\">\n\x20\x20<meta\x20content=\"width=devic
+SF:e-width,initial-scale=1\.0,minimum-scale=1\.0,maximum-scale=1\.0,user-s
+SF:calable=no\"\x20name=\"viewport\">\n\x20\x20<title>400\x20Bad\x20Reques
+SF:t</title>\n\x20\x20<style>\n\x20\x20\x20\x20html,\n\x20\x20\x20\x20body
+SF:\x20{\n\x20\x20\x20\x20\x20\x20font-family:\x20\"Albert\x20Sans\",\x20s
+SF:ans-serif;\n\x20\x20\x20\x20\x20\x20-ms-text-size-adjust:\x20100%;\n\x2
+SF:0\x20\x20\x20\x20\x20-webkit-text-size-adjust:\x20100%;\n\x20\x20\x20\x
+SF:20\x20\x20background-color:\x20#F3F3F3;\n\x20\x20\x20\x20\x20\x20height
+SF::\x20100%;\n\x20\x20\x20\x20\x20\x20-webkit-font-smoothing:\x20antialia
+SF:sed;\n\x20\x20\x20\x20}\n\x20\x20\x20\x20body\x20{\n\x20\x20\x20\x20\x2
+SF:0\x20margin:\x200;\n\x20");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port443-TCP:V=7.98%T=SSL%I=7%D=3/16%Time=69B7708E%P=x86_64-pc-linux-gnu
+SF:%r(GetRequest,273,"HTTP/1\.1\x20404\x20Not\x20Found\r\nDate:\x20Mon,\x2
+SF:016\x20Mar\x202026\x2002:52:53\x20GMT\r\nContent-Type:\x20text/html;\x2
+SF:0charset=utf-8\r\nContent-Length:\x20433\r\nConnection:\x20close\r\nSer
+SF:ver:\x20urllo\r\nCache-Control:\x20public;\x20max-age=300\r\n\r\n<!DOCT
+SF:YPE\x20html>\n<html>\n<head>\n<meta\x20name=\"viewport\"\x20content=\"w
+SF:idth=device-width,\x20initial-scale=1\">\n<meta\x20charset=\"utf-8\">\n
+SF:<title>404\x20Not\x20Found</title>\n<style\x20media=\"screen\">\nhtml,b
+SF:ody,iframe\x20{\nmargin:\x200;\npadding:\x200;\n}\nhtml,body\x20{\nheig
+SF:ht:\x20100%;\noverflow:\x20hidden;\n}\niframe\x20{\nwidth:\x20100%;\nhe
+SF:ight:\x20100%;\nborder:\x200;\n}\n</style>\n</head>\n<body>\n<iframe\x2
+SF:0src=\"https://www\.urllo-cdn\.com/pages/v2/404-edge-direct\.html\"></i
+SF:frame>\n</body>\n</html>\n")%r(HTTPOptions,273,"HTTP/1\.1\x20404\x20Not
+SF:\x20Found\r\nDate:\x20Mon,\x2016\x20Mar\x202026\x2002:52:53\x20GMT\r\nC
+SF:ontent-Type:\x20text/html;\x20charset=utf-8\r\nContent-Length:\x20433\r
+SF:\nConnection:\x20close\r\nServer:\x20urllo\r\nCache-Control:\x20public;
+SF:\x20max-age=300\r\n\r\n<!DOCTYPE\x20html>\n<html>\n<head>\n<meta\x20nam
+SF:e=\"viewport\"\x20content=\"width=device-width,\x20initial-scale=1\">\n
+SF:<meta\x20charset=\"utf-8\">\n<title>404\x20Not\x20Found</title>\n<style
+SF:\x20media=\"screen\">\nhtml,body,iframe\x20{\nmargin:\x200;\npadding:\x
+SF:200;\n}\nhtml,body\x20{\nheight:\x20100%;\noverflow:\x20hidden;\n}\nifr
+SF:ame\x20{\nwidth:\x20100%;\nheight:\x20100%;\nborder:\x200;\n}\n</style>
+SF:\n</head>\n<body>\n<iframe\x20src=\"https://www\.urllo-cdn\.com/pages/v
+SF:2/404-edge-direct\.html\"></iframe>\n</body>\n</html>\n")%r(FourOhFourR
+SF:equest,273,"HTTP/1\.1\x20404\x20Not\x20Found\r\nDate:\x20Mon,\x2016\x20
+SF:Mar\x202026\x2002:52:53\x20GMT\r\nContent-Type:\x20text/html;\x20charse
+SF:t=utf-8\r\nContent-Length:\x20433\r\nConnection:\x20close\r\nServer:\x2
+SF:0urllo\r\nCache-Control:\x20public;\x20max-age=300\r\n\r\n<!DOCTYPE\x20
+SF:html>\n<html>\n<head>\n<meta\x20name=\"viewport\"\x20content=\"width=de
+SF:vice-width,\x20initial-scale=1\">\n<meta\x20charset=\"utf-8\">\n<title>
+SF:404\x20Not\x20Found</title>\n<style\x20media=\"screen\">\nhtml,body,ifr
+SF:ame\x20{\nmargin:\x200;\npadding:\x200;\n}\nhtml,body\x20{\nheight:\x20
+SF:100%;\noverflow:\x20hidden;\n}\niframe\x20{\nwidth:\x20100%;\nheight:\x
+SF:20100%;\nborder:\x200;\n}\n</style>\n</head>\n<body>\n<iframe\x20src=\"
+SF:https://www\.urllo-cdn\.com/pages/v2/404-edge-direct\.html\"></iframe>\
+SF:n</body>\n</html>\n");
+Warning: OSScan results may be unreliable because we could not find at least 1 open and 1 closed port
+OS fingerprint not ideal because: Missing a closed TCP port so results incomplete
+No OS matches for host
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Mon Mar 16 02:56:16 2026 -- 2 IP addresses (2 hosts up) scanned in 206.65 seconds

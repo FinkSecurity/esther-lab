@@ -1,0 +1,2 @@
+# Nmap 7.98 scan initiated Mon Mar 16 02:50:37 2026 as: /usr/lib/nmap/nmap --privileged -sS -p- --min-rate 10 -sV -O -oN nmap-boardkingsgame.com.txt boardkingsgame.com
+# Nmap done at Mon Mar 16 02:50:40 2026 -- 1 IP address (0 hosts up) scanned in 2.99 seconds

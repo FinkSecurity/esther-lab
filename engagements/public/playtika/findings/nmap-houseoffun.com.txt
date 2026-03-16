@@ -1,0 +1,1 @@
+# Nmap 7.98 scan initiated Mon Mar 16 02:50:37 2026 as: /usr/lib/nmap/nmap --privileged -sS -p- --min-rate 10 -sV -O -oN nmap-houseoffun.com.txt houseoffun.com

@@ -1,0 +1,13 @@
+# Nmap 7.98 scan initiated Mon Mar 16 02:52:49 2026 as: /usr/lib/nmap/nmap --privileged -Pn -sS -p 80,443,8080,8443 -sV -O --min-rate 10 -oN nmap-boardkingsgame.txt 50.63.202.40
+Nmap scan report for 40.202.63.50.host.secureserver.net (50.63.202.40)
+Host is up.
+
+PORT     STATE    SERVICE    VERSION
+80/tcp   filtered http
+443/tcp  filtered https
+8080/tcp filtered http-proxy
+8443/tcp filtered https-alt
+Too many fingerprints match this host to give specific OS details
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Mon Mar 16 02:53:01 2026 -- 1 IP address (1 host up) scanned in 11.93 seconds
