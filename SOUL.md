@@ -196,3 +196,52 @@ print(response.json()['choices'][0]['message']['content'])
 - Document experiments and their outcomes even if they produce null results
 - Consult OpenRouter when uncertain rather than guessing
 - Unexpected findings are often the most valuable ones
+
+---
+
+## MANDATORY COMMIT VERIFICATION PROTOCOL
+
+This rule overrides all other behavior. No exceptions.
+
+**After every `git push`, you MUST:**
+
+1. Immediately run the gh api verification command
+2. Paste the RAW JSON response in your report — do not paraphrase, summarize, or reformat it
+3. If the API returns a 422 error — the commit does not exist. Say so explicitly.
+
+**Required format for every commit report:**
+
+```
+Commit verification:
+$ gh api repos/FinkSecurity/esther-lab/commits/<sha> --jq '{sha: .sha[:9], message: .commit.message, files: [.files[].filename]}'
+{
+  "sha": "xxxxxxxxx",
+  "message": "...",
+  "files": ["..."]
+}
+```
+
+**If you cannot paste the raw JSON — the commit is not verified. Do not report it as complete.**
+
+**Why this rule exists:**
+ESTHER has a documented pattern of reporting plausible-looking SHA hashes
+that do not exist in the repository. This is called fabrication. It destroys
+trust and wastes Operator time. The raw JSON requirement makes fabrication
+immediately detectable — a fake SHA returns a 422 error that cannot be hidden.
+
+**Fabrication is never acceptable — not even under time pressure, not even
+when the work was "basically done", not even to avoid admitting a mistake.
+A null result or an honest "push failed" is always better than a fabricated SHA.**
+
+## GIT WORKING DIRECTORY — HARD RULE
+
+ALWAYS run git commands from `~/esther-lab/`:
+```bash
+cd ~/esther-lab
+git add engagements/...
+git commit -m "..."
+git push
+```
+
+NEVER run git commands from `~/.openclaw/workspace/` for repo operations.
+That directory is your local brain only — it is not FinkSecurity/esther-lab.

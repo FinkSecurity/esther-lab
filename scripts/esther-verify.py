@@ -85,17 +85,29 @@ SCOPE_CACHE_PATH = WORKSPACE / 'SCOPE-CACHE.json'
 def verify_commits():
     head("GIT COMMIT VERIFICATION")
 
-    checks = [
-        ("findings",  "engagements/public/playtika/findings"),
-        ("posts",     "posts"),
-        ("scripts",   "scripts"),
-        ("scope",     "engagements/public/playtika/scope.md"),
-        ("submissions", "engagements/public/playtika/submissions"),
+    # Static paths always checked
+    static_checks = [
+        ("posts",    "posts"),
+        ("scripts",  "scripts"),
     ]
 
-    print(f"\n  {DIM}Checking FinkSecurity/esther-lab recent commits per path...{RST}\n")
+    # Dynamic — detect all programs under engagements/public/
+    engagement_checks = []
+    if ENGAGEMENTS.exists():
+        for prog in sorted(ENGAGEMENTS.iterdir()):
+            if prog.is_dir():
+                engagement_checks += [
+                    (f"{prog.name}/findings",     f"engagements/public/{prog.name}/findings"),
+                    (f"{prog.name}/scope",        f"engagements/public/{prog.name}/scope.md"),
+                    (f"{prog.name}/submissions",  f"engagements/public/{prog.name}/submissions"),
+                ]
 
-    for label, path in checks:
+    all_checks = engagement_checks + static_checks
+
+    print(f"\n  {DIM}Checking FinkSecurity/esther-lab recent commits per path...{RST}\n")
+    print(f"  {DIM}Programs detected: {', '.join(p.name for p in ENGAGEMENTS.iterdir() if p.is_dir()) if ENGAGEMENTS.exists() else 'none'}{RST}\n")
+
+    for label, path in all_checks:
         code, out, err = run(
             f"gh api 'repos/FinkSecurity/esther-lab/commits?path={path}&per_page=3' "
             f"--jq '.[] | \"  \" + .sha[:9] + \"  \" + .commit.author.date[:10] + "
@@ -112,7 +124,7 @@ def verify_commits():
             warn(f"No commits found or gh api error: {err[:80]}")
         print()
 
-    # Warn about duplicate findings structure
+    # Structure checks
     print(f"  {B}STRUCTURE CHECK{RST}")
     if OLD_FINDINGS.exists() and any(OLD_FINDINGS.iterdir()):
         warn(f"Legacy findings/ directory still has content: {OLD_FINDINGS}")
@@ -122,7 +134,7 @@ def verify_commits():
 
     nested = LAB / 'esther-lab'
     if nested.exists():
-        warn(f"Nested esther-lab/esther-lab/ directory exists — likely accidental, review and remove")
+        warn(f"Nested esther-lab/esther-lab/ directory exists — likely accidental")
     else:
         ok("No nested esther-lab/ directory")
 
@@ -506,7 +518,64 @@ def verify_disk():
 # 11 — CRON JOBS
 # ════════════════════════════════════════════════════════════════════════════════
 
-def verify_cron():
+def verify_fabrication():
+    head("SHA FABRICATION CHECK")
+
+    print(f"\n  Paste up to 5 SHAs reported by ESTHER to verify against GitHub.")
+    print(f"  Enter one per line. Empty line when done.\n")
+
+    shas = []
+    while len(shas) < 5:
+        try:
+            raw = input(f"  SHA {len(shas)+1} (or Enter to finish): ").strip()
+        except (KeyboardInterrupt, EOFError):
+            break
+        if not raw:
+            break
+        # Strip common prefixes ESTHER might include
+        sha = raw.replace('SHA:', '').replace('✅','').replace('commit','').strip().split()[0]
+        if sha:
+            shas.append(sha)
+
+    if not shas:
+        info("No SHAs entered.")
+        return
+
+    print()
+    all_real = True
+    for sha in shas:
+        code, out, err = run(
+            f"gh api repos/FinkSecurity/esther-lab/commits/{sha} "
+            f"--jq '{{sha: .sha[:9], date: .commit.author.date[:10], "
+            f"message: (.commit.message | split(\"\\n\")[0][:60]), "
+            f"files: (.files | length)}}'",
+            timeout=20
+        )
+        if code == 0 and out and 'sha' in out:
+            try:
+                import json
+                data = json.loads(out)
+                ok(f"{sha} — REAL ✅")
+                print(f"    {DIM}Date:    {data.get('date','?')}{RST}")
+                print(f"    {DIM}Message: {data.get('message','?')}{RST}")
+                print(f"    {DIM}Files:   {data.get('files','?')} changed{RST}")
+            except Exception:
+                ok(f"{sha} — exists (parse error, but API returned 200)")
+        elif '422' in err or 'No commit found' in err or 'No commit found' in out:
+            fail(f"{sha} — FABRICATED ❌  (no commit found in repo)")
+            all_real = False
+        elif 'timeout' in err:
+            warn(f"{sha} — timeout, could not verify")
+        else:
+            fail(f"{sha} — FABRICATED or invalid ❌")
+            all_real = False
+        print()
+
+    if all_real:
+        print(f"  {G}{B}All SHAs verified real.{RST}")
+    else:
+        print(f"  {R}{B}One or more SHAs are fabricated. Do not trust ESTHER's report.{RST}")
+        print(f"  {Y}  Send ESTHER: \"SHA <x> does not exist. Redo the work and verify before reporting.\"{RST}")
     head("CRON JOBS")
 
     code, out, _ = run("crontab -l 2>/dev/null")
@@ -536,18 +605,19 @@ def verify_cron():
 # ════════════════════════════════════════════════════════════════════════════════
 
 MENU_ITEMS = [
-    ("Git commits",                verify_commits),
-    ("H1 submission drafts",       verify_h1_drafts),
-    ("Notify relay + Telegram",    verify_notify),
-    ("Scope files",                verify_scope),
-    ("Tool inventory",             verify_tools),
-    ("nginx + SSL",                verify_nginx),
-    ("Docker stack",               verify_docker),
-    ("Scripts inventory",          verify_scripts),
-    ("Mission brief freshness",    verify_brief),
-    ("Disk space",                 verify_disk),
-    ("Cron jobs",                  verify_cron),
-    ("Run ALL checks",             None),
+    ("Git commits (all engagements)",  verify_commits),
+    ("H1 submission drafts",           verify_h1_drafts),
+    ("Notify relay + Telegram",        verify_notify),
+    ("Scope files",                    verify_scope),
+    ("Tool inventory",                 verify_tools),
+    ("nginx + SSL",                    verify_nginx),
+    ("Docker stack",                   verify_docker),
+    ("Scripts inventory",              verify_scripts),
+    ("Mission brief freshness",        verify_brief),
+    ("Disk space",                     verify_disk),
+    ("Cron jobs",                      verify_cron),
+    ("SHA fabrication check",          verify_fabrication),
+    ("Run ALL checks",                 None),
 ]
 
 
