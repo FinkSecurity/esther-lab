@@ -1,0 +1,44 @@
+=== CDN-SBS.WOOGA.COM S3 BUCKET INVESTIGATION ===
+Date: 2026-03-11 19:09 UTC
+Target: cdn-sbs.wooga.com
+Status: Restricted S3 Bucket
+
+=== HTTP HEADERS ===
+HTTP/2 403 Forbidden
+x-amz-bucket-region: eu-west-1
+content-type: application/xml
+content-length: 1
+date: Wed, 11 Mar 2026 19:09:09 GMT
+access-control-allow-methods: GET
+access-control-allow-origin: *
+
+=== KEY FINDINGS ===
+
+1. BUCKET CONFIRMATION
+   - The host cdn-sbs.wooga.com IS an AWS S3 bucket
+   - Region: eu-west-1 (Ireland)
+   - CORS enabled (Access-Control-Allow-Origin: *)
+
+2. ACCESS CONTROL
+   - Root path (/) returns HTTP 403 AccessDenied
+   - Bucket policy blocks public listing
+   - GET method is allowed (per CORS headers) but access denied
+   - AWS Request ID: M7B9FN1GQ3HC6GMV
+
+3. S3 BUCKET ENUMERATION
+   - aws s3 ls s3://cdn-sbs.wooga.com --no-sign-request: NoSuchBucket error
+   - This suggests the bucket name may differ from the subdomain
+   - OR the bucket exists but AWS API doesn't recognize it for public access
+
+4. IMPLICATIONS
+   - Bucket is NOT publicly readable
+   - Bucket policy restricts unauthenticated access
+   - CORS suggests content is served to web clients
+   - Likely contains game assets, manifests, or CDN content
+
+5. NEXT STEPS (Phase 3 if approved)
+   - Path enumeration on known Wooga asset paths
+   - Manifest file discovery (common patterns: *.json, manifest.xml)
+   - Check for predictable staging/dev variations
+   - Review certificate transparency for additional bucket names
+
