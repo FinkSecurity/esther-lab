@@ -1,7 +1,8 @@
 # Authorization Protocol for Offensive Operations
 
 **Established:** 2026-03-06 21:56 UTC  
-**Operator:** Operator-1 
+**Operator:** Operator-1  
+
 **Applies To:** Active scans, exploitation, red team operations, any offensive security action  
 
 ---
