@@ -1,0 +1,29 @@
+http://academye.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://accq.control.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://acc.toolbar.control.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://activew.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://admauthi.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://admcontrolq.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://administratorloadbalancerg.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://administrators-disabledu.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://adminw.ghcpi.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://alaskaq.006000.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://aloha.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://analyticse.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://androidu.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://apachemachine.control.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://apacheq.control.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://api-dev.houseoffun.com [HTTP 403] Title: 
+http://api-docsm.proxy.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://apiserverm.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://app-vs-od-icu.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://assets-deva.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://assistenzaw.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://authopsk.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://authorizationq.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://authw.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://autodiscover.boardkingsgame.com [HTTP 417] Title: 
+http://autodiscover.seriously.com [HTTP 417] Title: 
+http://awsedge.origin.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://azurev3.control.docker.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
+http://backendo.news02.bingoblitz.com [HTTP 200] Title: Welcome to nginx!
