@@ -1,0 +1,491 @@
+2026-03-16 02:42:09,278 - theHarvester.discovery.hudsonrocksearch - INFO - Starting Hudson Rock processing for: seriously.com
+2026-03-16 02:42:09,278 - theHarvester.discovery.hudsonrocksearch - INFO - Starting Hudson Rock search for: seriously.com
+2026-03-16 02:42:15,692 - theHarvester.discovery.hudsonrocksearch - INFO - Domain statistics: 0 total compromised, 0 employees, 0 users
+2026-03-16 02:42:16,693 - theHarvester.discovery.hudsonrocksearch - INFO - Hudson Rock search completed. Found 0 hosts, 0 IPs, 0 emails
+2026-03-16 02:42:16,693 - theHarvester.discovery.hudsonrocksearch - INFO - Hudson Rock processing completed successfully: 0 hosts, 0 IPs, 0 emails, 0 stealers
+Read proxies.yaml from /etc/theHarvester/proxies.yaml
+*******************************************************************
+*  _   _                                            _             *
+* | |_| |__   ___    /\  /\__ _ _ ____   _____  ___| |_ ___ _ __  *
+* | __|  _ \ / _ \  / /_/ / _` | '__\ \ / / _ \/ __| __/ _ \ '__| *
+* | |_| | | |  __/ / __  / (_| | |   \ V /  __/\__ \ ||  __/ |    *
+*  \__|_| |_|\___| \/ /_/ \__,_|_|    \_/ \___||___/\__\___|_|    *
+*                                                                 *
+* theHarvester 4.10.1                                             *
+* Coded by Christian Martorella                                   *
+* Edge-Security Research                                          *
+* cmartorella@edge-security.com                                   *
+*                                                                 *
+*******************************************************************
+
+[*] Target: seriously.com 
+
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Failed to process bevigil search for word: 'seriously.com'
+Error Message: 
+[!] Missing API key for bevigil. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+
+[!] Missing API key for Bitbucket. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Failed to process bufferoverun search for word: 'seriously.com'
+Error Message: 
+[!] Missing API key for bufferoverun. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Failed to perform BuiltWith search for word: 'seriously.com'
+A Missing Key Error occurred in builtwith: 
+[!] Missing API key for BuiltWith. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Failed to process brave search for word: 'seriously.com'
+Error Message: 
+[!] Missing API key for Brave Search. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Censys API key is missing or invalid: 
+[!] Missing API key for Censys ID and/or Secret. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing key error occurred in criminalip: 
+[!] Missing API key for criminalip. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in dehashed: 
+[!] Missing API key for Dehashed. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+
+[!] Missing API key for DNSDumpster. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in fullhunt: 
+[!] Missing API key for fullhunt. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Error initializing SearchGithubCode: 
+[!] Missing API key for Github. 
+A Missing Key error occurred in github-code: 
+[!] Missing API key for Github. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+
+[!] Missing API key for HaveIBeenPwned. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in Hunter: 
+[!] Missing API key for Hunter. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in Hunter How: 
+[!] Missing API key for hunterhow. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in intelx: 
+[!] Missing API key for Intelx. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in Netlas: 
+[!] Missing API key for netlas. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Unexpected error occurred in Onyphe module: 
+[!] Missing API key for onyphe. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in PentestTools search: 
+[!] Missing API key for PentestTools. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in ProjectDiscovery: 
+[!] Missing API key for ProjectDiscovery. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in RocketReach: 
+[!] Missing API key for RocketReach. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+
+[!] Missing API key for SecurityScorecard. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred Security Trails: 
+[!] Missing API key for Securitytrail. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in Shodan search: 
+[!] Missing API key for Shodan. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in Tomba: 
+[!] Missing API key for Tomba Key and/or Secret. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in venacus search: 
+[!] Missing API key for Venacus. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in virustotal search: 
+[!] Missing API key for virustotal. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in whoisxml search: 
+[!] Missing API key for whoisxml. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in zoomeye: 
+[!] Missing API key for zoomeye. 
+	Searching results.
+[*] Searching Certspotter. 
+[*] Searching Chaos. 
+[*] Searching Baidu. 
+[*] Searching CRTsh. 
+[*] Searching Duckduckgo. 
+[*] Searching Fofa. 
+[*] Searching Hackertarget. 
+[*] Searching Hudsonrock. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+[*] Searching Gitlab. 
+[*] Searching Leaklookup. 
+[*] Searching Otx. 
+[*] Searching Commoncrawl. 
+[*] Searching Rapiddns. 
+[*] Searching Robtex. 
+[*] Searching Subdomaincenter. 
+[*] Searching Thc. 
+[*] Searching Threatcrowd. 
+[*] Searching Subdomainfinderc99. 
+[*] Searching Urlscan. 
+[*] Windvane API key not found. Using limited unauthenticated access.
+[*] API unavailable, using fallback subdomain pattern search...
+[*] Found 1 subdomains using DNS fallback
+[*] Searching Windvane. 
+[*] Searching Waybackarchive. 
+[*] Searching Yahoo. 
+[*] Searching Leakix. 
+
+[*] ASNS found: 3
+--------------------
+AS202053
+AS396982
+AS8075
+
+[*] Interesting Urls found: 5
+--------------------
+http://infra.cloud.seriously.com/
+https://login.microsoftonline.com/02f22272-3538-4a5f-ae4e-64cd13d9890e/oauth2/v2.0/authorize?client_id=8d06df68-3447-4116-bd75-60f59b7f063e&scope=8d06df68-3447-4116-bd75-60f59b7f063e%2F.default%20openid%20profile%20offline_access&redirect_uri=https%3A%2F%2Fdashboard.cloud.seriously.com%2Fauth%2Fopenid%2Freturn&client-request-id=f67198cd-1968-449c-899b-399671a71b66&response_mode=fragment&response_type=code&x-client-SKU=msal.js.browser&x-client-VER=2.28.1&client_info=1&code_challenge=tq05p8X2zBubK627biik2FJWuF4UV7k3YidpXe4sQ3A&code_challenge_method=S256&nonce=6911b3ef-88f0-47c3-bcce-4c8ce545b4aa&state=eyJpZCI6IjczMzNiYmZkLTUwYTgtNGFjNi04ODg2LTNlMjhlYjM3NmQxMyIsIm1ldGEiOnsiaW50ZXJhY3Rpb25UeXBlIjoicmVkaXJlY3QifX0%3D&sso_reload=true
+https://login.microsoftonline.com/02f22272-3538-4a5f-ae4e-64cd13d9890e/oauth2/v2.0/authorize?client_id=8d06df68-3447-4116-bd75-60f59b7f063e&scope=8d06df68-3447-4116-bd75-60f59b7f063e%2F.default%20openid%20profile%20offline_access&redirect_uri=https%3A%2F%2Fpre-production.dashboard.cloud.seriously.com%2Fauth%2Fopenid%2Freturn&client-request-id=b747c200-0e03-4844-b533-d6412c774270&response_mode=fragment&response_type=code&x-client-SKU=msal.js.browser&x-client-VER=2.22.1&x-client-OS=&x-client-CPU=&client_info=1&code_challenge=3zu2pe0fo-XjmWx57OtUpsn6pTLYX-YXZRvEGAarCfc&code_challenge_method=S256&nonce=03824115-085a-42c2-a42d-d7df70bd7866&state=eyJpZCI6IjIzY2JjNTJjLWYwMDQtNDQ4OC05ZTE4LTRjMDQ3M2ExODIzMSIsIm1ldGEiOnsiaW50ZXJhY3Rpb25UeXBlIjoicmVkaXJlY3QifX0%3D&sso_reload=true
+https://world-map.cloud.seriously.com/
+https://www.seriously.com/
+
+[*] No LinkedIn users found.
+
+
+
+[*] LinkedIn Links found: 0
+---------------------
+
+[*] IPs found: 12
+-------------------
+13.248.160.137
+20.190.159.1
+20.190.159.64
+34.132.117.157
+34.149.8.134
+34.149.87.45
+76.223.34.124
+80.69.173.199
+83.145.253.129
+94.237.12.122
+
+[*] No emails found.
+
+[*] No people found.
+
+[*] Hosts found: 292
+---------------------
+0-0dda00chapiratekingsistratestr1.dashboard.cloud.seriously.com:104.198.205.152
+0-0dda00chapiratekingsistrator1.dashboard.cloud.seriously.com
+0-0dda00chapiratekingsistrator3.dashboard.cloud.seriously.com
+0-0dda00chapiratekingsistrator5.dashboard.cloud.seriously.com:104.198.205.152
+0-0dda00dub1istrator.dashboard.cloud.seriously.com
+0-0dda00edge-services-fbonly-shv-00-sju1istrator.dashboard.cloud.seriously.com
+0-0dda00edge-services-fbonly-shv-00-sju1istrator.dashboard.cloud.seriously.com:104.198.205.152
+0-0dda00edge-services-fbonly-shv-01-sju1istrator.dashboard.cloud.seriously.com
+0-0dda06edge-services-fbonly-shv-01-sju1istrator.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+0-0dda08chapiratekingsistrator4.dashboard.cloud.seriously.com:104.198.205.152
+0-0dda10capiistrator.dashboard.cloud.seriously.com
+0-0dda10chapiratekingsistrator4.dashboard.cloud.seriously.com
+0-0dda10dub2istrator.dashboard.cloud.seriously.com
+0-0dda10edge-services-fbonly-shv-01-sju1istrator.dashboard.cloud.seriously.com
+0-0dda10edge-services-fbonly-shv-01-sju1istrator.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+0-0dda11capiistrator.dashboard.cloud.seriously.com
+0-0dda11chabackofficeistrator4-staging.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+0-0dda11chapiratekingsistrator4.dashboard.cloud.seriously.com
+0-0dda11dub2istrator.dashboard.cloud.seriously.com
+0-0dda11edge-services-fbonly-shv-01-sju1istrator.dashboard.cloud.seriously.com
+0-0dda12capiistrator.dashboard.cloud.seriously.com
+0-0dda12chapiratekingsistrator4.0-0dda00edge-services-fbonly-shv-00-sju1istrator.dashboard.cloud.seriously.com:104.198.205.152
+0-0dda12chapiratekingsistrator4.dashboard.cloud.seriously.com
+0-0dda12dub2istrator.dashboard.cloud.seriously.com
+0-0dda12edge-services-fbonly-shv-01-sju1istrator.dashboard.cloud.seriously.com
+0-0dda1chapiratekingsistrator4-integration-staging.0-0dda00dub4istrator.dashboard.cloud.seriously.com:104.198.205.152
+0-0dda6capiistrator.dashboard.cloud.seriously.com
+0-0dda6dub2istrator.dashboard.cloud.seriously.com
+0-0dda6edge-services-fbonly-shv-01-sju1istrator.dashboard.cloud.seriously.com
+0-0dda7capiistrator.dashboard.cloud.seriously.com
+0-0dda7dub2istrator.dashboard.cloud.seriously.com
+0-0dda87-fb-og-v2-stage38istratoristrator.dashboard.cloud.seriously.com
+0-0dda88-fb-og-v2-stage38istratoristrator.dashboard.cloud.seriously.com
+0-0dda89-fb-og-v2-stage38istratoristrator.dashboard.cloud.seriously.com
+0-0dda89-fb-og-v3-stage35istratoristrator.0-0dda00chapiratekingsistrator0.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+0-0dda8capiistrator.dashboard.cloud.seriously.com
+0-0dda8chapiratekingsistrator4.0-0dda00chapiratekingsistrator1.dashboard.cloud.seriously.com:104.198.205.152
+0-0dda8dub2istrator.dashboard.cloud.seriously.com
+0-0dda90-fb-og-v0-stage38istratoristrator.dashboard.cloud.seriously.com
+0-0dda90-fb-og-v1-stage38istratoristrator.dashboard.cloud.seriously.com
+0-0dda90-fb-og-v2-stage35istratoristrator.dashboard.cloud.seriously.com
+0-0dda90-fb-og-v2-stage36istratoristrator.dashboard.cloud.seriously.com
+0-0dda90-fb-og-v2-stage37istratoristrator.dashboard.cloud.seriously.com
+0-0dda90-fb-og-v2-stage38istratoristrator.dashboard.cloud.seriously.com
+0-0dda90-fb-og-v2-stage39istratoristrator.dashboard.cloud.seriously.com
+0-0dda90-fb-og-v2-stage39istratoristrator.dashboard.cloud.seriously.com:104.198.205.152
+0-0dda90-fb-og-v2-stage40istratoristrator.dashboard.cloud.seriously.com
+0-0dda90-fb-og-v2-stage41istratoristrator.dashboard.cloud.seriously.com
+0-0dda90-fb-og-v3-stage38istratoristrator.dashboard.cloud.seriously.com
+0-0dda90-fb-og-v4-stage38istratoristrator.dashboard.cloud.seriously.com
+0-0dda90-fb-og-v5-stage38istratoristrator.dashboard.cloud.seriously.com
+0-0dda91-fb-og-v2-stage38istratoristrator.dashboard.cloud.seriously.com
+0-0dda92-fb-og-v2-stage38istratoristrator.dashboard.cloud.seriously.com
+0-0dda93-fb-og-v2-stage38istratoristrator.dashboard.cloud.seriously.com
+0-0dda9backoffice-collectibles-va2istratorbf1-dev.0-0dda90-fb-og-v2-stage36istratoristrator.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+0-0dda9capiistrator.dashboard.cloud.seriously.com
+0-0dda9chapiratekingsistrator1.dashboard.cloud.seriously.com
+0-0dda9chapiratekingsistrator2.dashboard.cloud.seriously.com
+0-0dda9chapiratekingsistrator3.dashboard.cloud.seriously.com
+0-0dda9chapiratekingsistrator4.dashboard.cloud.seriously.com
+0-0dda9chapiratekingsistrator5.0-0dda10dub2istrator.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+0-0dda9chapiratekingsistrator5.dashboard.cloud.seriously.com
+0-0dda9chapiratekingsistrator6.dashboard.cloud.seriously.com
+0-0dda9chapiratekingsistrator7.dashboard.cloud.seriously.com
+0-0dda9dub0istrator.dashboard.cloud.seriously.com
+0-0dda9dub0istrator.dashboard.cloud.seriously.com:104.198.205.152
+0-0dda9dub1istrator.dashboard.cloud.seriously.com
+0-0dda9dub2istratory.dashboard.cloud.seriously.com
+0-114.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+0-117.0-0dda9capiistrator.dashboard.cloud.seriously.com:104.198.205.152
+019.0-0dda09chapiratekingsistrator3.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+02-bf4-staging.0-0dda00chapiratekingsistrator1.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+0dda8chatdistrator1-development0.0-0dda00chapiratekingsistrator0.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+0dda8dub2istrator.0-0dda09chapiratekingsistrator4.dashboard.cloud.seriously.com:104.198.205.152
+0dda9chaevent.1-0dda00chapiratekingsistrator1.dashboard.cloud.seriously.com:104.198.205.152
+0dda9gp.0-0dda91-fb-og-v2-stage38istratoristrator.dashboard.cloud.seriously.com:104.198.205.152
+10-bf1-dev.0-0dda00chapiratekingsistrator4.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+100.dashboard.cloud.seriously.com:104.198.205.152
+1081.0-0dda11capiistrator.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+114development5.0-0dda03chapiratekingsistrator0.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+1359db4pre.09.dashboard.cloud.seriously.com:104.198.205.152
+1359db7pre.0-0dda00chapiratekingsistrator4.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+14bf1-dev.0dda6chabk.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+1999team.0-0dda00chapiratekingsistrator1.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+1dda9iad4istrator.0-0dda00chapiratekingsistrator0.dashboard.cloud.seriously.com:104.198.205.152
+2.0-0dda00edge-services-fbonly-shv-00-sju1istrator.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+222.seriously.com
+227.seriously.com
+26.0-0dda10edge-services-fbonly-shv-01-sju1istrator.dashboard.cloud.seriously.com:104.198.205.152
+2xfp5x61c4oj2ajjbb83qi8r-wpengine.0-0dda00chapiratekingsistrator0.dashboard.cloud.seriously.com:104.198.205.152
+2zero.dashboard.cloud.seriously.com:104.198.205.152
+34d3.dashboard.cloud.seriously.com
+40000.dashboard.cloud.seriously.com
+52.dashboard.cloud.seriously.com
+57bf1.0-0dda9capiistrator.dashboard.cloud.seriously.com:104.198.205.152
+65-11.0-0dda00chapiratekingsistrator1.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+65-9.0-0dda10chapiratekingsistrator7.dashboard.cloud.seriously.com:104.198.205.152
+6bf4-staging.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+8.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+81.dashboard.cloud.seriously.com:104.198.205.152
+a932w.dashboard.cloud.seriously.com
+acnw.0-0dda07chapiratekingsistrator4.dashboard.cloud.seriously.com:104.198.205.152
+adm-dev.dashboard.cloud.seriously.com:104.198.205.152
+admin-01.dashboard.cloud.seriously.com:104.198.205.152
+admin.0-0dda00chapiratekingsistrator1.dashboard.cloud.seriously.com:104.198.205.152
+admins.0-0dda9chapiratekingsistrator4.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+airflow-clusteri.cloud.seriously.com
+airflowk.cloud.seriously.com
+alienation.seriously.com
+analytics.cloud.seriously.com
+analytics.cloud.seriously.com:34.67.99.148
+analytics.cloud.seriously.com:64:ff9b::2243:6394
+analyticsa.cloud.seriously.com
+any.0-0dda00chapiratekingsistrator0.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+anycast.0-0dda13edge-services-fbonly-shv-01-sju1istrator.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+api.seriously.com
+arng.dashboard.cloud.seriously.com
+autodiscover.seriously.com
+autodiscover.seriously.com:autodiscover.outlook.com
+av.dashboard.cloud.seriously.com:104.198.205.152
+b02-development4.0-0dda00chapiratekingsistrator0.dashboard.cloud.seriously.com:104.198.205.152
+baccess.0-0dda7dub2istrator.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+badcy.dashboard.cloud.seriously.com
+banner.0-0dda03chapiratekingsistrator0.dashboard.cloud.seriously.com:104.198.205.152
+bar4nva6i4cvk7xt.dashboard.cloud.seriously.com
+batonrougecapitolcenters.dashboard.cloud.seriously.com
+bb.dashboard.cloud.seriously.com:104.198.205.152
+bbddbf5.0-0dda90-fb-og-v2-stage36istratoristrator.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+beta-qa.dashboard.cloud.seriously.com
+betaa.dashboard.cloud.seriously.com
+beuh2tnegjpvcik3m6wdci0rwm4oz5gpsqqdtkjv.seriously.com
+beuh2tnegjpvcik3m6wdci0rwm4oz5gpsqqdtkjve.seriously.com
+bf1-dev-c.0-0dda08dub5istrator.dashboard.cloud.seriously.com:104.198.205.152
+bf1-dev-db-1.dashboard.cloud.seriously.com:104.198.205.152
+bf1-dev.52.dashboard.cloud.seriously.com
+bf1-dev.dashboard.cloud.seriously.com
+bf1-deva.dashboard.cloud.dev.gdpr.seriously.com
+bf1-deva.dashboard.cloud.seriously.com
+bf1-devg.smtp.dashboard.cloud.seriously.com
+bf1-k.dashboard.cloud.seriously.com
+bf1-staging.dashboard.cloud.seriously.com
+bf5.0-0dda00chapiratekingsistrator1.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+box.100.dashboard.cloud.seriously.com:104.198.205.152
+bsd.0-0dda9chapiratekingsistrator4.dashboard.cloud.seriously.com:104.198.205.152
+c071.dashboard.cloud.seriously.com
+ca1ent.0-0dda02chapiratekingsistrator1.dashboard.cloud.seriously.com:104.198.205.152
+calp.dashboard.cloud.seriously.com
+cdf.seriously.com
+cdf.seriously.com:34.111.226.242
+clou.seriously.com
+cloud.seriously.com
+cloudo.dev.gdpr.seriously.com
+cloudy.seriously.com
+clv.alt.dashboard.cloud.seriously.com:104.198.205.152
+com.seriously.com
+comcom.seriously.com
+commonk.cloud.seriously.com
+core.seriously.com
+core5.seriously.com
+corp.seriously.com
+corpbf1-dev.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+cprt.dashboard.cloud.seriously.com
+csmn.dashboard.cloud.seriously.com
+dashboard-dev-bf1m.cloud.seriously.com
+dashboard-dev-bf4i.cloud.seriously.com
+dashboard-devq.cloud.seriously.com
+dashboard-qaa.cloud.seriously.com
+dashboard-stagingm.cloud.seriously.com
+dashboard-tech.cloud.seriously.com
+dashboard-techi.cloud.seriously.com
+dashboard-updatec.cloud.seriously.com
+dashboard.cloud.seriously.com
+dashboardg.cloud.seriously.com
+dashboardi.cloud.dev.gdpr.seriously.com
+db01.dashboard.cloud.seriously.com
+db4.0-0dda00chapiratekingsistrator1.dashboard.cloud.seriously.com:104.198.205.152
+dbb.ar.dashboard.cloud.seriously.com:104.198.205.152
+dd.akl1.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+ddocker.beta.dashboard.cloud.seriously.com:104.198.205.152
+debackups.0-0dda10chapiratekingsistrator2.dashboard.cloud.seriously.com:104.198.205.152
+demo.seriously.com
+des1.bb.dashboard.cloud.seriously.com:104.198.205.152
+dev.cdf.seriously.com
+dev.cdf.seriously.com:34.110.209.23
+dev.gdpr.seriously.com
+dev.gdpr.seriously.com:151.101.1.195
+dev.gdpr.seriously.com:151.101.65.195
+dev.seriously.com
+dev9.gdpr.seriously.com
+developers.dashboard.cloud.seriously.com
+development2.nrt1.dashboard.cloud.seriously.com
+development2.qa24.dashboard.cloud.seriously.com
+development2.sc.dashboard.cloud.seriously.com
+development2c.dashboard.cloud.seriously.com
+development2g.fml1.dashboard.cloud.seriously.com
+development2w.sgh.dashboard.cloud.seriously.com
+development2y.tur.dashboard.cloud.seriously.com
+development3m.dashboard.cloud.seriously.com
+devk.cdf.seriously.com
+donty.take.this.seriously.com
+dsl.seriously.com
+ea.0-0dda13chapiratekingsistrator5.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+ea.dashboard.cloud.seriously.com:104.198.205.152
+ecrd.bf1-dev.dashboard.cloud.seriously.com:104.198.205.152
+elisaelopment2.dashboard.cloud.seriously.com
+es-monitor.cloud.seriously.com
+es-monitoring2.cloud.seriously.com
+es-monitoringy.cloud.seriously.com
+faqhnyzsvao.fun.dashboard.cloud.seriously.com
+files.seriously.com
+filesa.seriously.com
+fiq.0-0dda00chapiratekingsistrator0.dashboard.cloud.seriously.com:104.198.205.152
+fml1u.dashboard.cloud.seriously.com
+funo.dashboard.cloud.seriously.com
+fw-2y.dashboard.cloud.seriously.com
+galb.dashboard.cloud.seriously.com
+gamebench.cloud.seriously.com
+gdpr.seriously.com
+ggm.dashboard.cloud.seriously.com
+gita.hel-proxy.seriously.com
+gitw.hel.seriously.com
+grafana.cloud.seriously.com:35.188.24.112
+grafana.cloud.seriously.com:64:ff9b::23bc:1870
+grafanaa.cloud.seriously.com
+hel-proxy.seriously.com
+hel.seriously.com
+hou19.dashboard.cloud.seriously.com
+image.dashboard.cloud.seriously.com
+infra.cloud.seriously.com
+integration-staging.dashboard.cloud.seriously.com
+integration-staging.sfs.dashboard.cloud.seriously.com
+integration-stagingm.dashboard.cloud.seriously.com
+jenkinsk.cloud.seriously.com
+jhzfchtjjoy.arn.dashboard.cloud.seriously.com
+jobso.dashboard.cloud.seriously.com
+k1.0-0dda10chapiratekingsistrator2.dashboard.cloud.seriously.com:104.198.205.152
+kibana-monitory.cloud.seriously.com
+kibana.cloud.seriously.com
+kibana.cloud.seriously.com:35.188.24.112
+mail.dashboard.cloud.seriously.com
+mba.ber1.dashboard.cloud.seriously.com:104.198.205.152
+monitoring-esa.cloud.seriously.com
+nrt1u.dashboard.cloud.seriously.com
+oldsite.bf1-dev.dashboard.cloud.seriously.com
+oneq.dashboard.cloud.seriously.com
+oziy.dashboard.cloud.seriously.com
+pre-production.dashboard.cloud.seriously.com
+pre-production.dashboard.cloud.seriously.com:104.198.205.152
+prototype.dashboard.cloud.seriously.com:64:ff9b::68c6:cd98
+publicy.dashboard.cloud.seriously.com
+qa24u.dashboard.cloud.seriously.com
+qq2.dashboard.cloud.seriously.com
+rstudio.cloud.seriously.com
+rstudios.cloud.seriously.com
+sandboxe.analytics.cloud.seriously.com
+scq.dashboard.cloud.seriously.com
+sfs.dashboard.cloud.seriously.com
+sghs.dashboard.cloud.seriously.com
+sip5.dashboard.cloud.seriously.com
+smtpk.dashboard.cloud.seriously.com
+sncfy.dashboard.cloud.seriously.com
+stars-dev.dashboard.cloud.seriously.com
+stars-nta.dashboard.cloud.seriously.com
+stars-qa.dashboard.cloud.seriously.com
+stars-qa.dashboard.cloud.seriously.com:104.198.205.152
+stars-qae.jobs.dashboard.cloud.seriously.com
+stars-qaq.dashboard.cloud.seriously.com
+stars-staging.dashboard.cloud.seriously.com
+stars-staging.dashboard.cloud.seriously.com:104.198.205.152
+stars-stagingc.dashboard.cloud.seriously.com
+tcpm.dashboard.cloud.seriously.com
+tech-sandbox.seriously.com
+tech-sandboxa.seriously.com
+tech.cdf.seriously.com
+tech.cdf.seriously.com:34.110.209.23
+techo.cdf.seriously.com
+testy.seriously.com
+thise.seriously.com
+tmpgitk.cloud.seriously.com
+toy.seriously.com
+turs.dashboard.cloud.seriously.com
+v12016.0-0dda00chapiratekingsistrator1.dashboard.cloud.seriously.com:104.198.205.152
+vk7.dashboard.cloud.seriously.com
+vyqdsfoboladwda.stars-qa.dashboard.cloud.seriously.com
+vyqdsfoboladwdaw.public.dashboard.cloud.seriously.com
+way.to.seriously.com
+world-map.cloud.seriously.com
+world-mapy.cloud.seriously.com
+wpwiuqrqvughbdl.beta.dashboard.cloud.seriously.com
+wpwiuqrqvughbdl.image.dashboard.cloud.seriously.com
+wpwiuqrqvughbdl.mail.dashboard.cloud.seriously.com
+zqqnxzbena.vk.dashboard.cloud.seriously.com
+
+[*] Performing SecurityScorecard scan...
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+An exception has occurred in SecurityScorecard scanning: 
+[!] Missing API key for SecurityScorecard. 
+
+[*] Performing BuiltWith scan...
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+
+[!] Missing API key for BuiltWith. 
