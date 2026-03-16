@@ -64,6 +64,13 @@ PROFILES = {
         'tags':        None,  # no tag filter, but severity still applied
         'severity':    'medium,high,critical',
     },
+    'ai-llm': {
+        'description': 'AI/LLM surfaces — xAI, Grok, chat APIs, model endpoints',
+        'tags':        'api,auth,cors,exposure,misconfig,token,jwt,graphql,ssrf,idor,redirect,takeover',
+        'severity':    'medium,high,critical',
+        # Note: prompt injection and LLM-specific issues require manual testing
+        # nuclei has no prompt injection templates — use this profile + manual checklist
+    },
 }
 
 
@@ -110,7 +117,7 @@ def main():
                         help='Domain being scanned (e.g. bingoblitz.com)')
     parser.add_argument('--profile',    default='gaming',
                         choices=list(PROFILES.keys()),
-                        help='Template profile to use (default: gaming)')
+                        help='Template profile to use (default: gaming). Use ai-llm for xAI/Grok targets.')
     parser.add_argument('--rate-limit', type=int, default=10,
                         help='Max requests per second (default: 10, never exceed for bug bounty)')
     parser.add_argument('--timeout',    type=int, default=10,
