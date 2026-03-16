@@ -1,3 +1,0 @@
-* Could not resolve host: bi.wooga.com
-* Store negative name resolve for bi.wooga.com:443
-* shutting down connection #0

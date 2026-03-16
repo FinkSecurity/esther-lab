@@ -1,18 +1,0 @@
-  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
-                                 Dload  Upload  Total   Spent   Left   Speed
-  0      0   0      0   0      0      0      0                              0  0      1   0      0   0      0      0      0                              0  0      1   0      0   0      0      0      0                              0  0      1   0      0   0      0      0      0                              0
-HTTP/2 403 
-x-amz-bucket-region: eu-west-1
-content-type: application/xml
-content-length: 1
-date: Wed, 11 Mar 2026 19:09:09 GMT
-access-control-allow-methods: GET
-access-control-allow-origin: *
-
-
-An error occurred (NoSuchBucket) when calling the ListObjectsV2 operation: The specified bucket does not exist
-  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
-                                 Dload  Upload  Total   Spent   Left   Speed
-  0      0   0      0   0      0      0      0                              0100    243 100    243   0      0    300      0                              0100    243 100    243   0      0    300      0                              0100    243 100    243   0      0    300      0                              0
-<?xml version="1.0" encoding="UTF-8"?>
-<Error><Code>AccessDenied</Code><Message>Access Denied</Message><RequestId>M7B9FN1GQ3HC6GMV</RequestId><HostId>xJ4PC+f4XOPn2zuOaJU/A55OEgUO4KVP/sKGdOxYbleiM+jEJfKCzJPw0xoNaU/KSwyV8w4hAIA=</HostId></Error>
