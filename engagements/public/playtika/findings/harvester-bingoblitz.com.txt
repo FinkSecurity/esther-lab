@@ -1,0 +1,735 @@
+2026-03-16 02:42:08,841 - theHarvester.discovery.hudsonrocksearch - INFO - Starting Hudson Rock processing for: bingoblitz.com
+2026-03-16 02:42:08,841 - theHarvester.discovery.hudsonrocksearch - INFO - Starting Hudson Rock search for: bingoblitz.com
+2026-03-16 02:42:15,272 - theHarvester.discovery.hudsonrocksearch - INFO - Domain statistics: 50 total compromised, 0 employees, 50 users
+2026-03-16 02:42:16,274 - theHarvester.discovery.hudsonrocksearch - INFO - Hudson Rock search completed. Found 0 hosts, 0 IPs, 0 emails
+2026-03-16 02:42:16,274 - theHarvester.discovery.hudsonrocksearch - INFO - Hudson Rock processing completed successfully: 0 hosts, 0 IPs, 0 emails, 0 stealers
+Read proxies.yaml from /etc/theHarvester/proxies.yaml
+*******************************************************************
+*  _   _                                            _             *
+* | |_| |__   ___    /\  /\__ _ _ ____   _____  ___| |_ ___ _ __  *
+* | __|  _ \ / _ \  / /_/ / _` | '__\ \ / / _ \/ __| __/ _ \ '__| *
+* | |_| | | |  __/ / __  / (_| | |   \ V /  __/\__ \ ||  __/ |    *
+*  \__|_| |_|\___| \/ /_/ \__,_|_|    \_/ \___||___/\__\___|_|    *
+*                                                                 *
+* theHarvester 4.10.1                                             *
+* Coded by Christian Martorella                                   *
+* Edge-Security Research                                          *
+* cmartorella@edge-security.com                                   *
+*                                                                 *
+*******************************************************************
+
+[*] Target: bingoblitz.com 
+
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Failed to process bevigil search for word: 'bingoblitz.com'
+Error Message: 
+[!] Missing API key for bevigil. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+
+[!] Missing API key for Bitbucket. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Failed to process bufferoverun search for word: 'bingoblitz.com'
+Error Message: 
+[!] Missing API key for bufferoverun. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Failed to perform BuiltWith search for word: 'bingoblitz.com'
+A Missing Key Error occurred in builtwith: 
+[!] Missing API key for BuiltWith. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Failed to process brave search for word: 'bingoblitz.com'
+Error Message: 
+[!] Missing API key for Brave Search. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Censys API key is missing or invalid: 
+[!] Missing API key for Censys ID and/or Secret. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing key error occurred in criminalip: 
+[!] Missing API key for criminalip. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in dehashed: 
+[!] Missing API key for Dehashed. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+
+[!] Missing API key for DNSDumpster. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in fullhunt: 
+[!] Missing API key for fullhunt. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Error initializing SearchGithubCode: 
+[!] Missing API key for Github. 
+A Missing Key error occurred in github-code: 
+[!] Missing API key for Github. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+
+[!] Missing API key for HaveIBeenPwned. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in Hunter: 
+[!] Missing API key for Hunter. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in Hunter How: 
+[!] Missing API key for hunterhow. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in intelx: 
+[!] Missing API key for Intelx. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in Netlas: 
+[!] Missing API key for netlas. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Unexpected error occurred in Onyphe module: 
+[!] Missing API key for onyphe. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in PentestTools search: 
+[!] Missing API key for PentestTools. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in ProjectDiscovery: 
+[!] Missing API key for ProjectDiscovery. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in RocketReach: 
+[!] Missing API key for RocketReach. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+
+[!] Missing API key for SecurityScorecard. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred Security Trails: 
+[!] Missing API key for Securitytrail. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in Shodan search: 
+[!] Missing API key for Shodan. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in Tomba: 
+[!] Missing API key for Tomba Key and/or Secret. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in venacus search: 
+[!] Missing API key for Venacus. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in virustotal search: 
+[!] Missing API key for virustotal. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in whoisxml search: 
+[!] Missing API key for whoisxml. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in zoomeye: 
+[!] Missing API key for zoomeye. 
+[*] Searching Baidu. 
+	Searching results.
+[*] Searching Certspotter. 
+[*] Searching Chaos. 
+[*] Searching Duckduckgo. 
+[*] Searching CRTsh. 
+[*] Searching Fofa. 
+[*] Searching Hackertarget. 
+[*] Searching Gitlab. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+[*] Searching Hudsonrock. 
+[*] Searching Leaklookup. 
+[*] Searching Commoncrawl. 
+LeakIX API requires authentication: "Incorrect API Key"
+[*] Searching Otx. 
+[*] Searching Rapiddns. 
+[*] Searching Robtex. 
+[*] Searching Subdomaincenter. 
+[*] Searching Thc. 
+[*] Searching Threatcrowd. 
+[*] Searching Subdomainfinderc99. 
+
+ A error occurred while processing a "work item".
+
+[*] Windvane API key not found. Using limited unauthenticated access.
+[*] API unavailable, using fallback subdomain pattern search...
+[*] Found 2 subdomains using DNS fallback
+[*] Searching Windvane. 
+[*] Searching Waybackarchive. 
+[*] Searching Yahoo. 
+[*] Searching Leakix. 
+
+[*] No LinkedIn users found.
+
+
+
+[*] LinkedIn Links found: 0
+---------------------
+
+[*] IPs found: 12
+-------------------
+128.177.121.215
+128.177.121.216
+15.197.137.152
+185.16.89.232
+185.16.91.122
+185.16.91.126
+204.13.11.81
+23.220.73.52
+63.128.93.215
+63.128.93.216
+72.20.110.8
+76.223.7.129
+
+[*] No emails found.
+
+[*] No people found.
+
+[*] Hosts found: 545
+---------------------
+*.bingoblitz.com
+0-0000-advisor.news02.bingoblitz.com:127.0.0.1
+0-0000-cg.news02.bingoblitz.com:127.0.0.1
+0.news02.bingoblitz.com
+0000g.news02.bingoblitz.com
+004001a.news02.bingoblitz.com
+006000o.news02.bingoblitz.com
+006001o.news02.bingoblitz.com
+007-etok.0144b0f4b13d-gemini.news02.bingoblitz.com
+0144b0f4b13d-gemini.news02.bingoblitz.com
+1p12vqvy9zne1k7zg.ocnl244.0.news02.bingoblitz.com
+2.bingoblitz.com
+2021g.ocnl244.0.news02.bingoblitz.com
+2221.bingoblitz.com
+227.bingoblitz.com
+2271.bingoblitz.com
+2291.bingoblitz.com
+52.bingoblitz.com
+96586-.bingoblitz.com
+96586.bingoblitz.com
+96586.bingoblitz.com:sendgrid.net
+a.bingoblitz.com
+a3.bingoblitz.com
+academye.news02.bingoblitz.com
+acc.toolbar.control.news02.bingoblitz.com
+accq.control.news02.bingoblitz.com
+activew.news02.bingoblitz.com
+ad.bingoblitz.com
+admauthi.news02.bingoblitz.com
+admcontrolq.news02.bingoblitz.com
+admin.bingoblitz.com
+administratorloadbalancerg.news02.bingoblitz.com
+administrators-disabledu.news02.bingoblitz.com
+adminw.ghcpi.news02.bingoblitz.com
+ads.bingoblitz.com
+ads5.bingoblitz.com
+alaskaq.006000.news02.bingoblitz.com
+aloha.news02.bingoblitz.com
+analyticse.news02.bingoblitz.com
+androidu.news02.bingoblitz.com
+apac5.bingoblitz.com
+apachemachine.control.news02.bingoblitz.com
+apacheq.control.news02.bingoblitz.com
+api-docsm.proxy.news02.bingoblitz.com
+api7.bingoblitz.com
+apiserverm.news02.bingoblitz.com
+app-vs-od-icu.news02.bingoblitz.com
+app.bingoblitz.com
+app5.bingoblitz.com
+apps.bingoblitz.com
+as.bingoblitz.com
+assets-deva.news02.bingoblitz.com
+assistenzaw.news02.bingoblitz.com
+austin.bingoblitz.com
+authopsk.news02.bingoblitz.com
+authorizationq.news02.bingoblitz.com
+authw.news02.bingoblitz.com
+aws.bingoblitz.com
+aws5.bingoblitz.com
+awsedge.origin.news02.bingoblitz.com
+azurev3.control.docker.news02.bingoblitz.com
+backendo.news02.bingoblitz.com
+barryshepard9.bingoblitz.com
+battle-static-cdn-ec.news02.bingoblitz.com
+bb-api-dsa.bingoblitz.com:akm-dsa-prod.edgesuite.net
+be.bingoblitz.com
+beta.bingoblitz.com
+beta7.bingoblitz.com
+betau.control.cloudfront.news02.bingoblitz.com
+bingo-ce-bbvipk.news02.bingoblitz.com
+bingo-stage-sfs-05.news02.bingoblitz.com
+bingobleu.news02.bingoblitz.com
+blog.bingoblitz.com
+blog3.bingoblitz.com
+bounce.news.bingoblitz.com:sparkpostmail.com
+buckete.origin.news02.bingoblitz.com
+c96-45.bingoblitz.com
+c96-45e.bingoblitz.com
+ca.bingoblitz.com
+campus.bingoblitz.com
+campus9.bingoblitz.com
+casterline.bingoblitz.com
+cc-cllbckg.news02.bingoblitz.com
+cc.bingoblitz.com
+cci5.bingoblitz.com
+cdn-7e.news02.bingoblitz.com
+cdn-89.news02.bingoblitz.com
+cdn-akm.bingoblitz.com
+cdn-akm.bingoblitz.com:akm-dsa-prod-pltk.edgesuite.net
+cdn-analyticsm.news02.bingoblitz.com
+cdn-ec.bingoblitz.com
+cdn-ec.bingoblitz.com:akm-dsa-prod-pltk.edgesuite.net
+cdn-eca.news02.bingoblitz.com
+cdn-eco.us.news02.bingoblitz.com
+cdn-edgecastg.news02.bingoblitz.com
+cdn.bingoblitz.com
+cdn1.bingoblitz.com
+cdnectoru.news02.bingoblitz.com
+cert.signed-control.news02.bingoblitz.com
+cert.svcgateway.news02.bingoblitz.com
+cert1.bingoble.news02.bingoblitz.com
+certcontrolw.news02.bingoblitz.com
+cfp.bingoblitz.com
+cfp5.bingoblitz.com
+ch.bingoblitz.com
+chdgithuby.news02.bingoblitz.com
+chef-internalu.news02.bingoblitz.com
+chef.news02.bingoblitz.com
+chefmetricsk.news02.bingoblitz.com
+chem.bingoblitz.com
+chem3.bingoblitz.com
+ci.bingoblitz.com
+ci1.bingoblitz.com
+ci15.bingoblitz.com
+ciostage.bingoblitz.com
+cl.bingoblitz.com
+clients.bingoblitz.com
+cloud.bingoblitz.com
+cloud9.bingoblitz.com
+cloudfrontg.news02.bingoblitz.com
+cms.bingoblitz.com
+cms5.bingoblitz.com
+cn.bingoblitz.com
+co.bingoblitz.com
+co9.in.bingoblitz.com
+co9.kr.bingoblitz.com
+co9.uk.bingoblitz.com
+co9.za.bingoblitz.com
+com.bingoblitz.com
+comi.sg.bingoblitz.com
+confluenceo.news02.bingoblitz.com
+connect.bingoblitz.com
+connect7.bingoblitz.com
+container-elastico.control.news02.bingoblitz.com
+container.edge.control.news02.bingoblitz.com
+control-acc.europe.news02.bingoblitz.com
+control-accountingo.europe.news02.bingoblitz.com
+control-eng.chef.news02.bingoblitz.com
+control-hwcdnc.lb.news02.bingoblitz.com
+control.chdgithub.news02.bingoblitz.com
+control.docker.news02.bingoblitz.com
+control.githubaccounting-php.news02.bingoblitz.com
+control.gitlabgw.news02.bingoblitz.com
+control.s3.news02.bingoblitz.com
+control.test.redirector.news02.bingoblitz.com
+controlaccg.news02.bingoblitz.com
+controlconfluence.europe.news02.bingoblitz.com
+controldevopss.fw.news02.bingoblitz.com
+controle.chef-internal.news02.bingoblitz.com
+controle.nginx.news02.bingoblitz.com
+controlengineeringc.demo.news02.bingoblitz.com
+controlg.fwcontrol-administrators.news02.bingoblitz.com
+controlg.service.news02.bingoblitz.com
+controlk.gitlabapi-docs.news02.bingoblitz.com
+controlk.jenkins.news02.bingoblitz.com
+controlm.api-docs.proxy.news02.bingoblitz.com
+controlm.fw.news02.bingoblitz.com
+controlo.applicationchef.news02.bingoblitz.com
+controlq.beta.news02.bingoblitz.com
+controlq.us.news02.bingoblitz.com
+controls.github.news02.bingoblitz.com
+controls.help.news02.bingoblitz.com
+controls.trial.private.news02.bingoblitz.com
+controlu.svcgatewaypage.news02.bingoblitz.com
+controlv1i.news02.bingoblitz.com
+controlw.emailconfluence.news02.bingoblitz.com
+controlw.webapp-private.news02.bingoblitz.com
+controly.news02.bingoblitz.com
+controly.profileseurope.news02.bingoblitz.com
+copenhagen-extu.news02.bingoblitz.com
+copenhagen.bingoblitz.com
+copenhageng.news02.bingoblitz.com
+coracat.bingoblitz.com
+core.bingoblitz.com
+core7.bingoblitz.com
+corp.bingoblitz.com
+corp3.bingoblitz.com
+corporate.news02.bingoblitz.com
+cpanelu.belle.01a.news02.bingoblitz.com
+cps.bingoblitz.com
+cps5.bingoblitz.com
+cs.bingoblitz.com
+csd-.bingoblitz.com
+csd.bingoblitz.com
+cvsg.system.news02.bingoblitz.com
+dc.bingoblitz.com
+de.bingoblitz.com
+demo.bingoblitz.com
+demo3.bingoblitz.com
+demotest.bingoblitz.com
+dev.bingoblitz.com
+dev.bingoblitz.com:12.9.242.29
+dev2.bingoblitz.com
+developi.news02.bingoblitz.com
+devo.control.news02.bingoblitz.com
+devopsi.payment.news02.bingoblitz.com
+devso13.email.news02.bingoblitz.com
+dhcp.bingoblitz.com
+dhcp3.bingoblitz.com
+dial3.bingoblitz.com
+disabledserverm.news02.bingoblitz.com
+dmz.bingoblitz.com
+docker.news02.bingoblitz.com
+docsdropcontrolw.news02.bingoblitz.com
+dsl1.bingoblitz.com
+dyn.bingoblitz.com
+dyno.bingoblitz.com
+eaccountings.news02.bingoblitz.com
+ece.bingoblitz.com
+ece5.bingoblitz.com
+edgeemailk.news02.bingoblitz.com
+edgeo.control.news02.bingoblitz.com
+ei.001.news02.bingoblitz.com
+elastic-testbedu.news02.bingoblitz.com
+elasticpage.control.news02.bingoblitz.com
+email-dockeri.news02.bingoblitz.com
+email.bingoblitz.com
+emailconfluenceq.news02.bingoblitz.com
+emailk.0.news02.bingoblitz.com
+emailnginxw.news02.bingoblitz.com
+emails.bingoblitz.com
+emails.bingoblitz.com:mx.sendgrid.net
+emails.bingoblitz.com:mx.sendgrid.net.
+emailse.bingoblitz.com
+emailsw.news02.bingoblitz.com
+emea.bingoblitz.com
+eng-repog.news02.bingoblitz.com
+eng.bingoblitz.com
+eng5.bingoblitz.com
+engine-hwcdns.news02.bingoblitz.com
+engineeringdevelopmenty.news02.bingoblitz.com
+enzymeo.news02.bingoblitz.com
+es.bingoblitz.com
+eu.bingoblitz.com
+europe-vpno.news02.bingoblitz.com
+europeg.news02.bingoblitz.com
+europesigneds.news02.bingoblitz.com
+europew.internal.news02.bingoblitz.com
+exp.news02.bingoblitz.com
+ext.bingoblitz.com
+ext5.bingoblitz.com
+extra.bingoblitz.com
+extrag.bingoblitz.com
+extranet.bingoblitz.com
+facebook-proxy-stage16i.news02.bingoblitz.com
+facebook-proxy-stage33o.news02.bingoblitz.com
+fileo.news02.bingoblitz.com
+files.bingoblitz.com
+files5.bingoblitz.com
+firewalli.news02.bingoblitz.com
+fls1.bingoblitz.com
+fr.bingoblitz.com
+frontpage-controlm.payment.news02.bingoblitz.com
+frontpageu.news02.bingoblitz.com
+ftp-euu.news02.bingoblitz.com
+ftp.bingoblitz.com
+ftp.bingoblitz.com:204.13.11.81
+ftpo.bingoblitz.com
+fwcontrol-administrators.news02.bingoblitz.com
+gateway.control.cloudfront.news02.bingoblitz.com
+ghcpiw.preview.news02.bingoblitz.com
+ghcpiy.news02.bingoblitz.com
+gistvpnq.news02.bingoblitz.com
+githubcontrole.news02.bingoblitz.com
+githube.news02.bingoblitz.com
+githubtwitchi.news02.bingoblitz.com
+gitlab.news02.bingoblitz.com
+gitlabgwc.news02.bingoblitz.com
+global-redirector.control.news02.bingoblitz.com
+global.bingoblitz.com
+global9.bingoblitz.com
+gnocchi-cdn-nc.bingoblitz.com:23.44.201.218
+gnocchi-cdn-nc.bingoblitz.com:akm-dsa-prod-pltk.edgesuite.net
+gnocchi-cdn-web.bingoblitz.com:23.44.201.197
+gnocchi-cdn-web.bingoblitz.com:akm-dsa-prod-pltk.edgesuite.net
+gsn.bingoblitz.com
+gsnu.bingoblitz.com
+gw-engine.news02.bingoblitz.com
+ha1g.dev.news02.bingoblitz.com
+health.bingoblitz.com
+healthg.bingoblitz.com
+helpe.control.news02.bingoblitz.com
+home.bingoblitz.com
+home7.bingoblitz.com
+hq.bingoblitz.com
+hw.news02.bingoblitz.com
+informationi.news02.bingoblitz.com
+infray.news02.bingoblitz.com
+ingressm.news02.bingoblitz.com
+internala.news02.bingoblitz.com
+internala.productions-control.news02.bingoblitz.com
+intq.vpn.news02.bingoblitz.com
+ip95.news02.bingoblitz.com
+ironmailk.news02.bingoblitz.com
+ist.bingoblitz.com
+jenkinsa.news02.bingoblitz.com
+jp.bingoblitz.com
+lab.bingoblitz.com
+labi.v3.news02.bingoblitz.com
+latestmovies99o.news02.bingoblitz.com
+latin.news02.bingoblitz.com
+laxm.accounting.news02.bingoblitz.com
+laxs.news02.bingoblitz.com
+link.bingoblitz.com
+link.bingoblitz.com:23.61.246.210
+link.bingoblitz.com:akm-dsa-prod.edgesuite.net
+linku.bingoblitz.com
+lll-primitive.news02.bingoblitz.com
+loadbalancer-stagingcontrol.news02.bingoblitz.com
+loadbalancer.team.news02.bingoblitz.com
+logins.news02.bingoblitz.com
+mail-2k.news02.bingoblitz.com
+mail.bingoblitz.com
+mailb.news02.bingoblitz.com
+mailo.bingoblitz.com
+marketingm.news02.bingoblitz.com
+metric.news02.bingoblitz.com
+metricso.control.news02.bingoblitz.com
+migrationm.news02.bingoblitz.com
+missionsu.news02.bingoblitz.com
+mta2g.news02.bingoblitz.com
+mureg.news02.bingoblitz.com
+nautilusemailk.news02.bingoblitz.com
+net-system.news02.bingoblitz.com
+netw.repo.news02.bingoblitz.com
+news.bingoblitz.com
+news.bingoblitz.com:64:ff9b::515c:7d4a
+news.bingoblitz.com:81.92.125.74
+news.bingoblitz.com:news-bingoblitz-com.mail.protection.outlook.com
+news.bingoblitz.com:news-bingoblitz-com.mail.protection.outlook.com.
+news02.bingoblitz.com
+news02.bingoblitz.com:127.0.0.1
+news02e.bingoblitz.com
+news02k.news02.bingoblitz.com
+news02metricso.news02.bingoblitz.com
+news02v3-ghcpi-v3.news02.bingoblitz.com
+newse.bingoblitz.com
+nginxk.control.news02.bingoblitz.com
+nodee.edge.news02.bingoblitz.com
+northamerica.loadbalancer.news02.bingoblitz.com
+ntp1i.news02.bingoblitz.com
+o1.email.bingoblitz.com:167.89.17.232
+o11.email.bingoblitz.com:50.31.44.123
+o11.email.bingoblitz.com:64:ff9b::321f:2c7b
+o12.email.bingoblitz.com:50.31.44.251
+o13.email.bingoblitz.com
+o13.email.bingoblitz.com:50.31.46.64
+o13c.emailbrand.news02.bingoblitz.com
+o13i.email-docker.news02.bingoblitz.com
+o14.email.bingoblitz.com
+o14.email.bingoblitz.com:208.115.235.217
+o3.email.bingoblitz.com:50.31.46.64
+o3e.nautilusemail.news02.bingoblitz.com
+o4.edgeemail.news02.bingoblitz.com
+o4.email.bingoblitz.com
+o4.email.bingoblitz.com:50.31.44.123
+o4.email.news02.bingoblitz.com
+o4g.eaccounting.news02.bingoblitz.com
+o5.email.bingoblitz.com
+o5.email.bingoblitz.com:50.31.44.251
+o6.email.bingoblitz.com:50.31.53.247
+o6gwg.email.news02.bingoblitz.com
+o7.email.bingoblitz.com:50.31.44.123
+o8.email.bingoblitz.com
+o8.email.bingoblitz.com:167.89.17.232
+ocnl244w.0.news02.bingoblitz.com
+oid-v3githubw.news02.bingoblitz.com
+old.news02.bingoblitz.com
+ops-eventsi.news02.bingoblitz.com
+ops-originw.news02.bingoblitz.com
+ordere.news02.bingoblitz.com
+org.bingoblitz.com
+orgops.news02.bingoblitz.com
+origin-wwwi.certcontrol.news02.bingoblitz.com
+origin-wwwo.control.copenhagen.news02.bingoblitz.com
+origin-wwwo.metrics.control.news02.bingoblitz.com
+originu.news02.bingoblitz.com
+p.bingoblitz.com
+page-controlacco.news02.bingoblitz.com
+pagerawu.news02.bingoblitz.com
+pat.bingoblitz.com
+payg.proxy.news02.bingoblitz.com
+payment-githubu.news02.bingoblitz.com
+payment.v3.news02.bingoblitz.com
+payments.bingoblitz.com
+paymentv3opsw.news02.bingoblitz.com
+paymenty.news02.bingoblitz.com
+penguin.news02.bingoblitz.com
+personalinjuryq.news02.bingoblitz.com
+phys.bingoblitz.com
+physik.bingoblitz.com
+pj9w08jt4bsdegizfsydvbc16m3ockitl5yxwh7e.bingoblitz.com
+play.bingoblitz.com
+play.bingoblitz.com:23.219.36.112
+play.bingoblitz.com:a1996.b.akamai.net
+play.bingoblitz.com:play.bingoblitz.com.edgesuite.net
+play.bingoblitz.com:play.bingoblitz.com.edgesuite.net.
+playe.bingoblitz.com
+playercoredb-08a-eastk.news02.bingoblitz.com
+playw.news02.bingoblitz.com
+portal.bingoblitz.com
+ppp.bingoblitz.com
+preprod.bingoblitz.com
+preview.bingoblitz.com
+preview.news02.bingoblitz.com
+private-v3e.news02.bingoblitz.com
+private.news02.bingoblitz.com
+prodstagingw.news02.bingoblitz.com
+productions-control.news02.bingoblitz.com
+profesionalnety.news02.bingoblitz.com
+professor.news02.bingoblitz.com
+profileseuropeo.news02.bingoblitz.com
+promoelasticm.news02.bingoblitz.com
+proxy-control.git.news02.bingoblitz.com
+proxy.news02.bingoblitz.com
+pub.bingoblitz.com
+qa.bingoblitz.com
+raw-promo9.news02.bingoblitz.com
+rbakeri.news02.bingoblitz.com
+rdns1o.news02.bingoblitz.com
+redir.news02.bingoblitz.com
+redirectm.news02.bingoblitz.com
+redirectora.news02.bingoblitz.com
+refers.news02.bingoblitz.com
+regionm.lab.news02.bingoblitz.com
+repo-supporte.v3.news02.bingoblitz.com
+repo-v3a.news02.bingoblitz.com
+repoprofilesq.news02.bingoblitz.com
+repos.news02.bingoblitz.com
+research.bingoblitz.com
+resetdata-scm.control.news02.bingoblitz.com
+resetdatacontrole.confluence.news02.bingoblitz.com
+ru.bingoblitz.com
+rush2-qa-wwwi.news02.bingoblitz.com
+rz.bingoblitz.com
+s.bingoblitz.com
+safeframe.bingoblitz.com
+sandbox.bingoblitz.com
+sandbox.control.jenkins.news02.bingoblitz.com
+sandboxpageq.news02.bingoblitz.com
+scfvy.news02.bingoblitz.com
+scm.bingoblitz.com
+scmpagei.news02.bingoblitz.com
+searchgatewayu.news02.bingoblitz.com
+searchq.news02.bingoblitz.com
+searchq.us.news02.bingoblitz.com
+sec.0.news02.bingoblitz.com
+server38o.news02.bingoblitz.com
+serverw.news02.bingoblitz.com
+service.bingoblitz.com
+servicea.news02.bingoblitz.com
+services.bingoblitz.com
+signed-controli.news02.bingoblitz.com
+slapig.news02.bingoblitz.com
+sm-preprod-challenges-servicem.news02.bingoblitz.com
+sm-preprod-php-dsa-pri.news02.bingoblitz.com
+srv.bingoblitz.com
+staff-controlo.news02.bingoblitz.com
+stage.bingoblitz.com
+stage.raw.news02.bingoblitz.com
+staging-news02u.news02.bingoblitz.com
+staging.bingoblitz.com
+stagingcontrolint.news02.bingoblitz.com
+stagingtraine.news02.bingoblitz.com
+standalone-proxy-stage15u.news02.bingoblitz.com
+standalone-proxy-stage4s.news02.bingoblitz.com
+static.bingoblitz.com
+staticauthw.news02.bingoblitz.com
+statice.news02.bingoblitz.com
+statics.cdn.news02.bingoblitz.com
+stg.bingoblitz.com
+supportbeanstalkoriging.news02.bingoblitz.com
+supportw.news02.bingoblitz.com
+svcgatewaya.news02.bingoblitz.com
+svcgatewayo.auth.news02.bingoblitz.com
+svcgatewaypageo.news02.bingoblitz.com
+swaggera.docsdropcontrol.news02.bingoblitz.com
+swaggerq.staff-control.news02.bingoblitz.com
+sync.bingoblitz.com
+sys.bingoblitz.com
+system.news02.bingoblitz.com
+tdum.bingoblitz.com
+teame.news02.bingoblitz.com
+teamm.private.news02.bingoblitz.com
+teamv3-control.europe.news02.bingoblitz.com
+test-20211021.bingoblitz.com
+test-20211021.bingoblitz.com:1.1.1.3
+test.bingoblitz.com
+testazurev3e.news02.bingoblitz.com
+testi.news02.bingoblitz.com
+testq.redirector.news02.bingoblitz.com
+testserver-controlg.control.news02.bingoblitz.com
+thumbs2w.news02.bingoblitz.com
+toolbarlegacyq.news02.bingoblitz.com
+toolbaro.news02.bingoblitz.com
+toolbarq.control.github.news02.bingoblitz.com
+tpe.engineering.news02.bingoblitz.com
+track.bingoblitz.com
+track.news.bingoblitz.com
+track.news.bingoblitz.com:spgo.io
+trainingc.news02.bingoblitz.com
+trainingcontroli.proxy.news02.bingoblitz.com
+trainv1m.v3.news02.bingoblitz.com
+trialcontrolw.confluence.news02.bingoblitz.com
+trialm.private.news02.bingoblitz.com
+trialv3q.news02.bingoblitz.com
+trs-cdn.bingoblitz.com:akm-dsa-prod-pltk.edgesuite.net
+u.bingoblitz.com
+uat.bingoblitz.com
+us-tomcatq.v3.news02.bingoblitz.com
+us.bingoblitz.com
+v2-mail-v3s.news02.bingoblitz.com
+v2w.lab.v3.news02.bingoblitz.com
+v3-loginy.news02.bingoblitz.com
+v3-v3server.news02.bingoblitz.com
+v3.controlv1.news02.bingoblitz.com
+v3.news02.bingoblitz.com
+v3.us.dev.news02.bingoblitz.com
+v3i.control.fw.news02.bingoblitz.com
+v3serveru.news02.news02.bingoblitz.com
+vip.bingoblitz.com:12.9.242.30
+vip.bingoblitz.com:aspmx.l.google.com
+voyagesi.news02.bingoblitz.com
+vpn.bingoblitz.com
+w3-v2q.news02.bingoblitz.com
+wahyuaroesg.news02.bingoblitz.com
+web.bingoblitz.com
+webaccw.news02.bingoblitz.com
+webapp-ghphpo.news02.bingoblitz.com
+webapp.news02.bingoblitz.com
+webapporgo.news02.bingoblitz.com
+webapporiginc.news02.bingoblitz.com
+webappproxyu.news02.bingoblitz.com
+wsop-stage45.news02.bingoblitz.com
+wsop-stage50.news02.bingoblitz.com
+www-dev-lax.news02.bingoblitz.com
+www-deva.news02.bingoblitz.com
+www-devy.bingoblitz.com
+www-test.bingoblitz.com
+www-testinternal.news02.bingoblitz.com
+x.bingoblitz.com
+xb.bingoblitz.com
+xtra.bingoblitz.com
+yandexc.news02.bingoblitz.com
+za.bingoblitz.com
+
+[*] Performing SecurityScorecard scan...
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+An exception has occurred in SecurityScorecard scanning: 
+[!] Missing API key for SecurityScorecard. 
+
+[*] Performing BuiltWith scan...
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+
+[!] Missing API key for BuiltWith. 
