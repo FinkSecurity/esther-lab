@@ -390,6 +390,106 @@ curl -sk -I https://money.x.com
 
 ---
 
+## WHEN NUCLEI FINDS NOTHING — WHAT TO DO NEXT
+
+Zero nuclei findings does not mean zero attack surface. It means the visible
+surface is hardened. Think about what's behind or beside the hardened surface.
+
+### WAF / CDN Detection
+```bash
+# Detect Akamai, Cloudflare, Fastly, etc.
+curl -sI https://<target> | grep -iE 'server|x-cache|cf-ray|akamai|via|x-amz'
+
+# If WAF detected — do NOT keep hammering the WAF-protected surface.
+# Pivot to: origin IPs, staging, internal, mobile APIs, non-CDN subdomains.
+```
+
+### WAF Bypass Thinking
+When a target is behind Akamai/Cloudflare/Fastly:
+- The WAF protects the front door — look for the back door
+- Staging and dev subdomains often bypass WAF (`dev.`, `staging.`, `api-dev.`, `internal.`)
+- Mobile app APIs sometimes hit origin directly (check APK/IPA for hardcoded endpoints)
+- Look for IP ranges in Shodan/Censys that belong to the company but aren't CDN-fronted
+- Historical DNS records may reveal origin IPs (SecurityTrails, PassiveDNS)
+
+### Staging & Dev Infrastructure (High Value)
+Staging infrastructure is consistently weaker than production:
+- Weaker auth (basic auth, hardcoded test credentials)
+- Debug endpoints left open (`/debug`, `/admin`, `/internal`, `/_debug`)
+- Verbose error messages with stack traces
+- Less restrictive CORS
+- Older software versions with known CVEs
+- Sometimes directly accessible without WAF
+
+```bash
+# Find staging/dev subdomains from existing harvester data
+grep -iE 'staging|dev|test|uat|qa|preprod|internal|beta' \
+  ~/esther-lab/engagements/public/<program>/findings/httpx-*.txt
+
+# Check if they bypass WAF (different server header = origin exposed)
+curl -sI https://staging.<domain> | grep -i server
+curl -sI https://dev.<domain> | grep -i server
+```
+
+### Shodan — Find Origin IPs Behind WAF
+```bash
+# Search for company infrastructure not behind CDN
+# Requires SHODAN_API_KEY environment variable
+shodan search "org:<company name>" --fields ip_str,port,hostnames | head -30
+shodan search "ssl:<domain>" --fields ip_str,port,hostnames | head -30
+
+# Direct IP hit — bypasses WAF if origin IP found
+curl -sk -H "Host: <target-domain>" https://<origin-ip>/
+```
+
+### Certificate Transparency — Find Hidden Infrastructure
+```bash
+# crt.sh finds ALL certs ever issued for a domain — including internal ones
+curl -s "https://crt.sh/?q=%25.<domain>&output=json" \
+  | jq -r '.[].name_value' \
+  | sed 's/\*\.//g' \
+  | sort -u \
+  | grep -v '^<domain>$' \
+  > ~/esther-lab/engagements/public/<program>/findings/crtsh-<domain>.txt
+
+# Look for internal-sounding names in the cert transparency output
+grep -iE 'internal|staging|dev|admin|corp|intra|vpn|jenkins|jira|confluence|gitlab' \
+  ~/esther-lab/engagements/public/<program>/findings/crtsh-<domain>.txt
+```
+
+### Credential & Leak Intelligence
+```bash
+# Check for exposed credentials in public paste/leak sources
+# Use with caution — passive only, no credential stuffing
+
+# GitHub dorks for company secrets
+# Search GitHub for: org:<company> password OR api_key OR secret
+# Search GitHub for: <domain> password OR token
+
+# Check if company emails appear in breach data
+# Use HIBP API (Have I Been Pwned) — passive, no account needed
+curl -s "https://haveibeenpwned.com/api/v3/breachedaccount/<email>" \
+  -H "hibp-api-key: $HIBP_API_KEY"
+```
+
+### Mobile App Analysis (when web surface is hardened)
+When all web endpoints are WAF-protected, mobile apps often expose:
+- Hardcoded API endpoints that bypass WAF
+- Internal API keys or tokens in the binary
+- Debug endpoints only accessible via mobile app User-Agent
+- Certificate pinning bypass opportunities
+
+```bash
+# If APK available — extract strings looking for endpoints/keys
+strings <app.apk> | grep -iE 'https?://|api_key|token|secret|password' | sort -u
+
+# Try mobile User-Agent on web endpoints
+curl -sk -A "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)" \
+  https://<target>/api/v1/user
+```
+
+---
+
 ## ESTHER STARTUP SEQUENCE FOR EVERY ENGAGEMENT
 
 ```bash
