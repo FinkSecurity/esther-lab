@@ -1,0 +1,322 @@
+2026-03-16 02:42:09,359 - theHarvester.discovery.hudsonrocksearch - INFO - Starting Hudson Rock processing for: houseoffun.com
+2026-03-16 02:42:09,359 - theHarvester.discovery.hudsonrocksearch - INFO - Starting Hudson Rock search for: houseoffun.com
+2026-03-16 02:42:15,755 - theHarvester.discovery.hudsonrocksearch - INFO - Domain statistics: 51 total compromised, 0 employees, 51 users
+2026-03-16 02:42:16,756 - theHarvester.discovery.hudsonrocksearch - INFO - Hudson Rock search completed. Found 0 hosts, 0 IPs, 0 emails
+2026-03-16 02:42:16,756 - theHarvester.discovery.hudsonrocksearch - INFO - Hudson Rock processing completed successfully: 0 hosts, 0 IPs, 0 emails, 0 stealers
+Read proxies.yaml from /etc/theHarvester/proxies.yaml
+*******************************************************************
+*  _   _                                            _             *
+* | |_| |__   ___    /\  /\__ _ _ ____   _____  ___| |_ ___ _ __  *
+* | __|  _ \ / _ \  / /_/ / _` | '__\ \ / / _ \/ __| __/ _ \ '__| *
+* | |_| | | |  __/ / __  / (_| | |   \ V /  __/\__ \ ||  __/ |    *
+*  \__|_| |_|\___| \/ /_/ \__,_|_|    \_/ \___||___/\__\___|_|    *
+*                                                                 *
+* theHarvester 4.10.1                                             *
+* Coded by Christian Martorella                                   *
+* Edge-Security Research                                          *
+* cmartorella@edge-security.com                                   *
+*                                                                 *
+*******************************************************************
+
+[*] Target: houseoffun.com 
+
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Failed to process bevigil search for word: 'houseoffun.com'
+Error Message: 
+[!] Missing API key for bevigil. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+
+[!] Missing API key for Bitbucket. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Failed to process bufferoverun search for word: 'houseoffun.com'
+Error Message: 
+[!] Missing API key for bufferoverun. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Failed to perform BuiltWith search for word: 'houseoffun.com'
+A Missing Key Error occurred in builtwith: 
+[!] Missing API key for BuiltWith. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Failed to process brave search for word: 'houseoffun.com'
+Error Message: 
+[!] Missing API key for Brave Search. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Censys API key is missing or invalid: 
+[!] Missing API key for Censys ID and/or Secret. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing key error occurred in criminalip: 
+[!] Missing API key for criminalip. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in dehashed: 
+[!] Missing API key for Dehashed. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+
+[!] Missing API key for DNSDumpster. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in fullhunt: 
+[!] Missing API key for fullhunt. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Error initializing SearchGithubCode: 
+[!] Missing API key for Github. 
+A Missing Key error occurred in github-code: 
+[!] Missing API key for Github. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+
+[!] Missing API key for HaveIBeenPwned. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in Hunter: 
+[!] Missing API key for Hunter. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in Hunter How: 
+[!] Missing API key for hunterhow. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in intelx: 
+[!] Missing API key for Intelx. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in Netlas: 
+[!] Missing API key for netlas. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Unexpected error occurred in Onyphe module: 
+[!] Missing API key for onyphe. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in PentestTools search: 
+[!] Missing API key for PentestTools. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in ProjectDiscovery: 
+[!] Missing API key for ProjectDiscovery. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in RocketReach: 
+[!] Missing API key for RocketReach. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+
+[!] Missing API key for SecurityScorecard. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred Security Trails: 
+[!] Missing API key for Securitytrail. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in Shodan search: 
+[!] Missing API key for Shodan. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in Tomba: 
+[!] Missing API key for Tomba Key and/or Secret. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in venacus search: 
+[!] Missing API key for Venacus. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in virustotal search: 
+[!] Missing API key for virustotal. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in whoisxml search: 
+[!] Missing API key for whoisxml. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+A Missing Key error occurred in zoomeye: 
+[!] Missing API key for zoomeye. 
+	Searching results.
+[*] Searching Certspotter. 
+[*] Searching Chaos. 
+[*] Searching Baidu. 
+[*] Searching CRTsh. 
+[*] Searching Duckduckgo. 
+[*] Searching Fofa. 
+[*] Searching Hackertarget. 
+[*] Searching Gitlab. 
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+[*] Searching Hudsonrock. 
+[*] Searching Leaklookup. 
+[*] Searching Commoncrawl. 
+[*] Searching Otx. 
+[*] Searching Rapiddns. 
+[*] Searching Robtex. 
+[*] Searching Subdomaincenter. 
+[*] Searching Thc. 
+[*] Searching Threatcrowd. 
+[*] Searching Subdomainfinderc99. 
+[*] Searching Urlscan. 
+[*] Windvane API key not found. Using limited unauthenticated access.
+[*] Searching Windvane. 
+[*] Searching Yahoo. 
+[*] Searching Waybackarchive. 
+[*] Searching Leakix. 
+
+[*] ASNS found: 6
+--------------------
+AS13335
+AS14618
+AS16276
+AS16509
+AS20940
+AS48254
+
+[*] Interesting Urls found: 4
+--------------------
+https://www.houseoffun.com/
+https://www.houseoffun.com//action//
+https://www.houseoffun.com/es-mx/
+https://www.houseoffun.com/play-now/
+
+[*] No LinkedIn users found.
+
+
+
+[*] LinkedIn Links found: 0
+---------------------
+
+[*] IPs found: 51
+-------------------
+108.131.230.221
+108.132.80.203
+146.59.58.167
+172.67.160.71
+18.202.62.111
+184.24.77.161
+185.151.30.214
+192.185.46.41
+2600:1413:a000::17ca:21d3
+2600:1f18:16e:df02::64
+2600:1f18:16e:df02::65
+2a02:26f0:10::5c7a:d5d1
+2a02:26f0:11a::217:9a50
+2a02:26f0:3500:16::215:1486
+2a02:26f0:3500:16::215:148e
+2a02:26f0:3500:16::215:14a0
+2a02:26f0:480:f::213:7ec8
+2a02:26f0:480:f::213:7ed2
+2a02:26f0:6c00::210:ba19
+2a02:26f0:9400::5f65:86a1
+2a02:26f0:de::217:9b48
+2a05:d014:275:cb00::c8
+2a05:d014:275:cb01::c8
+2a05:d014:275:cb02::c8
+2a05:d014:58f:6201::64
+2a05:d014:58f:6201::65
+34.242.42.135
+34.246.127.173
+34.247.129.201
+34.248.152.75
+34.251.237.206
+34.253.124.120
+34.253.50.87
+34.254.106.70
+34.255.39.205
+35.157.26.135
+46.137.144.178
+52.16.108.97
+52.18.72.99
+52.19.188.68
+52.203.164.199
+52.211.53.115
+52.215.177.48
+54.154.220.147
+54.155.49.81
+54.78.73.153
+63.176.8.218
+63.34.161.168
+63.34.95.250
+63.35.75.149
+99.80.62.197
+
+[*] No emails found.
+
+[*] No people found.
+
+[*] Hosts found: 82
+---------------------
+*.houseoffun.com
+2.houseoffun.com
+222.houseoffun.com
+222q.houseoffun.com
+227.houseoffun.com
+227q.houseoffun.com
+29.houseoffun.com
+52.houseoffun.com
+87.houseoffun.com
+aa.houseoffun.com
+ad.houseoffun.com
+admin.houseoffun.com
+api-dev.houseoffun.com:akm-dsa-preprod-pltk.edgesuite.net
+api.houseoffun.com
+backoffice-ca1.houseoffun.com:10.129.21.60
+backoffice.houseoffun.com
+backoffice.houseoffun.com:backoffice-ca1.houseoffun.com
+blog.houseoffun.com
+blog9.houseoffun.com
+bong-ca1.houseoffun.com:10.129.7.139
+bong.houseoffun.com:bong-ca1.houseoffun.com
+cc.houseoffun.com
+cdn.houseoffun.com
+cdny.houseoffun.com
+chem.houseoffun.com
+chema.houseoffun.com
+ci.houseoffun.com
+cloud.houseoffun.com
+cloude.houseoffun.com
+co.houseoffun.com
+com.houseoffun.com
+comc.houseoffun.com
+corp.houseoffun.com
+corp9.houseoffun.com
+cs.houseoffun.com
+demo.houseoffun.com
+demo9.houseoffun.com
+dev.houseoffun.com
+deva.houseoffun.com
+dhcp.houseoffun.com
+dhcps.houseoffun.com
+dsl.houseoffun.com
+dsl7.houseoffun.com
+ece.houseoffun.com
+ee.houseoffun.com
+elb.houseoffun.com
+elb7.houseoffun.com
+en.houseoffun.com
+eng.houseoffun.com
+eng7.houseoffun.com
+eqowaxisauezwjnrr7vhxu13yjtsm5cyhtdlv4kb.houseoffun.com
+files.houseoffun.com
+filesu.houseoffun.com
+fls.houseoffun.com
+fls7.houseoffun.com
+fr.houseoffun.com
+hbw1kdutojcwnli5pvdeuartg8fhnygmvjzpezly.houseoffun.com
+hof-akm.houseoffun.com
+hof-akm.houseoffun.com:akm-dsa-prod-pltk.edgesuite.net
+n.houseoffun.com
+pub.houseoffun.com
+qa.houseoffun.com
+stage.houseoffun.com
+static.houseoffun.com
+tech-ca1.houseoffun.com
+tech-ca1.houseoffun.com:185.16.91.127
+tech-preprod.houseoffun.com:91.235.107.87
+tech-va2.houseoffun.com:185.16.89.107
+tech.houseoffun.com
+tech.houseoffun.com:tech-ca1.houseoffun.com
+techi.houseoffun.com
+test.houseoffun.com
+uk.houseoffun.com
+vipplus-akm.houseoffun.com:akm-dsa-prod-pltk.edgesuite.net
+vipplus.houseoffun.com
+vipplus.houseoffun.com:23.219.36.105
+vipplus.houseoffun.com:akm-dsa-prod-pltk.edgesuite.net
+vipplus.houseoffun.com:vipplus.edgesuite.net
+vipplus.houseoffun.com:vipplus.edgesuite.net.
+vpn.houseoffun.com
+wwwc.vipplus.houseoffun.com
+wwwo.houseoffun.com
+
+[*] Performing SecurityScorecard scan...
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+An exception has occurred in SecurityScorecard scanning: 
+[!] Missing API key for SecurityScorecard. 
+
+[*] Performing BuiltWith scan...
+Read api-keys.yaml from /etc/theHarvester/api-keys.yaml
+
+[!] Missing API key for BuiltWith. 
