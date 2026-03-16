@@ -1,0 +1,10 @@
+{
+  "domain": "boardkingsgame.com",
+  "scan_date": "2026-03-16T02:35:00Z",
+  "tools": ["theHarvester", "amass"],
+  "hosts": [
+    "boardkingsgame.com"
+  ],
+  "emails": [],
+  "notes": "Passive recon phase - limited API keys configured. Primary domain only."
+}
