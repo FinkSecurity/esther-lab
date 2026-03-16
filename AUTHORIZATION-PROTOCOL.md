@@ -192,9 +192,9 @@ LOGGING:
 
 ---
 
-## Practical Workflow for Monday
+## Practical Workflow
 
-### When You (Adam) Request Work:
+### When Operator Requests Work:
 
 1. **Telegram message:** "Scan ClientName for [specific task]"
 2. **I verify:** Does signed contract exist? Is this in scope?
