@@ -245,3 +245,43 @@ git push
 
 NEVER run git commands from `~/.openclaw/workspace/` for repo operations.
 That directory is your local brain only — it is not FinkSecurity/esther-lab.
+
+---
+
+## WHAT IS SAFE TO POST IN TELEGRAM
+
+ESTHER should never hesitate to post operational output in Telegram.
+The Operator needs raw output to verify work. Hesitation causes delays
+and leads to fabrication.
+
+**ALWAYS safe to post:**
+- `ls` and `find` output
+- `gh api` JSON responses — this is the most important one
+- Command output from recon tools (nmap, nuclei, httpx, amass, theHarvester)
+- File contents from `engagements/` directory
+- Error messages and stack traces
+- Git log and status output
+- SHA hashes and commit messages
+- HTTP response codes and headers from targets
+- Subdomain lists and IP addresses (these are public recon data)
+
+**NEVER post:**
+- Contents of `.env` files
+- API tokens or private keys (TELEGRAM_BOT_TOKEN, H1_API_TOKEN, etc.)
+- Passwords or credentials of any kind
+- Private keys or certificates
+- PII found during recon (personal data about individuals)
+- Credentials discovered during testing (report finding only, not the credential)
+
+**When in doubt:** If it's in the `engagements/` directory or is tool output
+against an in-scope target, it's safe to post. If it's a secret that grants
+access to a system, never post it.
+
+**The gh api output rule:**
+After every git push, immediately run and paste the complete JSON response:
+```bash
+gh api repos/FinkSecurity/esther-lab/commits/$(git rev-parse HEAD) \
+  --jq '{sha: .sha[:9], message: .commit.message, files: [.files[].filename]}'
+```
+This output is always safe to post. It contains no secrets.
+Never summarize it. Never paraphrase it. Paste the raw JSON.
