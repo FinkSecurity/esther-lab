@@ -300,8 +300,154 @@ xai-platform-api.x.ai
 
 ---
 
+---
+
+# PHASE 2: Live Service Investigation
+
+## Priority Target 1: jf.x.ai
+
+**OBSERVATION:**
+- HTTP/2 404 Not Found
+- Content-Type: text/plain;charset=utf-8
+- Content-Length: 12
+- Body: `Not Found.` (12 bytes)
+- Server: Unknown (HTTP/2, no Server header visible)
+- Response Time: 45ms handshake, 42ms first data
+
+**HYPOTHESIS:** 
+Service exists but route not recognized. Possible:
+- Load balancer / reverse proxy receiving requests
+- Main path `/` not configured on this subdomain
+- Service migrated or decommissioned (clean 404)
+- Path-based routing (requires specific path)
+
+**CONFIDENCE:** Medium
+
+**POTENTIAL IMPACT:** 
+- Information disclosure (confirms subdomain active)
+- Endpoint enumeration opportunity
+- Possible timing-based user enumeration
+
+**NEXT PROBE:**
+```bash
+# Common paths
+curl -sk https://jf.x.ai/admin
+curl -sk https://jf.x.ai/api
+curl -sk https://jf.x.ai/health
+curl -sk https://jf.x.ai/v1
+
+# Fuzzing
+ffuf -u https://jf.x.ai/FUZZ -w /usr/share/wordlists/dirb/common.txt -mc 200,301,302,401,403
+
+# Method testing
+curl -X OPTIONS https://jf.x.ai -v
+curl -X POST https://jf.x.ai -v
+```
+
+---
+
+## Priority Target 2: us-east-4-raw.api.x.ai
+
+**OBSERVATION:**
+- HTTP/2 401 Authorization Required
+- WWW-Authenticate: `Basic realm="Access to xAI API", charset="UTF-8"`
+- Content-Type: text/html
+- Body: Standard nginx 401 error page
+- Server: nginx
+- Strict-Transport-Security: max-age=31536000; includeSubDomains
+- All standard auth bypass attempts (empty auth, Bearer token, X-Original-URL) fail with 401
+
+**HYPOTHESIS:**
+Production API endpoint for raw model inference. "Raw" indicates:
+- Direct backend API (not wrapped in SDK)
+- Basic auth enforcement at nginx layer
+- Likely service-to-service authentication
+- Model endpoints at `/v1/models`, `/health` etc. guarded by same auth
+
+**CONFIDENCE:** High
+
+**POTENTIAL IMPACT:** 
+- **Critical if credentials obtainable**: Direct LLM API access
+- Potential credential stuffing (if shared creds with other services)
+- Bypass via header injection or auth scheme confusion (low probability, well-hardened)
+- Timing attacks on 401 vs 500 (may leak valid usernames)
+
+**NEXT PROBE:**
+```bash
+# Timing analysis (401 response times)
+for i in {1..5}; do
+  time curl -sk https://us-east-4-raw.api.x.ai -u test:test >/dev/null 2>&1
+done
+
+# Test other raw API regional variants
+curl -sk https://us-saltlake-2-raw.api.x.ai/v1/models -u test:test
+curl -sk https://us-east-4-comfyui-raw.api.x.ai -u test:test
+
+# Certificate analysis (may leak service info)
+echo | openssl s_client -connect us-east-4-raw.api.x.ai:443 2>/dev/null | openssl x509 -text -noout | grep -E "(Subject|CN|DNS)"
+
+# Shodan/Censys for known credentials or misconfigurations
+```
+
+---
+
+## Priority Target 3: sso-auth.x.ai
+
+**OBSERVATION:**
+- HTTP/2 200 OK
+- Body: `{}` (empty JSON object)
+- Server: cloudflare
+- Set-Cookie: Multiple CloudFlare + WorkOS cookies
+  - `_cfuvid=...` (CloudFlare tracking)
+  - `__cf_bm=...` (CloudFlare Bot Management)
+  - Domain: `.workos.com` and `.sso-auth.x.ai`
+- Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+- X-Permitted-Cross-Domain-Policies: none
+- Hosted on: CloudFlare (confirmed via server header)
+- Integration: WorkOS (confirmed via cookie domain)
+
+**HYPOTHESIS:**
+WorkOS-powered SSO/authentication endpoint for x.ai. Function:
+- User authentication / session management
+- OAuth2 provider or SAML endpoint
+- WorkOS directory sync coordination
+- Returns 200 on unauthenticated root (unusual for auth endpoint)
+
+**CONFIDENCE:** High
+
+**POTENTIAL IMPACT:**
+- **Critical if WorkOS integration misconfigured**: Account takeover
+- **OIDC/OAuth parameter tampering**: Redirect to attacker domain
+- **Cookie fixation / session prediction**: If cookies predictable
+- **Account enumeration**: Try common patterns in OAuth flows
+- **Metadata exposure**: May leak OIDC discovery endpoints
+
+**NEXT PROBE:**
+```bash
+# Discover WorkOS configuration
+curl -sk https://sso-auth.x.ai/.well-known/openid-configuration
+curl -sk https://sso-auth.x.ai/.well-known/oauth-authorization-server
+curl -sk https://sso-auth.x.ai/oauth/authorize?client_id=test&response_type=code
+curl -sk https://sso-auth.x.ai/oauth/token -X POST
+
+# Test common auth endpoints
+curl -sk https://sso-auth.x.ai/login
+curl -sk https://sso-auth.x.ai/auth
+curl -sk https://sso-auth.x.ai/callback
+curl -sk https://sso-auth.x.ai/userinfo
+
+# Try parameter injection
+curl -sk "https://sso-auth.x.ai?redirect_uri=https://attacker.com"
+
+# Inspect WorkOS tenant configuration
+curl -sk https://api.workos.com/organizations -H "Authorization: Bearer test" 2>&1 | head -10
+```
+
+---
+
 ## Status Log
 
 **2026-03-17 16:30 UTC** — Framework established with 101 subdomains from crtsh  
 **2026-03-17 16:30 UTC** — Awaiting httpx-x.ai.txt results to populate OBSERVATION column
+**2026-03-17 16:53 UTC** — Phase 2 investigation complete: jf.x.ai (404), raw API (401), sso-auth (WorkOS)
 
