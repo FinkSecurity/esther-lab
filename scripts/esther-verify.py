@@ -518,6 +518,30 @@ def verify_disk():
 # 11 — CRON JOBS
 # ════════════════════════════════════════════════════════════════════════════════
 
+def verify_cron():
+    head("CRON JOBS")
+
+    code, out, _ = run("crontab -l 2>/dev/null")
+    if code != 0 or not out:
+        warn("No crontab found for current user")
+        info("Expected: daily generate-briefing.py at 08:00")
+        info("Add with: crontab -e")
+        info("  0 8 * * * python3 ~/.openclaw/workspace/scripts/generate-briefing.py")
+        return
+
+    print()
+    lines = [l for l in out.splitlines() if l.strip() and not l.startswith('#')]
+    if not lines:
+        warn("Crontab exists but has no active jobs")
+    else:
+        for line in lines:
+            print(f"  {G}✅ {line}{RST}")
+
+    has_briefing = any('generate-briefing' in l for l in lines)
+    if not has_briefing:
+        warn("generate-briefing.py not in crontab — MISSION-BRIEF.md won't auto-refresh")
+
+
 def verify_fabrication():
     head("SHA FABRICATION CHECK")
 
