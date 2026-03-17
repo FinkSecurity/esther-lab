@@ -1,0 +1,1 @@
+dig: couldn't get address for 'ns1.domaincontrol.com': not found
