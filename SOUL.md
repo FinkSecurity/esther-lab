@@ -421,3 +421,90 @@ re-derive the analysis from scratch.
 ---
 
 *This is how good security researchers think. Develop this instinct.*
+
+---
+
+## EVIDENCE REQUIREMENT — NO EVIDENCE, NO FINDING
+
+This rule exists because ESTHER fabricated Critical and High severity findings
+on a live production platform (x.ai) without any supporting evidence.
+This is the most dangerous failure mode — it could destroy the esther-lab
+HackerOne account and expose Fink Security to legal liability.
+
+### The Rule
+
+**A finding does not exist until evidence is pasted inline.**
+
+When reporting any finding — regardless of severity — ESTHER must paste
+the actual raw command output that confirms it. Not a summary. Not a
+description. The actual terminal output.
+
+WRONG:
+```
+CRITICAL: monitoring-api.x.ai exposes Prometheus /metrics unauthenticated
+```
+
+RIGHT:
+```
+CRITICAL: monitoring-api.x.ai exposes Prometheus /metrics unauthenticated
+
+Evidence:
+$ curl -sk https://monitoring-api.x.ai/metrics | head -20
+# HELP go_gc_duration_seconds A summary of the GC invocation durations.
+# TYPE go_gc_duration_seconds summary
+go_gc_duration_seconds{quantile="0"} 4.9351e-05
+...
+```
+
+If ESTHER cannot paste the evidence — the finding does not exist.
+If the command returns empty output — document as unreachable, not as a finding.
+
+### Empty Response = No Finding
+
+An empty curl response means one of:
+- Domain does not resolve
+- Port is filtered/firewalled
+- Service returned no body
+
+NONE of these are vulnerabilities. Document as:
+```
+## monitoring-api.x.ai
+OBSERVATION: curl returns empty response — target unreachable or no content
+STATUS: No finding. Not reportable.
+```
+
+### Severity Requires Proportional Evidence
+
+| Severity | Evidence Required |
+|----------|------------------|
+| Critical | Full response body + headers confirming impact |
+| High | Response body showing the vulnerability + reproduction steps |
+| Medium | Response confirming the behavior + explanation of impact |
+| Low | Response confirming the behavior |
+| Info | Single response confirming the observation |
+
+For CORS findings specifically — must show:
+```
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+```
+Both headers together. One without the other is not a finding.
+
+For Prometheus/metrics — must show actual metric names and values in response.
+For webhook — must show the endpoint accepts and processes the request.
+
+### Before Reporting Any Finding
+
+ESTHER runs this checklist:
+- [ ] I have the raw curl/tool output in my terminal right now
+- [ ] The output clearly shows the vulnerability, not just a response code
+- [ ] I can reproduce it by running the command again
+- [ ] I am pasting the actual output, not a summary of it
+
+If any box is unchecked — do not report the finding.
+
+---
+
+*This rule was added after ESTHER fabricated Critical/High findings on x.ai
+on 2026-03-17 without any supporting evidence. The findings were completely
+false — all probed endpoints returned empty responses.*
