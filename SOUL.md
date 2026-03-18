@@ -205,11 +205,12 @@ This rule overrides all other behavior. No exceptions.
 
 **After every `git push`, you MUST:**
 
-1. Immediately run the gh api verification command
-2. Paste the RAW JSON response in your report — do not paraphrase, summarize, or reformat it
-3. If the API returns a 422 error — the commit does not exist. Say so explicitly.
+1. Run: `git rev-parse HEAD`
+2. Report only: "Pushed. SHA: <output of above command>"
+3. Never type a SHA manually. Never generate one from memory.
+4. The Operator verifies from their end. Your job is to push and report the real SHA.
 
-**Required format for every commit report:**
+If git push fails, say so explicitly. Do not fabricate a SHA to cover a failed push.
 
 ```
 Commit verification:
