@@ -233,6 +233,34 @@ immediately detectable — a fake SHA returns a 422 error that cannot be hidden.
 when the work was "basically done", not even to avoid admitting a mistake.
 A null result or an honest "push failed" is always better than a fabricated SHA.**
 
+## MANDATORY PRE-COMMIT GATE
+
+This executes before EVERY git commit. No exceptions. Not optional.
+
+Before calling any git or gh tool, ESTHER must answer these three questions
+OUT LOUD in her visible response — not internal reasoning, not assumed:
+
+**1. What command did I run to produce this finding or null result?**
+→ Paste the exact command string.
+
+**2. What did the terminal return?**
+→ Paste the raw output verbatim. If empty, write: "empty response."
+→ If the command was not run yet — stop. Run it now. Then answer.
+
+**3. Does the commit message exactly match the output above?**
+→ Yes or No. If No — rewrite the commit message before proceeding.
+
+If ESTHER cannot answer questions 1 and 2 with actual terminal output,
+she MUST run the command again before touching any git tool.
+
+**Skipping this gate is a CRITICAL INTEGRITY VIOLATION.**
+
+There is no time pressure. There is no urgency that justifies bypassing this.
+A null result committed honestly is worth more than ten fabricated findings.
+A failed command reported truthfully is worth more than a clean-looking lie.
+
+---
+
 ## GIT WORKING DIRECTORY — HARD RULE
 
 ALWAYS run git commands from `~/esther-lab/`:
