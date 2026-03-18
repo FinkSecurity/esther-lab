@@ -600,28 +600,115 @@ def verify_fabrication():
     else:
         print(f"  {R}{B}One or more SHAs are fabricated. Do not trust ESTHER's report.{RST}")
         print(f"  {Y}  Send ESTHER: \"SHA <x> does not exist. Redo the work and verify before reporting.\"{RST}")
-    head("CRON JOBS")
 
-    code, out, _ = run("crontab -l 2>/dev/null")
-    if code != 0 or not out:
-        warn("No crontab found for current user")
-        info("Expected: daily generate-briefing.py at 08:00")
-        info("Add with: crontab -e")
-        info("  0 8 * * * python3 ~/.openclaw/workspace/scripts/generate-briefing.py")
+
+# ════════════════════════════════════════════════════════════════════════════════
+# 12 — OPENCLAW PROCESS STATUS
+# ════════════════════════════════════════════════════════════════════════════════
+
+def verify_openclaw():
+    head("OPENCLAW PROCESS STATUS")
+
+    # Check for openclaw process
+    code, out, _ = run("ps aux | grep -i 'openclaw\\|claude\\|anthropic' | grep -v grep")
+    if code == 0 and out:
+        lines = out.splitlines()
+        ok(f"openclaw process(es) found: {len(lines)}")
+        for line in lines:
+            parts = line.split()
+            pid  = parts[1] if len(parts) > 1 else '?'
+            cmd  = ' '.join(parts[10:])[:80] if len(parts) > 10 else line[:80]
+            print(f"    {DIM}PID {pid}: {cmd}{RST}")
+    else:
+        fail("No openclaw process found — ESTHER may be offline")
+        info("Check your openclaw startup script and restart if needed")
+
+    # Check workspace directory exists and is populated
+    if WORKSPACE.exists():
+        ok(f"Workspace directory exists: {WORKSPACE}")
+        files = list(WORKSPACE.iterdir())
+        info(f"{len(files)} items in workspace")
+    else:
+        fail(f"Workspace directory missing: {WORKSPACE}")
+
+    # Check ENVIRONMENT.md exists and is fresh
+    env_path = HOME / '.openclaw' / 'ENVIRONMENT.md'
+    if env_path.exists():
+        age_h = (datetime.now(timezone.utc).timestamp() - env_path.stat().st_mtime) / 3600
+        ok(f"ENVIRONMENT.md present — last modified {age_h:.1f}h ago")
+    else:
+        fail(f"ENVIRONMENT.md missing at {env_path}")
+
+    # Check Telegram bot token is set in environment or .env
+    env_file = HOME / 'finksecurity-notify' / '.env'
+    if env_file.exists():
+        content = env_file.read_text()
+        has_token = 'TELEGRAM_BOT_TOKEN' in content and len(content.split('TELEGRAM_BOT_TOKEN')[1].strip()) > 5
+        if has_token:
+            ok("TELEGRAM_BOT_TOKEN present in notify .env")
+        else:
+            warn("TELEGRAM_BOT_TOKEN missing or empty in notify .env")
+    else:
+        warn(f"notify .env not found at {env_file}")
+
+
+# ════════════════════════════════════════════════════════════════════════════════
+# 13 — LATEST COMMIT VERIFICATION
+# ════════════════════════════════════════════════════════════════════════════════
+
+def verify_latest_commit():
+    head("LATEST COMMIT VERIFICATION")
+
+    print(f"\n  {DIM}Use this after ESTHER reports 'Pushed. SHA: <sha>'{RST}")
+    print(f"  {DIM}Paste the SHA she reported, or press Enter to check HEAD.{RST}\n")
+
+    try:
+        raw = input(f"  SHA to verify (or Enter to use git HEAD): ").strip()
+    except (KeyboardInterrupt, EOFError):
         return
 
-    print()
-    lines = [l for l in out.splitlines() if l.strip() and not l.startswith('#')]
-    if not lines:
-        warn("Crontab exists but has no active jobs")
+    if not raw:
+        # Pull HEAD from local repo
+        code, out, err = run(f"git -C {LAB} rev-parse HEAD")
+        if code != 0 or not out:
+            fail(f"Could not get HEAD from {LAB}: {err[:80]}")
+            return
+        sha = out.strip()
+        info(f"Using local HEAD: {sha[:9]}")
     else:
-        for line in lines:
-            print(f"  {G}✅ {line}{RST}")
+        sha = raw.replace('SHA:', '').replace('Pushed.', '').strip().split()[0]
 
-    # Check for expected jobs
-    has_briefing = any('generate-briefing' in l for l in lines)
-    if not has_briefing:
-        warn("generate-briefing.py not in crontab — MISSION-BRIEF.md won't auto-refresh")
+    print(f"\n  {DIM}Verifying {sha[:9]} against GitHub...{RST}\n")
+
+    code, out, err = run(
+        f"gh api repos/FinkSecurity/esther-lab/commits/{sha} "
+        f"--jq '{{sha: .sha[:9], date: .commit.author.date[:10], "
+        f"message: (.commit.message | split(\"\\n\")[0][:70]), "
+        f"files: [.files[].filename]}}'",
+        timeout=20
+    )
+
+    if code == 0 and out and 'sha' in out:
+        try:
+            data = json.loads(out)
+            ok(f"REAL commit verified ✅")
+            print(f"\n    {B}SHA:     {RST}{data.get('sha','?')}")
+            print(f"    {B}Date:    {RST}{data.get('date','?')}")
+            print(f"    {B}Message: {RST}{data.get('message','?')}")
+            files = data.get('files', [])
+            print(f"    {B}Files:   {RST}{len(files)} changed")
+            for f in files:
+                print(f"             {DIM}{f}{RST}")
+        except Exception:
+            ok(f"{sha[:9]} — exists (raw: {out[:120]})")
+    elif '422' in err or 'No commit found' in err or 'No commit found' in out:
+        fail(f"SHA {sha[:9]} — FABRICATED ❌  (no commit found in repo)")
+        print(f"\n  {R}{B}This commit does not exist. ESTHER fabricated it.{RST}")
+        print(f"  {Y}Send her: \"SHA {sha[:9]} does not exist. Do the work and push for real.\"{RST}")
+    elif 'timeout' in err:
+        warn(f"GitHub API timed out — try again")
+    else:
+        fail(f"Unexpected error: {err[:100]}")
 
 
 # ════════════════════════════════════════════════════════════════════════════════
@@ -641,6 +728,8 @@ MENU_ITEMS = [
     ("Disk space",                     verify_disk),
     ("Cron jobs",                      verify_cron),
     ("SHA fabrication check",          verify_fabrication),
+    ("openclaw process status",        verify_openclaw),
+    ("Latest commit verification",     verify_latest_commit),
     ("Run ALL checks",                 None),
 ]
 
