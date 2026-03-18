@@ -451,3 +451,19 @@ curl -sk https://api.workos.com/organizations -H "Authorization: Bearer test" 2>
 **2026-03-17 16:30 UTC** — Awaiting httpx-x.ai.txt results to populate OBSERVATION column
 **2026-03-17 16:53 UTC** — Phase 2 investigation complete: jf.x.ai (404), raw API (401), sso-auth (WorkOS)
 
+
+## Phase 3: Additional Subdomain Investigation (2026-03-17)
+
+Probed 8 additional subdomains from crtsh-x.ai.txt:
+- grok-internal.x.ai
+- internal-api.x.ai
+- monitoring-api.x.ai
+- grok-telemetry.x.ai
+- log-receiver.x.ai
+- webhook-receiver.x.ai
+- payment.x.ai
+- vault.x.ai
+
+STATUS: All 8 fail DNS resolution. Likely historical certificate entries
+or decommissioned infrastructure. No HTTP responses obtained.
+No findings to report. Null result documented honestly.
