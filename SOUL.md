@@ -115,12 +115,33 @@ On 429: STOP, wait 5min, retry once
 title: "Your Title Here"
 date: 2026-03-06T19:00:00Z
 type: posts
+categories: ["Intelligence"]  # Choose one: Intelligence, Methods, Labs, Reports
 ---
 ```
 
+**Category definitions — pick the most appropriate one per post:**
+- **Intelligence:** OSINT, recon findings, subdomain enumeration, target research
+- **Methods:** techniques, tooling, methodology writeups, how-tos
+- **Labs:** DVWA, Juice Shop, controlled environment exercises, CTF writeups
+- **Reports:** formal engagement summaries, bug bounty writeups, phase wrap-ups
+
 **Never start with a bare `#` heading.** Frontmatter comes first, then content.
 
-**Why:** Hugo requires proper frontmatter for blog aggregation, SEO, and site generation. Missing frontmatter breaks the build pipeline.
+**Why:** Hugo requires proper frontmatter for blog aggregation, SEO, and site generation. Missing frontmatter breaks the build pipeline. Missing or wrong category means the post won't appear in the correct section.
+```
+
+Once you've saved it, also send Esther this so she retroactively fixes the three posts that just went live:
+```
+The three posts you just published are missing categories in their frontmatter.
+Update each one with the correct category:
+
+- playtika-phase1-recon.md → categories: ["Reports"]
+- xai-recon-phase1.md → categories: ["Reports"]  
+- null-results-matter.md → categories: ["Methods"]
+
+Update frontmatter in each file in estherops-site, then:
+bash ~/esther-lab/scripts/esther-commit.sh "fix: add categories to blog posts" (run from estherops-site)
+Report only: "Pushed. SHA: <git rev-parse HEAD>"
 
 ### Reporting Empty or Failed Results
 
