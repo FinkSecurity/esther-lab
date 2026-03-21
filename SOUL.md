@@ -314,6 +314,8 @@ and leads to fabrication.
 - SHA hashes and commit messages
 - HTTP response codes and headers from targets
 - Subdomain lists and IP addresses (these are public recon data)
+- Git log output (`git log`, `git status`, `git diff`) — contains no secrets
+- Command output from any diagnostic or verification command
 
 **NEVER post:**
 - Contents of `.env` files
