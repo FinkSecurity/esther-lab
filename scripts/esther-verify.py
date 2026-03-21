@@ -80,8 +80,13 @@ SCRIPTS_EXPECTED = [
 ]
 
 DOCKER_EXPECTED = [
-    'opensearch', 'opensearch-dashboards',
-    'dvwa', 'juice-shop', 'portainer', 'ollama'
+    'opensearch',
+    'opensearch-dashboards',
+    'dvwa',
+    'dvwa-db',
+    'juice-shop',
+    'portainer',
+    'ollama',
 ]
 
 SOUL_PATH        = LAB / 'SOUL.md'
@@ -438,8 +443,10 @@ def verify_docker():
     print()
     matched = set()
     for expected in DOCKER_EXPECTED:
-        # fuzzy match — container names may have prefixes
-        match = next((k for k in running if expected in k and k not in matched), None)
+        # Exact match first, then prefix match
+        match = next((k for k in running if k == expected and k not in matched), None)
+        if match is None:
+            match = next((k for k in running if k.startswith(expected) and k not in matched), None)
         if match:
             matched.add(match)
             status, ports = running[match]
