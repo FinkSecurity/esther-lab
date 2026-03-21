@@ -52,9 +52,21 @@ NOTIFY_DIR  = HOME / 'finksecurity-notify'
 
 TOOLS = [
     'nmap', 'theHarvester', 'nikto', 'nuclei', 'ffuf', 'amass',
-    'aws', 'az', 'gcloud', 'scoutsuite',
+    'aws', 'az', 'gcloud',
     'sqlmap', 'wfuzz', 'john', 'hashcat',
-    'crackmapexec', 'msfconsole', 'hydra', 'impacket-scripts',
+    'crackmapexec', 'msfconsole', 'hydra',
+]
+
+# Tools with non-standard paths checked separately
+TOOLS_NONSTANDARD = [
+    ('scout (ScoutSuite)', [
+        Path.home() / '.local/bin/scout',
+        Path('/usr/local/bin/scout'),
+    ]),
+    ('impacket', [
+        Path('/usr/share/impacket'),
+        Path('/usr/lib/python3/dist-packages/impacket'),
+    ]),
 ]
 
 SCRIPTS_EXPECTED = [
@@ -323,7 +335,7 @@ def verify_scope():
 # ════════════════════════════════════════════════════════════════════════════════
 
 def verify_tools():
-    head("TOOL INVENTORY (18 expected)")
+    head("TOOL INVENTORY")
 
     present = []
     missing = []
@@ -335,16 +347,25 @@ def verify_tools():
         else:
             missing.append(tool)
 
-    print(f"\n  {G}Present ({len(present)}/{len(TOOLS)}):{RST}")
+    # Check non-standard path tools
+    for label, paths in TOOLS_NONSTANDARD:
+        found = next((p for p in paths if p.exists()), None)
+        if found:
+            present.append((label, str(found)))
+        else:
+            missing.append(label)
+
+    total = len(TOOLS) + len(TOOLS_NONSTANDARD)
+    print(f"\n  {G}Present ({len(present)}/{total}):{RST}")
     for tool, path in present:
-        print(f"    {G}✅ {tool:<20}{RST}  {DIM}{path}{RST}")
+        print(f"    {G}✅ {tool:<25}{RST}  {DIM}{path}{RST}")
 
     if missing:
         print(f"\n  {R}Missing ({len(missing)}):{RST}")
         for tool in missing:
             print(f"    {R}❌ {tool}{RST}")
     else:
-        print(f"\n  {G}All {len(TOOLS)} tools present ✅{RST}")
+        print(f"\n  {G}All {total} tools present ✅{RST}")
 
 
 # ════════════════════════════════════════════════════════════════════════════════
@@ -362,11 +383,12 @@ def verify_nginx():
         fail(f"nginx status: {out or 'unknown'}")
 
     # Config test
-    code, _, err = run("sudo nginx -t 2>&1")
-    if 'syntax is ok' in err or 'successful' in err:
+    code, out, err = run("sudo nginx -t 2>&1")
+    combined = (out + err).lower()
+    if 'syntax is ok' in combined and 'successful' in combined:
         ok("nginx config syntax OK")
     else:
-        fail(f"nginx config error: {err[:120]}")
+        fail(f"nginx config error: {(out + err)[:120]}")
 
     # Port 80 and 443
     for port, label in [('80', 'HTTP'), ('443', 'HTTPS')]:
@@ -414,10 +436,12 @@ def verify_docker():
             running[name] = (status, ports)
 
     print()
+    matched = set()
     for expected in DOCKER_EXPECTED:
         # fuzzy match — container names may have prefixes
-        match = next((k for k in running if expected in k), None)
+        match = next((k for k in running if expected in k and k not in matched), None)
         if match:
+            matched.add(match)
             status, ports = running[match]
             if 'Up' in status:
                 ok(f"{match:<35} {DIM}{status}{RST}")
@@ -640,16 +664,23 @@ def verify_openclaw():
         fail(f"ENVIRONMENT.md missing at {env_path}")
 
     # Check Telegram bot token is set in environment or .env
-    env_file = HOME / 'finksecurity-notify' / '.env'
-    if env_file.exists():
-        content = env_file.read_text()
-        has_token = 'TELEGRAM_BOT_TOKEN' in content and len(content.split('TELEGRAM_BOT_TOKEN')[1].strip()) > 5
-        if has_token:
-            ok("TELEGRAM_BOT_TOKEN present in notify .env")
-        else:
-            warn("TELEGRAM_BOT_TOKEN missing or empty in notify .env")
-    else:
-        warn(f"notify .env not found at {env_file}")
+    env_candidates = [
+        HOME / '.openclaw' / '.env',
+        HOME / 'finksecurity-notify' / '.env',
+    ]
+    token_found = False
+    for env_file in env_candidates:
+        if env_file.exists():
+            try:
+                content = env_file.read_text()
+            except Exception:
+                continue
+            if 'TELEGRAM_BOT_TOKEN' in content and len(content.split('TELEGRAM_BOT_TOKEN')[1].strip()) > 5:
+                ok(f"TELEGRAM_BOT_TOKEN present ({env_file})")
+                token_found = True
+                break
+    if not token_found:
+        warn("TELEGRAM_BOT_TOKEN not found in ~/.openclaw/.env or ~/finksecurity-notify/.env")
 
 
 # ════════════════════════════════════════════════════════════════════════════════
