@@ -37,28 +37,88 @@ SEVERITY_CVSS = {
     'info':     'N/A',
 }
 
-SEVERITY_KEYWORDS = {
-    'critical': ['rce', 'remote code execution', 'sql injection', 'auth bypass',
-                 'unauthenticated admin', 'full takeover', 'cvss.*9.',
-                 'cvss.*10.', 'critical'],
-    'high':     ['ssrf', 'idor', 'xxe', 'privilege escalation', 'credentials exposed',
-                 'api key', 'secret exposed', 'high severity', 'cvss.*[78].'],
-    'medium':   ['cors', 'open redirect', 'information disclosure', 'subdomain takeover',
-                 'missing security header', 'medium severity', 'cvss.*[456].'],
-    'low':      ['version disclosure', 'fingerprinting', 'low severity',
-                 'missing header', 'cvss.*[123].'],
-    'info':     ['info', 'informational', 'null result', 'nxdomain',
-                 'no finding', 'not reportable'],
+# Keywords that must appear in a severity-declaring context to count.
+# These are matched only within explicit severity/finding declaration lines,
+# not anywhere in the document (prevents recon notes from triggering).
+SEVERITY_DECLARED_PATTERNS = [
+    # Explicit severity declarations ESTHER should write in finding files
+    (r'(?:severity|rating|cvss)[:\s]+critical',    'critical'),
+    (r'(?:severity|rating|cvss)[:\s]+high',        'high'),
+    (r'(?:severity|rating|cvss)[:\s]+medium',      'medium'),
+    (r'(?:severity|rating|cvss)[:\s]+low',         'low'),
+    (r'cvss.*?(?:score)?[:\s]+(?:9\.|10\.)',       'critical'),
+    (r'cvss.*?(?:score)?[:\s]+[78]\.',             'high'),
+    (r'cvss.*?(?:score)?[:\s]+[456]\.',            'medium'),
+    (r'cvss.*?(?:score)?[:\s]+[123]\.',            'low'),
+]
+
+# Vulnerability class keywords — strong signal regardless of context
+# These are specific enough that a false positive is unlikely
+VULN_CLASS_KEYWORDS = {
+    'critical': [
+        'remote code execution', 'unauthenticated rce', 'sql injection',
+        'authentication bypass', 'unauthenticated admin access',
+        'full account takeover', 'arbitrary code execution',
+    ],
+    'high': [
+        'server-side request forgery', 'ssrf', 'insecure direct object',
+        'idor', 'xml external entity', 'xxe', 'privilege escalation',
+        'exposed credentials', 'hardcoded secret', 'api key exposed',
+        'leaked token', 'path traversal',
+    ],
+    'medium': [
+        'cross-origin resource sharing misconfiguration', 'cors misconfiguration',
+        'open redirect', 'subdomain takeover', 'reflected xss',
+        'stored xss', 'csrf', 'clickjacking',
+    ],
+    'low': [
+        'version disclosure', 'missing security header', 'directory listing',
+        'error message disclosure', 'weak cipher',
+    ],
 }
+
+# File patterns that indicate recon/notes files, not discrete findings
+RECON_FILE_PATTERNS = [
+    r'reconnaissance',
+    r'recon',
+    r'phase[-\s]\d+',
+    r'investigation[-\s]notes',
+    r'osint',
+    r'enumeration',
+    r'probing',
+    r'fingerprint',
+]
+
+
+def is_recon_notes(content: str, filename: str) -> bool:
+    """Return True if this file looks like recon notes rather than a discrete finding."""
+    combined = (filename + ' ' + content[:500]).lower()
+    for pattern in RECON_FILE_PATTERNS:
+        if re.search(pattern, combined):
+            return True
+    return False
 
 
 def detect_severity(content: str) -> str:
-    """Detect severity from finding content."""
+    """
+    Detect severity from finding content using two-pass approach:
+    1. Look for explicit severity declarations (most reliable)
+    2. Look for specific vulnerability class keywords
+    Never fires on generic words like 'critical' used descriptively.
+    """
     content_lower = content.lower()
+
+    # Pass 1: explicit severity declarations
+    for pattern, severity in SEVERITY_DECLARED_PATTERNS:
+        if re.search(pattern, content_lower):
+            return severity
+
+    # Pass 2: specific vulnerability class keywords
     for severity in ['critical', 'high', 'medium', 'low']:
-        for kw in SEVERITY_KEYWORDS[severity]:
-            if re.search(kw, content_lower):
+        for kw in VULN_CLASS_KEYWORDS[severity]:
+            if kw in content_lower:
                 return severity
+
     return 'info'
 
 
@@ -111,9 +171,12 @@ def slugify(title: str) -> str:
     return slug
 
 
-def is_reportable(content: str, severity: str) -> bool:
+def is_reportable(content: str, severity: str, filename: str) -> bool:
     """Determine if a finding is likely reportable."""
     if severity == 'info':
+        return False
+    # Skip recon notes files — these are investigation logs not discrete findings
+    if is_recon_notes(content, filename):
         return False
     # Skip null result files
     null_indicators = [
@@ -128,12 +191,13 @@ def is_reportable(content: str, severity: str) -> bool:
     return True
 
 
-def generate_draft(finding_path: Path, handle: str, program_info: dict) -> dict | None:
+def generate_draft(finding_path: Path, handle: str, program_info: dict,
+                   severity_override: str = None) -> dict | None:
     """Generate a single H1 draft from a finding file."""
     content = finding_path.read_text(errors='ignore')
-    severity = detect_severity(content)
+    severity = severity_override or detect_severity(content)
 
-    if not is_reportable(content, severity):
+    if not is_reportable(content, severity, finding_path.name):
         return None
 
     title    = extract_title(content, finding_path.name)
@@ -286,11 +350,25 @@ _All drafts require Operator review before submission._
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python3 generate-h1-report.py <program_handle>")
+        print("Usage: python3 generate-h1-report.py <program_handle> [--severity critical|high|medium|low]")
         print("   eg: python3 generate-h1-report.py x")
+        print("   eg: python3 generate-h1-report.py x --severity medium")
         sys.exit(1)
 
     handle = sys.argv[1].lower().strip()
+
+    # Parse optional --severity flag
+    severity_override = None
+    if '--severity' in sys.argv:
+        idx = sys.argv.index('--severity')
+        if idx + 1 < len(sys.argv):
+            sev = sys.argv[idx + 1].lower()
+            if sev in ['critical', 'high', 'medium', 'low', 'info']:
+                severity_override = sev
+                print(f"  ⚠️  Severity override: {sev.upper()} (applied to all findings)")
+            else:
+                print(f"  ❌ Invalid severity: {sev}. Use: critical|high|medium|low")
+                sys.exit(1)
     engagement_dir = ENGAGEMENTS / handle
     findings_dir   = engagement_dir / 'findings'
     submissions_dir = engagement_dir / 'submissions'
@@ -323,7 +401,7 @@ def main():
     null_count = 0
 
     for finding_path in findings:
-        result = generate_draft(finding_path, handle, program_info)
+        result = generate_draft(finding_path, handle, program_info, severity_override)
         if result is None:
             null_count += 1
             print(f"  ⏭️  Skipped (null/info): {finding_path.name}")
