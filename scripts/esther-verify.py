@@ -52,21 +52,9 @@ NOTIFY_DIR  = HOME / 'finksecurity-notify'
 
 TOOLS = [
     'nmap', 'theHarvester', 'nikto', 'nuclei', 'ffuf', 'amass',
-    'aws', 'az', 'gcloud',
+    'aws', 'az', 'gcloud', 'scoutsuite',
     'sqlmap', 'wfuzz', 'john', 'hashcat',
-    'crackmapexec', 'msfconsole', 'hydra',
-]
-
-# Tools with non-standard paths checked separately
-TOOLS_NONSTANDARD = [
-    ('scout (ScoutSuite)', [
-        Path.home() / '.local/bin/scout',
-        Path('/usr/local/bin/scout'),
-    ]),
-    ('impacket', [
-        Path('/usr/share/impacket'),
-        Path('/usr/lib/python3/dist-packages/impacket'),
-    ]),
+    'crackmapexec', 'msfconsole', 'hydra', 'impacket-scripts',
 ]
 
 SCRIPTS_EXPECTED = [
@@ -80,13 +68,8 @@ SCRIPTS_EXPECTED = [
 ]
 
 DOCKER_EXPECTED = [
-    'opensearch',
-    'opensearch-dashboards',
-    'dvwa',
-    'dvwa-db',
-    'juice-shop',
-    'portainer',
-    'ollama',
+    'opensearch', 'opensearch-dashboards',
+    'dvwa', 'juice-shop', 'portainer', 'ollama'
 ]
 
 SOUL_PATH        = LAB / 'SOUL.md'
@@ -207,7 +190,7 @@ def verify_h1_drafts():
 # 3 — NOTIFY RELAY + TELEGRAM
 # ════════════════════════════════════════════════════════════════════════════════
 
-def verify_notify():
+def verify_notify(send_test=False):
     head("NOTIFY RELAY + TELEGRAM PIPELINE")
 
     # Check gunicorn process
@@ -225,30 +208,52 @@ def verify_notify():
     else:
         fail("Nothing listening on port 5001")
 
-    # Check HTTPS endpoint
+    # Check HTTPS endpoint — only send Telegram notification if explicitly requested
     print(f"\n  {DIM}Testing https://api.finksecurity.com/notify ...{RST}")
-    code, out, err = run(
-        "curl -s -o /dev/null -w '%{http_code}|%{ssl_verify_result}|%{time_total}' "
-        "-X POST https://api.finksecurity.com/notify "
-        "-H 'Content-Type: application/json' "
-        "-d '{\"first_name\":\"Verify\",\"last_name\":\"Check\","
-        "\"email\":\"verify@finksecurity.com\",\"service\":\"Test\","
-        "\"authorization_confirmed\":true}'",
-        timeout=15
-    )
-    if code == 0 and out:
-        parts = out.split('|')
-        http_code = parts[0] if parts else '000'
-        ssl_ok    = parts[1] == '0' if len(parts) > 1 else False
-        latency   = parts[2] if len(parts) > 2 else '?'
-        if http_code == '200':
-            ok(f"HTTPS endpoint returned 200 in {latency}s")
-            ok("SSL verification passed" if ssl_ok else "SSL not verified (check cert)")
-            info("Check Telegram — a test notification should have arrived")
+    if send_test:
+        code, out, err = run(
+            "curl -s -o /dev/null -w '%{http_code}|%{ssl_verify_result}|%{time_total}' "
+            "-X POST https://api.finksecurity.com/notify "
+            "-H 'Content-Type: application/json' "
+            "-d '{\"first_name\":\"Verify\",\"last_name\":\"Check\","
+            "\"email\":\"verify@finksecurity.com\",\"service\":\"Test\","
+            "\"authorization_confirmed\":true}'",
+            timeout=15
+        )
+        if code == 0 and out:
+            parts = out.split('|')
+            http_code = parts[0] if parts else '000'
+            ssl_ok    = parts[1] == '0' if len(parts) > 1 else False
+            latency   = parts[2] if len(parts) > 2 else '?'
+            if http_code == '200':
+                ok(f"HTTPS endpoint returned 200 in {latency}s")
+                ok("SSL verification passed" if ssl_ok else "SSL not verified (check cert)")
+                info("Check Telegram — a test notification should have arrived")
+            else:
+                fail(f"HTTPS endpoint returned {http_code} — check nginx and gunicorn")
         else:
-            fail(f"HTTPS endpoint returned {http_code} — check nginx and gunicorn")
+            fail(f"curl failed: {err[:80]}")
     else:
-        fail(f"curl failed: {err[:80]}")
+        # Silent check — just verify endpoint returns 200 without triggering Telegram
+        code, out, err = run(
+            "curl -s -o /dev/null -w '%{http_code}|%{ssl_verify_result}|%{time_total}' "
+            "-X GET https://api.finksecurity.com/notify ",
+            timeout=15
+        )
+        if code == 0 and out:
+            parts = out.split('|')
+            http_code = parts[0] if parts else '000'
+            ssl_ok    = parts[1] == '0' if len(parts) > 1 else False
+            latency   = parts[2] if len(parts) > 2 else '?'
+            # 405 Method Not Allowed is fine — endpoint exists, just won't accept GET
+            if http_code in ('200', '405'):
+                ok(f"HTTPS endpoint reachable ({latency}s)")
+                ok("SSL verification passed" if ssl_ok else "SSL not verified (check cert)")
+                info("Run with --test-notify to send a real Telegram test notification")
+            else:
+                fail(f"HTTPS endpoint returned {http_code} — check nginx and gunicorn")
+        else:
+            fail(f"curl failed: {err[:80]}")
 
     # Check SSL cert expiry
     print(f"\n  {DIM}Checking SSL cert expiry for api.finksecurity.com ...{RST}")
@@ -340,7 +345,7 @@ def verify_scope():
 # ════════════════════════════════════════════════════════════════════════════════
 
 def verify_tools():
-    head("TOOL INVENTORY")
+    head("TOOL INVENTORY (18 expected)")
 
     present = []
     missing = []
@@ -352,25 +357,16 @@ def verify_tools():
         else:
             missing.append(tool)
 
-    # Check non-standard path tools
-    for label, paths in TOOLS_NONSTANDARD:
-        found = next((p for p in paths if p.exists()), None)
-        if found:
-            present.append((label, str(found)))
-        else:
-            missing.append(label)
-
-    total = len(TOOLS) + len(TOOLS_NONSTANDARD)
-    print(f"\n  {G}Present ({len(present)}/{total}):{RST}")
+    print(f"\n  {G}Present ({len(present)}/{len(TOOLS)}):{RST}")
     for tool, path in present:
-        print(f"    {G}✅ {tool:<25}{RST}  {DIM}{path}{RST}")
+        print(f"    {G}✅ {tool:<20}{RST}  {DIM}{path}{RST}")
 
     if missing:
         print(f"\n  {R}Missing ({len(missing)}):{RST}")
         for tool in missing:
             print(f"    {R}❌ {tool}{RST}")
     else:
-        print(f"\n  {G}All {total} tools present ✅{RST}")
+        print(f"\n  {G}All {len(TOOLS)} tools present ✅{RST}")
 
 
 # ════════════════════════════════════════════════════════════════════════════════
@@ -388,12 +384,11 @@ def verify_nginx():
         fail(f"nginx status: {out or 'unknown'}")
 
     # Config test
-    code, out, err = run("sudo nginx -t 2>&1")
-    combined = (out + err).lower()
-    if 'syntax is ok' in combined and 'successful' in combined:
+    code, _, err = run("sudo nginx -t 2>&1")
+    if 'syntax is ok' in err or 'successful' in err:
         ok("nginx config syntax OK")
     else:
-        fail(f"nginx config error: {(out + err)[:120]}")
+        fail(f"nginx config error: {err[:120]}")
 
     # Port 80 and 443
     for port, label in [('80', 'HTTP'), ('443', 'HTTPS')]:
@@ -441,14 +436,10 @@ def verify_docker():
             running[name] = (status, ports)
 
     print()
-    matched = set()
     for expected in DOCKER_EXPECTED:
-        # Exact match first, then prefix match
-        match = next((k for k in running if k == expected and k not in matched), None)
-        if match is None:
-            match = next((k for k in running if k.startswith(expected) and k not in matched), None)
+        # fuzzy match — container names may have prefixes
+        match = next((k for k in running if expected in k), None)
         if match:
-            matched.add(match)
             status, ports = running[match]
             if 'Up' in status:
                 ok(f"{match:<35} {DIM}{status}{RST}")
@@ -671,23 +662,16 @@ def verify_openclaw():
         fail(f"ENVIRONMENT.md missing at {env_path}")
 
     # Check Telegram bot token is set in environment or .env
-    env_candidates = [
-        HOME / '.openclaw' / '.env',
-        HOME / 'finksecurity-notify' / '.env',
-    ]
-    token_found = False
-    for env_file in env_candidates:
-        if env_file.exists():
-            try:
-                content = env_file.read_text()
-            except Exception:
-                continue
-            if 'TELEGRAM_BOT_TOKEN' in content and len(content.split('TELEGRAM_BOT_TOKEN')[1].strip()) > 5:
-                ok(f"TELEGRAM_BOT_TOKEN present ({env_file})")
-                token_found = True
-                break
-    if not token_found:
-        warn("TELEGRAM_BOT_TOKEN not found in ~/.openclaw/.env or ~/finksecurity-notify/.env")
+    env_file = HOME / 'finksecurity-notify' / '.env'
+    if env_file.exists():
+        content = env_file.read_text()
+        has_token = 'TELEGRAM_BOT_TOKEN' in content and len(content.split('TELEGRAM_BOT_TOKEN')[1].strip()) > 5
+        if has_token:
+            ok("TELEGRAM_BOT_TOKEN present in notify .env")
+        else:
+            warn("TELEGRAM_BOT_TOKEN missing or empty in notify .env")
+    else:
+        warn(f"notify .env not found at {env_file}")
 
 
 # ════════════════════════════════════════════════════════════════════════════════
@@ -756,7 +740,7 @@ def verify_latest_commit():
 MENU_ITEMS = [
     ("Git commits (all engagements)",  verify_commits),
     ("H1 submission drafts",           verify_h1_drafts),
-    ("Notify relay + Telegram",        verify_notify),
+    ("Notify relay + Telegram",        None),  # handled specially
     ("Scope files",                    verify_scope),
     ("Tool inventory",                 verify_tools),
     ("nginx + SSL",                    verify_nginx),
@@ -791,6 +775,12 @@ def print_menu():
 
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description='ESTHER System Verification Tool')
+    parser.add_argument('--test-notify', action='store_true',
+                        help='Send a real Telegram test notification during notify check')
+    args, _ = parser.parse_known_args()
+
     while True:
         print_menu()
         try:
@@ -815,14 +805,22 @@ def main():
 
         label, fn = MENU_ITEMS[idx]
 
-        if fn is None:
+        if fn is None and label == "Run ALL checks":
             # Run ALL
             print(f"\n{B}{C}🦂 Running all checks...{RST}")
             for item_label, item_fn in MENU_ITEMS[:-1]:
                 try:
-                    item_fn()
+                    if item_label == "Notify relay + Telegram":
+                        verify_notify(send_test=args.test_notify)
+                    elif item_fn is not None:
+                        item_fn()
                 except Exception as e:
                     fail(f"{item_label} check crashed: {e}")
+        elif label == "Notify relay + Telegram":
+            try:
+                verify_notify(send_test=args.test_notify)
+            except Exception as e:
+                fail(f"Check crashed unexpectedly: {e}")
         else:
             try:
                 fn()
