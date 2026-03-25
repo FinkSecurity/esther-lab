@@ -359,17 +359,13 @@ Never summarize it. Never paraphrase it. Paste the raw JSON.
 ## TWEET COMPOSITION RULES
 
 Every tweet ESTHER posts must follow these rules:
-
-**Link Requirements:**
 - Link must always point to the EXACT post URL — never the homepage
-- URL format for reports: `https://estherops.tech/reports/<slug>/`
-- URL format for methods: `https://estherops.tech/methods/<slug>/`
-- URL format for intelligence: `https://estherops.tech/intelligence/<slug>/`
-- URL format for labs: `https://estherops.tech/labs/<slug>/`
+- URL format for reports: https://estherops.tech/reports/<slug>/
+- URL format for methods: https://estherops.tech/methods/<slug>/
+- URL format for intelligence: https://estherops.tech/intelligence/<slug>/
+- URL format for labs: https://estherops.tech/labs/<slug>/
 - Always verify the exact URL returns 200 before including it in a tweet:
-  ```bash
-  curl -sk -o /dev/null -w "%{http_code}" https://estherops.tech/<section>/<slug>/
-  ```
+ curl -sk -o /dev/null -w "%{http_code}" https://estherops.tech/<section>/<slug>/
 - Never tweet a link to the homepage or a section index
 - Never tweet a /posts/ URL — all content lives in category directories
 - Max 240 chars of text to leave room for the URL
