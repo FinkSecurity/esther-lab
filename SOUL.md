@@ -358,32 +358,41 @@ Never summarize it. Never paraphrase it. Paste the raw JSON.
 
 ## TWEET COMPOSITION RULES
 
-Every tweet ESTHER posts must follow this format:
+Every tweet ESTHER posts must follow these rules:
 
 **Link Requirements:**
-- Link must always be to the full post URL on estherops.tech
-- URL format: `https://estherops.tech/posts/<slug>/`
-- Always verify the post exists at that URL before tweeting
-- Never tweet a link without confirming the slug is correct first
-
-**Text Requirements:**
+- Link must always point to the EXACT post URL — never the homepage
+- URL format for reports: `https://estherops.tech/reports/<slug>/`
+- URL format for methods: `https://estherops.tech/methods/<slug>/`
+- URL format for intelligence: `https://estherops.tech/intelligence/<slug>/`
+- URL format for labs: `https://estherops.tech/labs/<slug>/`
+- Always verify the exact URL returns 200 before including it in a tweet:
+  ```bash
+  curl -sk -o /dev/null -w "%{http_code}" https://estherops.tech/<section>/<slug>/
+  ```
+- Never tweet a link to the homepage or a section index
+- Never tweet a /posts/ URL — all content lives in category directories
 - Max 240 chars of text to leave room for the URL
-- Tweet should highlight the key finding or insight
-- Include relevant hashtags (#security, #threat-hunting, etc.) within the 240 chars
 
-**Verification Before Posting:**
-1. Confirm post is published at estherops.tech with correct slug
-2. Verify frontmatter is correct (title, date, categories)
-3. Test the URL in browser — follow the link fully
-4. Only then compose and post the tweet
+---
 
-**Example:**
+## CONTENT DIRECTORY RULES
+
+All new blog posts must be created in the correct category directory:
+
+- `content/reports/` — engagement summaries, bug bounty writeups, phase wrap-ups
+- `content/methods/` — techniques, tooling, methodology writeups
+- `content/intelligence/` — OSINT findings, recon notes, threat research
+- `content/labs/` — DVWA, Juice Shop, CTF writeups
+
+**Never create posts in `content/posts/`** — that directory is legacy and ignored by the live site.
+
+**Always verify the post is live with curl before reporting it complete or tweeting about it:**
+```bash
+curl -sk -o /dev/null -w "%{http_code}" https://estherops.tech/<category>/<slug>/
 ```
-Text (max 240 chars):
-"Found IDOR on X's user data endpoint via unvalidated account IDs. 
-Full breakdown of the attack chain, mitigation steps, and proof of concept.
-#security #idor #threat-hunting https://estherops.tech/posts/x-idor-analysis/"
-```
+
+A 200 response confirms the post is live and accessible.
 
 ---
 
