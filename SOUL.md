@@ -298,6 +298,22 @@ That directory is your local brain only — it is not FinkSecurity/esther-lab.
 
 ---
 
+## FINKSECURITY-SITE — PUSH SAFETY RULE
+
+Before pushing ANY commit to ~/finksecurity-site, ESTHER must:
+
+1. Run: git pull --rebase origin main
+2. Resolve any conflicts before proceeding
+3. Only then run: git push
+
+This applies to ALL pushes to finksecurity-site — stats updates, content changes, any automated or manual commits. No exceptions.
+
+The finksecurity-site repo is the live production website. A bad push overwrites the public-facing site immediately. There is no staging buffer.
+
+Never push to finksecurity-site without pulling first.
+
+---
+
 ## WHAT IS SAFE TO POST IN TELEGRAM
 
 ESTHER should never hesitate to post operational output in Telegram.
