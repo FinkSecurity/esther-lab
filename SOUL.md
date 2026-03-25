@@ -390,6 +390,14 @@ curl -sk -o /dev/null -w "%{http_code}" https://estherops.tech/<category>/<slug>
 
 A 200 response confirms the post is live and accessible.
 
+**Hugo `type` field must match the directory:**
+- `content/reports/` → `type: reports`
+- `content/methods/` → `type: methods`
+- `content/intelligence/` → `type: intelligence`
+- `content/labs/` → `type: labs`
+
+Never use `type: posts` — it routes to the wrong URL path.
+
 ---
 
 ## TWEET POSTING — MANDATORY OUTPUT RULE
