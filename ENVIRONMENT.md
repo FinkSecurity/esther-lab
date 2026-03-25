@@ -1,270 +1,173 @@
-# ENVIRONMENT.md — Infrastructure & Tools Overview
-
-**Last Updated:** 2026-03-09 22:30 UTC  
-**Environment:** Production + Lab  
-**Status:** ✓ Fully Operational
-
----
-
-## 1. INFRASTRUCTURE OVERVIEW
-
-### Host System
-- **Hostname:** srv1447243
-- **OS:** Linux 6.16.8+kali-cloud-amd64 (x64)
-- **Node Version:** v24.14.0
-- **Shell:** bash
-- **User:** esther
-
-### File System Locations
-- **Workspace (Git-tracked):** `/home/esther/.openclaw/workspace`
-- **OpenClaw Config:** `~/.openclaw/`
-- **Hugo Site:** `~/estherops-site/`
-- **API Keys Storage:** `~/.openclaw/.env`
+# ESTHER — Environment Reference
+# Read this file at the start of every session.
+# This file contains infrastructure facts only.
+# Never store client data, target IPs, or engagement details here.
 
 ---
 
-## 2. DOCKER CONTAINERS & SERVICES
+## Identity
 
-All containers deployed on localhost with bridge networking.
-
-### Active Containers
-
-#### Juice Shop (OWASP)
-- **URL:** http://localhost:3000
-- **Port:** 3000 (HTTP)
-- **Purpose:** Vulnerable web app for training & exploitation labs
-- **Status:** ✅ Running
-- **Use:** SQL injection, broken authentication testing
-- **Verified Endpoints:**
-  - POST `/rest/user/login` (SQL injection point)
-  - GET `/api/Users` (user enumeration)
-  - GET `/api/Orders`, `/api/Products`
-
-#### OpenSearch
-- **Port:** 9200 (HTTP REST API)
-- **Purpose:** Full-text search, log aggregation, indexing
-- **Status:** ✅ Running
-- **Verified:** Java process running, port 9200 responding
-
-#### OpenSearch Dashboards
-- **URL:** http://localhost:5601
-- **Port:** 5601 (HTTP)
-- **Purpose:** Visualization & search UI for OpenSearch
-- **Status:** ✅ Running
-- **Verified:** Node.js process running, port 5601 responding
-
-#### MinIO (S3 Compatible Object Storage)
-- **URL:** http://localhost:9000 (S3 API), http://localhost:8000 (Web console)
-- **Port:** 9000 (S3 API), 8000 (Web UI)
-- **Purpose:** Object storage for files & backups
-- **Status:** ✅ Running
-- **Verified:** Port 9000 & 8000 responding
-
-#### Ollama (LLM Service)
-- **Port:** 11434 (HTTP)
-- **Purpose:** Local language model inference
-- **Status:** ✅ Running
-- **Verified:** Port 11434 responding
-
-#### Nginx/Web Proxy
-- **Port:** 80 (HTTP)
-- **Purpose:** Reverse proxy / static content server
-- **Status:** ✅ Running
-- **Verified:** Port 80 responding
-
-### Deprecated/Not Running
-
-#### ❌ PostgreSQL Database
-- **Port:** 5432
-- **Status:** ❌ NOT RUNNING (connection refused)
-- **Note:** Removed from active stack
-
-#### ❌ Redis Cache
-- **Port:** 6379
-- **Status:** ❌ NOT RUNNING (connection refused)
-- **Note:** Removed from active stack
+- Agent: ESTHER (Enumeration, Surveillance, Threat Hunting, Exploitation & Reporting)
+- Host: srv1447243 (Hostinger VPS, Kali Linux)
+- VPS IP: 45.82.72.151
+- SSH: port 2222 (primary), port 443 (fallback)
+- User: esther
+- OpenClaw version: 2026.3.2
 
 ---
 
-## 3. API KEYS & AUTHENTICATION
+## Lab Docker Stack
 
-### File Location
-All credentials stored in: `~/.openclaw/.env` (not in git)
+All lab services run via Docker Compose.
+Compose file: ~/.openclaw/workspace/esther-lab/docker-compose.yml
 
-Backup copy: `~/.openclaw/workspace/secrets.env`
+To check status:        docker ps
+To start all services:  cd ~/.openclaw/workspace/esther-lab && docker compose up -d
+To stop all services:   cd ~/.openclaw/workspace/esther-lab && docker compose down
 
-### Active APIs
+### Service URLs (internal, accessed via SSH tunnel from operator MacBook)
 
-#### Shodan API
-- **Status:** ✅ Configured
-- **Key Variable:** `$SHODAN_API_KEY`
-- **Purpose:** Internet-wide host discovery & vulnerability exposure
-- **Cost Tier:** ~$50/year (basic)
+| Service            | Internal URL                  | Tunnel Port |
+|--------------------|-------------------------------|-------------|
+| DVWA               | http://localhost:80/          | 8080        |
+| DVWA login path    | http://localhost/login.php    | —           |
+| Juice Shop         | http://localhost:3000         | 3000        |
+| OpenSearch         | https://localhost:9200        | 9200        |
+| OpenSearch Dashboard | http://localhost:5601         | 5601        |
+| Portainer          | http://localhost:9000         | 9000        |
+| Ollama             | http://localhost:11434        | —           |
 
-#### GitHub CLI (gh)
-- **Status:** ✅ Authenticated
-- **User:** ESTHER
-- **Email:** esther@finksecurity.com
-- **Access:** FinkSecurity organization repos
-- **Stored:** System keyring
+### DVWA Notes
 
-#### VirusTotal API
-- **Status:** ✅ Active (added 2026-03-09)
-- **Key Variable:** `$VIRUSTOTAL_API_KEY`
-- **Purpose:** Domain/URL reputation lookup
-- **Endpoint:** https://www.virustotal.com/api/v3/
-- **Last Tested:** finksecurity.com (clean, 0 malicious)
-
-#### OTX AlienVault API
-- **Status:** ✅ Active (added 2026-03-09)
-- **Key Variable:** `$OTX_API_KEY`
-- **Purpose:** Threat intelligence, passive DNS, IP/domain reputation
-- **Endpoint:** https://otx.alienvault.com/api/v1/
-- **Last Tested:** finksecurity.com (WHOIS + passive DNS returned)
-
-#### NVD API (NIST)
-- **Status:** ✅ Active (added 2026-03-09)
-- **Key Variable:** `$NVD_API_KEY`
-- **Purpose:** CVE lookup, vulnerability research
-- **Endpoint:** https://services.nvd.nist.gov/rest/json/cves/2.0
-- **Last Tested:** CVE-2021-44228 (Log4Shell, CVSS 10.0)
-- **Cost:** Free (public API)
-
-#### HIBP API (Have I Been Pwned)
-- **Status:** ✅ Active (added 2026-03-09)
-- **Key Variable:** `$HIBP_API_KEY`
-- **Purpose:** Breach database queries, password compromise checking
-- **Endpoint:** https://haveibeenpwned.com/api/v3/
-- **Last Tested:** test@example.com (clean, 404)
-- **Cost Tier:** $3.50/month (standard)
+- Default credentials: admin / password
+- DVWA serves from root — correct URL is /login.php not /dvwa/login.php
+- Database must be initialized via /setup.php before first use
+- Security level must be set to Low before lab exercises
+- Session cookie jar: use -c /tmp/d.txt -b /tmp/d.txt on all curl requests
+- CSRF token extraction pattern:
+  grep -oP "name='user_token' value='\K[^']+"
 
 ---
 
-## 4. TOOLS & SOFTWARE INVENTORY
+## Repository Map
 
-### System Tools (Pre-installed)
-bash, curl, wget, jq, git, docker, docker-compose, ssh, scp, nano, vim, grep, sed, awk, find, tar, gzip, ps, top, htop
+### esther-lab
+- **Path:** ~/.openclaw/workspace/esther-lab/
+- **Remote:** https://github.com/FinkSecurity/esther-lab
+- **Purpose:** Findings, scripts, recon notes, engagement documentation, lab exercises
+- **Content:** Raw reconnaissance data, POC scripts, internal working notes
+- **Do NOT publish blog posts here**
 
-### Security Tools Available (Tier 1)
-- theHarvester — email/subdomain harvesting
-- whois — domain registration lookup
-- dig, nslookup — DNS queries
+### estherops-site
+- **Path:** ~/estherops-site/
+- **Remote:** https://github.com/FinkSecurity/estherops-site
+- **Purpose:** ESTHER blog posts only — Hugo site, deploys to estherops.tech
+- **Content:** Published reconnaissance writeups, technique documentation, security research
+- **Blog posts ALWAYS go here, never to esther-lab**
+- **Deploy:** Auto-deploys to https://estherops.tech on push to main
 
-### Security Tools (Tier 2 - To Install)
-- amass — subdomain enumeration
-- subfinder — passive subdomain discovery
-- assetfinder — asset discovery
-- waybackurls — Wayback Machine snapshots
-- httpx — HTTP probing
-
-### OpenClaw Features
-- Browser automation (Chromium/Chrome control)
-- File operations (read/write/edit)
-- Cron jobs (scheduled execution)
-- Sub-agents (isolated workers)
-- Session management (multi-session coordination)
-
----
-
-## 5. AUTHORIZED TARGETS & SCOPE
-
-### Pre-Approved (No Additional Approval)
-
-**Local Labs:**
-- ✅ OWASP Juice Shop (localhost:3000) — full active testing
-- ✅ Docker infrastructure — full management access
-
-**Passive Recon Only (No Active Testing):**
-- ✅ finksecurity.com (DNS, WHOIS, passive Shodan, VirusTotal, OTX)
-- ✅ estherops.tech (same as above)
-
-### Requires Written Authorization
-- ❌ Any external target not listed above
-- ❌ Active scanning, vulnerability exploitation, credential attacks
-- ❌ Data exfiltration, destructive operations
-
-**Process:** Submit scope to Operator, receive written contract or explicit Telegram approval before proceeding.
+### finksecurity-site
+- **Path:** ~/finksecurity-site/
+- **Remote:** https://github.com/FinkSecurity/finksecurity-site
+- **Purpose:** Fink Security company website, deploys to finksecurity.com
+- **Content:** Company information, service offerings, team details
+- **Deploy:** Auto-deploys to https://finksecurity.com on push to main
 
 ---
 
-## 6. GIT REPOSITORIES
+## Git Repositories (Legacy Table)
 
-### esther-lab (Primary)
-- **Location:** `/home/esther/.openclaw/workspace/`
-- **Remote:** https://github.com/FinkSecurity/esther-lab.git
-- **Branch:** main
-- **Key Directories:** juice-shop-exercises/, findings/, labs/, methods/, reports/, memory/
-- **Status:** ✅ Synced (last push: 2026-03-09)
+| Repo                  | Path on VPS                    | Remote                                          |
+|-----------------------|--------------------------------|-------------------------------------------------|
+| estherops-site        | ~/estherops-site/              | https://github.com/FinkSecurity/estherops-site  |
+| finksecurity-site     | ~/finksecurity-site/           | https://github.com/FinkSecurity/finksecurity-site |
+| esther-lab            | ~/.openclaw/workspace/esther-lab/ | https://github.com/FinkSecurity/esther-lab   |
 
-### estherops-site (Hugo)
-- **Location:** `~/estherops-site/`
-- **Remote:** https://github.com/FinkSecurity/estherops-site.git
-- **Branch:** main
-- **Content:** content/intelligence/, content/labs/, content/methods/, content/reports/
-- **Status:** ✅ Synced (last push: 2026-03-09, Juice Shop files published)
+### Publishing Policy (CRITICAL)
 
----
-
-## 7. MEMORY & DOCUMENTATION
-
-### Session Memory
-- **Location:** `~/.openclaw/workspace/memory/YYYY-MM-DD.md`
-- **Purpose:** Raw daily logs of activities & decisions
-- **Retention:** ~2 weeks
-
-### Long-term Memory
-- **Location:** `~/.openclaw/workspace/MEMORY.md`
-- **Purpose:** Curated wisdom for reference
-- **Maintenance:** Update every few days from daily logs
-
-### Configuration Files
-- **SOUL.md** — Agent identity, ethics, operating principles
-- **USER.md** — Operator profile (name, timezone, preferences)
-- **AGENTS.md** — Workspace guidelines and safety rules
-- **SESSION-START-CHECKLIST.md** — Pre-session verification checklist
+1. NEVER commit or push to any repo without explicit operator approval
+2. Save all posts to ~/.openclaw/workspace/posts/ and report ready for review
+3. When operator replies "approved" via Telegram, then run git add/commit/push
+4. NEVER include real client IPs, hostnames, names, or PIDs in published content
+5. Lab exercises (DVWA, Juice Shop) are safe to publish after operator review
+6. Always verify pushes with: gh api repos/FinkSecurity/REPO/contents/PATH
+7. Full 40-character SHA in response = real push. Truncated = fabricated.
 
 ---
 
-## 8. CURRENT STATUS
+## Live Sites
 
-| Component | Status | Last Check |
-|-----------|--------|------------|
-| Docker | ✅ Running | 2026-03-09 |
-| Juice Shop | ✅ Online (localhost:3000) | 2026-03-09 |
-| PostgreSQL | ✅ Responding | 2026-03-09 |
-| Redis | ✅ Responding | 2026-03-09 |
-| OpenSearch | ✅ Responding | 2026-03-09 |
-| MinIO | ✅ Responding | 2026-03-09 |
-| VirusTotal API | ✅ Active | 2026-03-09 |
-| OTX API | ✅ Active | 2026-03-09 |
-| NVD API | ✅ Active | 2026-03-09 |
-| HIBP API | ✅ Active | 2026-03-09 |
-| Shodan API | ✅ Active | 2026-03-06 |
-| GitHub CLI | ✅ Authenticated | 2026-03-09 |
+| Site               | URL                        | Deploy Method         |
+|--------------------|----------------------------|-----------------------|
+| estherops.tech     | https://estherops.tech     | Hugo + GitHub Actions |
+| finksecurity.com   | https://finksecurity.com   | Static HTML + GitHub Actions |
+
+Both sites auto-deploy on push to main branch.
+estherops.tech: Hugo Terminal theme, dark with gold/amber accents
+finksecurity.com: Custom HTML, dark navy with cyan accents
 
 ---
 
-## 9. QUICK REFERENCE
+## Content Paths
 
-**Health Check:**
-```bash
-docker ps
-curl -s http://localhost:3000 | grep -i juice
-```
+- Lab post drafts:     ~/.openclaw/workspace/posts/
+- estherops content:   ~/estherops-site/content/posts/
+- Hugo archetypes:     ~/estherops-site/archetypes/
 
-**Git Workflow:**
-```bash
-cd ~/.openclaw/workspace && git status
-git add <files> && git commit -m "message" && git push origin main
-```
-
-**API Testing:**
-```bash
-curl -H "x-apikey: ${VIRUSTOTAL_API_KEY}" \
-  "https://www.virustotal.com/api/v3/domains/finksecurity.com"
-```
+New posts must go in ~/estherops-site/content/posts/ (not posts/ at root).
 
 ---
 
-**Maintained by:** ESTHER  
-**Last Updated:** 2026-03-09 22:30 UTC
+## Installed Skills
+
+ESTHER has the following skills available:
+- github — Git and GitHub operations
+- tavily-search — Web search via Tavily
+- stealth-browser — Headless browser for web interaction (USE THIS for web navigation)
+- filesystem — Read/write files anywhere on VPS (sandbox: off)
+- terminal — Execute shell commands
+- openclaw-core — Core agent operations
+
+If a task requires web browsing, USE stealth-browser. Do not attempt curl-only
+navigation for multi-step authenticated web flows.
+
+---
+
+## OpenClaw Configuration
+
+Config file: ~/.openclaw/openclaw.json
+Key settings:
+  tools.fs.workspaceOnly: false   (ESTHER can write anywhere)
+  agents.defaults.sandbox.mode: off
+
+Telegram bot is the primary operator communication channel.
+Gateway restart command: sudo systemctl restart openclaw-gateway
+
+---
+
+## Operator Communication
+
+- Operator handle: The operator (never use real name in published content)
+- Primary channel: Telegram
+- Approval trigger: Operator replies "approved" to a POST READY FOR REVIEW message
+- Escalation: If uncertain about a task, ask via Telegram before proceeding
+
+---
+
+## Phase Status
+
+Current phase: Phase 2 (Lab exercises, site deployment, MITRE technique documentation)
+
+Completed techniques:
+- T1190 — SQL Injection (DVWA) — published to estherops.tech
+- T1059 — Command Injection (DVWA) — published to estherops.tech
+
+Next priorities:
+- Continue MITRE lab exercises (one technique per session)
+- Real commands, real output, verbatim only
+- Save drafts to ~/.openclaw/workspace/posts/ for operator review
+
+---
+
+# END ENVIRONMENT.md
+# Last updated: 2026-03-04
