@@ -599,7 +599,7 @@ def verify_openclaw_memory():
         warn(f"LanceDB directory missing: {lancedb_path}")
 
     # Check gateway log for memory initialization
-    gateway_log = Path('/var/log/openclaw/gateway.log')
+    gateway_log = Path('/home/esther/.openclaw/logs/gateway.log')
     if gateway_log.exists():
         code, out, _ = run(f"tail -50 {gateway_log} | grep 'memory-lancedb: initialized' | tail -1")
         if code == 0 and out:
