@@ -242,15 +242,11 @@ def verify_notify():
     else:
         fail("Nothing listening on port 5001")
 
-    # Check HTTPS endpoint
-    print(f"\n  {DIM}Testing https://api.finksecurity.com/notify ...{RST}")
+    # Check HTTPS endpoint (health check only — no Telegram notification fired)
+    print(f"\n  {DIM}Testing https://api.finksecurity.com/health ...{RST}")
     code, out, err = run(
         "curl -s -o /dev/null -w '%{http_code}|%{ssl_verify_result}|%{time_total}' "
-        "-X POST https://api.finksecurity.com/notify "
-        "-H 'Content-Type: application/json' "
-        "-d '{\"first_name\":\"Verify\",\"last_name\":\"Check\","
-        "\"email\":\"verify@finksecurity.com\",\"service\":\"Test\","
-        "\"authorization_confirmed\":true}'",
+        "https://api.finksecurity.com/health",
         timeout=15
     )
     if code == 0 and out:
@@ -258,15 +254,14 @@ def verify_notify():
         http_code = parts[0] if parts else '000'
         ssl_ok    = parts[1] == '0' if len(parts) > 1 else False
         latency   = parts[2] if len(parts) > 2 else '?'
-        if http_code == '200':
-            ok(f"HTTPS endpoint returned 200 in {latency}s")
+        if http_code in ('200', '404'):
+            ok(f"HTTPS endpoint reachable in {latency}s")
             ok("SSL verification passed" if ssl_ok else "SSL not verified (check cert)")
-            info("Check Telegram — a test notification should have arrived")
         else:
             fail(f"HTTPS endpoint returned {http_code} — check nginx and gunicorn")
     else:
         fail(f"curl failed: {err[:80]}")
-
+    info("To send a test Telegram notification run: python3 esther-verify.py --test-notify")
     # Check SSL cert expiry
     print(f"\n  {DIM}Checking SSL cert expiry for api.finksecurity.com ...{RST}")
     code, out, _ = run(
