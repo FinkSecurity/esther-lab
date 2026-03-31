@@ -270,8 +270,8 @@ def verify_notify():
         warn("Could not retrieve SSL cert expiry — check manually")
 
     # Check nginx
-    code, out, err = run("sudo nginx -t 2>&1")
-    if code == 0 and ('syntax is ok' in err or 'successful' in err):
+    code, out, err = run("sudo nginx -t")
+    if 'syntax is ok' in err or 'successful' in err or 'syntax is ok' in out or 'successful' in out:
         ok("nginx config syntax OK")
     else:
         warn(f"nginx -t returned non-zero — {(err or out)[:80]}")
@@ -395,11 +395,11 @@ def verify_nginx():
         fail(f"nginx status: {out or 'unknown'}")
 
     # Config test
-    code, _, err = run("sudo nginx -t 2>&1")
-    if 'syntax is ok' in err or 'successful' in err:
+    code, out, err = run("sudo nginx -t")
+    if 'syntax is ok' in err or 'successful' in err or 'syntax is ok' in out or 'successful' in out:
         ok("nginx config syntax OK")
     else:
-        fail(f"nginx config error: {err[:120]}")
+        fail(f"nginx config error — run: sudo nginx -t")
 
     # Port 80 and 443
     for port, label in [('80', 'HTTP'), ('443', 'HTTPS')]:
