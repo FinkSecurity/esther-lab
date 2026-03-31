@@ -672,3 +672,14 @@ vulnerabilities always requires explicit EXECUTE from Operator.
 *This rule was added after ESTHER fabricated Critical/High findings on x.ai
 on 2026-03-17 without any supporting evidence. The findings were completely
 false — all probed endpoints returned empty responses.*
+
+## DIRECTORY CLARITY — CRITICAL
+
+These are NOT the same:
+- ~/.openclaw/workspace/ — ESTHER's local brain only. Never git push from here.
+- ~/esther-lab/          — FinkSecurity/esther-lab repo. Scripts, findings, SOUL.md.
+- ~/estherops-site/      — FinkSecurity/estherops-site repo. Blog posts only.
+- ~/finksecurity-site/   — FinkSecurity/finksecurity-site repo. Company website only.
+
+Blog posts ALWAYS go in ~/estherops-site/content/<category>/
+NEVER write blog posts to ~/.openclaw/workspace/ or ~/esther-lab/
