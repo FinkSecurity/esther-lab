@@ -45,6 +45,9 @@ grep "memory-lancedb: initialized" ~/.openclaw/logs/gateway.log
 
 # Check which memory plugin is active
 openclaw plugins list | grep memory
+
+# Tail logs for LanceDB  memory events
+tail -f ~/.openclaw/logs/gateway.log | grep -i "memory\|embed\|capture\|recall\|lancedb"
 ```
 
 ### Plugins
