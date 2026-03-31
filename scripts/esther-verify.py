@@ -834,7 +834,39 @@ def print_menu():
     print(f"\n   {DIM}0.  Exit{RST}\n")
 
 
+def send_test_notification():
+    """Send a real test notification to Telegram."""
+    head("TEST TELEGRAM NOTIFICATION")
+    notify_path = NOTIFY_DIR / 'notify.py'
+    secrets_path = HOME / '.openclaw' / 'workspace' / 'secrets.env'
+
+    code, out, err = run(
+        f"curl -s -o /dev/null -w '%{{http_code}}|%{{time_total}}' "
+        f"-X POST https://api.finksecurity.com/notify "
+        f"-H 'Content-Type: application/json' "
+        f"-d '{{"first_name":"Verify","last_name":"Test","
+        f""email":"verify@finksecurity.com","service":"Test Notification","
+        f""authorization_confirmed":true}}'",
+        timeout=15
+    )
+    if code == 0 and out:
+        parts = out.split('|')
+        http_code = parts[0] if parts else '000'
+        latency = parts[2] if len(parts) > 2 else '?'
+        if http_code == '200':
+            ok(f"Test notification sent in {latency}s — check Telegram")
+        else:
+            fail(f"Notification endpoint returned {http_code}")
+    else:
+        fail(f"curl failed: {err[:80]}")
+
+
 def main():
+    # Handle --test-notify flag
+    if '--test-notify' in sys.argv:
+        send_test_notification()
+        sys.exit(0)
+
     while True:
         print_menu()
         try:
