@@ -75,8 +75,15 @@ SCRIPTS_EXPECTED = [
     WORKSPACE / 'scripts' / 'generate-h1-report.py',
     WORKSPACE / 'scripts' / 'generate-report.py',
     WORKSPACE / 'scripts' / 'update-stats.py',
-    LAB / 'scripts' / 'hackerone-scope-fetch.py',
+    LAB / 'scripts' / 'post-tweet.py',
+    LAB / 'scripts' / 'hibp-check.py',
+    LAB / 'scripts' / 'generate-exposure-report.py',
+    LAB / 'scripts' / 'esther-commit.sh',
     LAB / 'scripts' / 'esther-verify.py',
+    LAB / 'scripts' / 'nuclei-scan.py',
+    LAB / 'scripts' / 'write-journal.py',
+    LAB / 'scripts' / 'read-journal.py',
+    LAB / 'scripts' / 'hackerone-scope-fetch.py',
 ]
 
 DOCKER_EXPECTED = [
@@ -263,11 +270,11 @@ def verify_notify():
         warn("Could not retrieve SSL cert expiry — check manually")
 
     # Check nginx
-    code, _, _ = run("sudo nginx -t 2>/dev/null")
-    if code == 0:
+    code, out, err = run("sudo nginx -t 2>&1")
+    if code == 0 and ('syntax is ok' in err or 'successful' in err):
         ok("nginx config syntax OK")
     else:
-        warn("nginx -t returned non-zero — check config")
+        warn(f"nginx -t returned non-zero — {(err or out)[:80]}")
 
 
 # ════════════════════════════════════════════════════════════════════════════════
@@ -572,6 +579,38 @@ def verify_cron():
         warn("generate-briefing.py not in crontab — MISSION-BRIEF.md won't auto-refresh")
 
 
+def verify_openclaw_memory():
+    head("OPENCLAW MEMORY")
+
+    # Check Ollama models
+    code, out, err = run("curl -s http://localhost:11434/api/tags 2>&1 | python3 -m json.tool 2>&1 | grep name")
+    if code == 0:
+        ok("Ollama models loaded")
+        for line in out.splitlines()[:3]:  # Show first 3 models
+            print(f"    {G}{line.strip()}{RST}")
+    else:
+        warn("Cannot query Ollama models (localhost:11434)")
+
+    # Check LanceDB directory
+    lancedb_path = Path.home() / '.openclaw' / 'memory' / 'lancedb'
+    if lancedb_path.exists():
+        ok(f"LanceDB directory exists: {lancedb_path}")
+    else:
+        warn(f"LanceDB directory missing: {lancedb_path}")
+
+    # Check gateway log for memory initialization
+    gateway_log = Path('/var/log/openclaw/gateway.log')
+    if gateway_log.exists():
+        code, out, _ = run(f"tail -50 {gateway_log} | grep 'memory-lancedb: initialized' | tail -1")
+        if code == 0 and out:
+            ok("memory-lancedb initialization found in gateway log")
+            print(f"    {DIM}{out.strip()[:100]}{RST}")
+        else:
+            info("memory-lancedb initialization not yet logged")
+    else:
+        warn(f"Gateway log not found: {gateway_log}")
+
+
 def verify_fabrication():
     head("SHA FABRICATION CHECK")
 
@@ -757,6 +796,7 @@ MENU_ITEMS = [
     ("Mission brief freshness",        verify_brief),
     ("Disk space",                     verify_disk),
     ("Cron jobs",                      verify_cron),
+    ("OpenClaw memory (LanceDB)",      verify_openclaw_memory),
     ("SHA fabrication check",          verify_fabrication),
     ("openclaw process status",        verify_openclaw),
     ("Latest commit verification",     verify_latest_commit),
