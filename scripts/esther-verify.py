@@ -116,10 +116,19 @@ def verify_commits():
     ]
 
     # Dynamic — detect all programs under engagements/public/
+    # Skips engagements with STATUS file containing 'paused'
     engagement_checks = []
+    active_programs = []
+    paused_programs = []
     if ENGAGEMENTS.exists():
         for prog in sorted(ENGAGEMENTS.iterdir()):
             if prog.is_dir():
+                status_file = prog / 'STATUS'
+                status = status_file.read_text().strip().lower() if status_file.exists() else 'active'
+                if status == 'paused':
+                    paused_programs.append(prog.name)
+                    continue
+                active_programs.append(prog.name)
                 engagement_checks += [
                     (f"{prog.name}/findings",     f"engagements/public/{prog.name}/findings"),
                     (f"{prog.name}/scope",        f"engagements/public/{prog.name}/scope.md"),
@@ -129,7 +138,8 @@ def verify_commits():
     all_checks = engagement_checks + static_checks
 
     print(f"\n  {DIM}Checking FinkSecurity/esther-lab recent commits per path...{RST}\n")
-    print(f"  {DIM}Programs detected: {', '.join(p.name for p in ENGAGEMENTS.iterdir() if p.is_dir()) if ENGAGEMENTS.exists() else 'none'}{RST}\n")
+    print(f"  {DIM}Active engagements: {', '.join(active_programs) or 'none'}{RST}")
+    print(f"  {DIM}Paused engagements: {', '.join(paused_programs) or 'none'}{RST}\n")
 
     for label, path in all_checks:
         code, out, err = run(
@@ -290,6 +300,13 @@ def verify_scope():
 
     for program_dir in sorted(ENGAGEMENTS.iterdir()):
         if not program_dir.is_dir():
+            continue
+
+        # Skip paused engagements
+        status_file = program_dir / 'STATUS'
+        status = status_file.read_text().strip().lower() if status_file.exists() else 'active'
+        if status == 'paused':
+            print(f"\n  {DIM}{program_dir.name.upper()} — PAUSED (skipping scope check){RST}")
             continue
 
         scope_file = program_dir / 'scope.md'
