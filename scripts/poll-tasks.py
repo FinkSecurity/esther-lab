@@ -133,7 +133,7 @@ def dispatch_autonomous(job_id: str, action: str, target: str,
     script_map = {
         'personal_exposure_report': 'generate-exposure-report.py',
         'breach_credential_check':  'hibp-check.py',
-        'home_network_check':       'home-network-check.py',  # TODO: create
+        'home_network_check':       'home-network-check.py',
     }
 
     script = script_map.get(action)
