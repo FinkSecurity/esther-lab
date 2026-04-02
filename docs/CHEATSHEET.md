@@ -1,6 +1,6 @@
 # Fink Security / ESTHER — Command Cheat Sheet
 
-Quick reference for OpenClaw, GitHub, Hugo, and ESTHER operations.
+Quick reference for OpenClaw, GitHub, Hugo, ESTHER, and Ezra operations.
 
 ---
 
@@ -9,14 +9,20 @@ Quick reference for OpenClaw, GitHub, Hugo, and ESTHER operations.
 ### Gateway Management
 
 ```bash
-# Start gateway (survives SSH disconnect)
+# Start gateway (survives SSH disconnect) — VPS
 nohup openclaw gateway --force > ~/.openclaw/logs/gateway.log 2>&1 & disown
+
+# Restart gateway — Mac
+openclaw gateway restart
 
 # Check if gateway is running
 ps aux | grep openclaw-gatewa | grep -v grep
 
-# Tail live gateway logs
+# Tail live gateway logs (VPS)
 tail -f ~/.openclaw/logs/gateway.log
+
+# Tail live gateway logs (Mac)
+tail -f /tmp/openclaw/openclaw-$(date +%Y-%m-%d).log
 
 # Tail logs filtered to memory activity only
 tail -f ~/.openclaw/logs/gateway.log | grep -i "memory\|embed\|capture\|recall\|lancedb"
@@ -26,6 +32,17 @@ openclaw health
 
 # View current config
 python3 -m json.tool ~/.openclaw/openclaw.json
+```
+
+### Sessions
+
+```bash
+# Check active sessions and which model they are using
+openclaw status | grep -A8 "Sessions"
+
+# Clear all active sessions (reset context window)
+rm ~/.openclaw/agents/main/sessions/sessions.json
+openclaw gateway restart
 ```
 
 ### Memory
@@ -46,8 +63,8 @@ grep "memory-lancedb: initialized" ~/.openclaw/logs/gateway.log
 # Check which memory plugin is active
 openclaw plugins list | grep memory
 
-# Tail logs for LanceDB  memory events
-tail -f ~/.openclaw/logs/gateway.log | grep -i "memory\|embed\|capture\|recall\|lancedb"
+# Verify LanceDB npm module loads correctly (Mac)
+node -e "require('@lancedb/lancedb')"
 ```
 
 ### Plugins
@@ -74,6 +91,9 @@ openclaw skills list
 
 # Install a skill via ClawHub
 npx clawhub install <skill-name>
+
+# Search ClawHub for a skill
+npx clawhub search <skill-name>
 ```
 
 ### Models
@@ -84,16 +104,20 @@ openclaw models list
 
 # Scan for available models
 openclaw models scan
-```
 
-### Channels
-
-```bash
-# Check Telegram connection status
-openclaw status
-
-# View channel health
-openclaw channels list
+# Fix model priority (local first, OpenRouter fallback only)
+python3 -c "
+import json
+from pathlib import Path
+p = Path('~/.openclaw/openclaw.json').expanduser()
+c = json.loads(p.read_text())
+c['agents']['defaults']['model'] = {
+    'primary': 'ollama/qwen2.5:14b',
+    'fallbacks': ['openrouter/anthropic/claude-haiku-4.5']
+}
+p.write_text(json.dumps(c, indent=4))
+print('Done')
+"
 ```
 
 ### Config
@@ -114,6 +138,27 @@ c['agents']['defaults']['contextTokens'] = 32000
 p.write_text(json.dumps(c, indent=4))
 print('Done')
 "
+
+# Update workspace path
+python3 -c "
+import json
+from pathlib import Path
+p = Path('~/.openclaw/openclaw.json').expanduser()
+c = json.loads(p.read_text())
+c['agents']['defaults']['workspace'] = '~/tools/ezra-lab'
+p.write_text(json.dumps(c, indent=4))
+print('Done')
+"
+```
+
+### Security
+
+```bash
+# Run security audit
+openclaw security audit
+
+# Run deep security audit
+openclaw security audit --deep
 ```
 
 ### Troubleshooting
@@ -131,15 +176,22 @@ curl -s http://localhost:11434/api/tags | python3 -m json.tool
 # Pull a model into Ollama
 curl -s http://localhost:11434/api/pull -d '{"name":"nomic-embed-text"}'
 curl -s http://localhost:11434/api/pull -d '{"name":"llama3.2:3b"}'
+curl -s http://localhost:11434/api/pull -d '{"name":"qwen2.5:14b"}'
 
-# Reinstall LanceDB npm module
+# Reinstall LanceDB npm module (VPS)
 sudo npm install --save @lancedb/lancedb /usr/lib/node_modules/openclaw/extensions/memory-lancedb
+
+# Reinstall LanceDB npm module (Mac)
+sudo npm install --save @lancedb/lancedb /opt/homebrew/lib/node_modules/openclaw/dist/extensions/memory-lancedb
 
 # Check crontab
 crontab -l
 
 # Add gateway reboot entry
 (crontab -l | grep -v openclaw; echo "@reboot nohup openclaw gateway > ~/.openclaw/logs/gateway.log 2>&1 & disown") | crontab -
+
+# Send test Telegram notification (no operator spam)
+python3 ~/esther-lab/scripts/esther-verify.py --test-notify
 ```
 
 ---
@@ -203,12 +255,15 @@ gh api repos/FinkSecurity/finksecurity-site/pages \
 # View repo contents
 gh api repos/FinkSecurity/esther-lab/contents/scripts \
   --jq '[.[].name]'
+
+# Re-authenticate gh CLI
+gh auth login
 ```
 
 ### SHA Verification (ESTHER fabrication check)
 
 ```bash
-# Run esther-verify.py option 14
+# Run esther-verify.py
 python3 ~/esther-lab/scripts/esther-verify.py
 
 # Manual SHA check
@@ -226,13 +281,6 @@ gh api repos/FinkSecurity/esther-lab/commits/<sha> 2>&1 | grep -i "sha\|message\
 # Build site
 cd ~/estherops-site && hugo
 
-# Check what Hugo generated
-ls ~/estherops-site/public/posts/
-ls ~/estherops-site/public/reports/
-ls ~/estherops-site/public/methods/
-ls ~/estherops-site/public/intelligence/
-ls ~/estherops-site/public/labs/
-
 # Verify a post URL is live
 curl -sk -o /dev/null -w "%{http_code}" https://estherops.tech/reports/<slug>/
 curl -sk -o /dev/null -w "%{http_code}" https://estherops.tech/methods/<slug>/
@@ -241,10 +289,10 @@ curl -sk -o /dev/null -w "%{http_code}" https://estherops.tech/methods/<slug>/
 ### Content Directory Rules
 
 ```
-content/reports/      → type: reports    (bug bounty, engagement summaries)
-content/methods/      → type: methods    (techniques, tooling, how-tos)
-content/intelligence/ → type: intelligence (OSINT, recon findings)
-content/labs/         → type: labs       (DVWA, Juice Shop exercises)
+content/reports/      → type: reports
+content/methods/      → type: methods
+content/intelligence/ → type: intelligence
+content/labs/         → type: labs
 ```
 
 ### Required Frontmatter
@@ -253,8 +301,8 @@ content/labs/         → type: labs       (DVWA, Juice Shop exercises)
 ---
 title: "Your Post Title"
 date: 2026-03-30T12:00:00Z
-type: reports
-categories: ["Reports"]
+type: methods
+categories: ["Methods"]
 ---
 ```
 
@@ -262,10 +310,9 @@ categories: ["Reports"]
 
 ```bash
 # Hugo auto-deploys via GitHub Actions on push to main
-# Check Action status
 gh run list --repo FinkSecurity/estherops-site --limit 3
 
-# Force rebuild (push any change)
+# Force rebuild
 cd ~/estherops-site
 git commit --allow-empty -m "chore: trigger rebuild"
 git push
@@ -274,12 +321,8 @@ git push
 ### Troubleshooting 404s
 
 ```bash
-# Check if file is in wrong directory
-ls ~/estherops-site/content/posts/ | grep <slug>   # should be empty
-ls ~/estherops-site/content/reports/ | grep <slug>  # should be here
-
 # Check frontmatter type field matches directory
-head -6 ~/estherops-site/content/reports/<slug>.md
+head -6 ~/estherops-site/content/methods/<slug>.md
 
 # Check GitHub Action ran successfully
 gh run list --repo FinkSecurity/estherops-site --limit 3
@@ -295,11 +338,14 @@ gh run list --repo FinkSecurity/estherops-site --limit 3
 # System health check
 python3 ~/esther-lab/scripts/esther-verify.py
 
-# Commit helper (always use this instead of raw git commit)
+# Send test Telegram notification
+python3 ~/esther-lab/scripts/esther-verify.py --test-notify
+
+# Commit helper
 bash ~/esther-lab/scripts/esther-commit.sh "commit message"
 
 # Generate daily mission brief
-python3 ~/esther-lab/scripts/generate-briefing.py
+python3 ~/.openclaw/workspace/scripts/generate-briefing.py
 
 # Load engagement scope
 python3 ~/esther-lab/scripts/load-scope.py x
@@ -320,8 +366,15 @@ python3 ~/esther-lab/scripts/generate-exposure-report.py \
   --hibp /path/to/hibp-output.json \
   --out /path/to/output/
 
+# Run Home Network Security Check
+python3 ~/esther-lab/scripts/home-network-check.py \
+  --ip 1.2.3.4 \
+  --name "Client Name" \
+  --email client@example.com \
+  --out /tmp/output/
+
 # Manual task dispatch test
-python3 ~/poll-tasks.py
+python3 ~/finksecurity-notify/poll-tasks.py
 ```
 
 ### Stripe / Payment Pipeline
@@ -337,9 +390,6 @@ ps aux | grep handler.py | grep -v grep
 # Check pending tasks
 ls -la ~/tasks_pending/
 cat ~/tasks_pending/*.json
-
-# Check task poller log
-cat ~/.openclaw/workspace/logs/task-poller.log | tail -20
 ```
 
 ### Services Status
@@ -363,6 +413,51 @@ pkill -f notify.py && sleep 1 && cd ~/finksecurity-notify && gunicorn -w 1 -b 0.
 
 # Restart handler service (port 5002)
 pkill -f handler.py && sleep 1 && cd ~/finksecurity-notify && gunicorn -w 1 -b 0.0.0.0:5002 handler:app --daemon
+```
+
+---
+
+## Engagement Management
+
+```bash
+# Check engagement STATUS
+cat ~/esther-lab/engagements/public/x/STATUS
+cat ~/esther-lab/engagements/public/playtika/STATUS
+
+# Set engagement status
+echo "active"    > ~/esther-lab/engagements/public/x/STATUS
+echo "paused"    > ~/esther-lab/engagements/public/playtika/STATUS
+echo "cancelled" > ~/esther-lab/engagements/public/playtika/STATUS
+
+# Reload active engagement scope
+python3 ~/esther-lab/scripts/load-scope.py x
+
+# Regenerate mission brief
+python3 ~/.openclaw/workspace/scripts/generate-briefing.py
+```
+
+---
+
+## Ezra (Mac Media Agent)
+
+```bash
+# Check Ezra gateway status
+openclaw gateway status
+
+# Verify Ezra is using local model (should be qwen2.5:14b not OpenRouter)
+openclaw status | grep -A8 "Sessions"
+
+# Check Luminar Neo is scriptable via AppleScript
+osascript -e 'tell application "Luminar Neo" to get version'
+
+# Generate thumbnail via Ezra's script
+python3 ~/tools/ezra-lab/scripts/make_thumbnail.py "Title" "Subtitle" "~/tools/ezra-lab/media/output/output.png"
+
+# Check Ezra output directory
+ls ~/tools/ezra-lab/media/output/
+
+# Tail Ezra gateway log
+tail -f /tmp/openclaw/openclaw-$(date +%Y-%m-%d).log
 ```
 
 ---
@@ -407,14 +502,18 @@ DENY <task_id>       — decline contact form engagement
 
 | File | Path | Purpose |
 |------|------|---------|
-| SOUL.md | `~/esther-lab/SOUL.md` | ESTHER behavior rules |
+| SOUL.md (ESTHER) | `~/esther-lab/SOUL.md` | ESTHER behavior rules |
+| SOUL.md (Ezra) | `~/tools/ezra-lab/SOUL.md` | Ezra behavior rules |
 | ENVIRONMENT.md | `~/.openclaw/ENVIRONMENT.md` | Infrastructure facts |
 | ACTIVE-ENGAGEMENT.md | `~/.openclaw/workspace/ACTIVE-ENGAGEMENT.md` | Current engagement scope |
 | secrets.env | `~/.openclaw/workspace/secrets.env` | API keys (never commit) |
-| openclaw.json | `~/.openclaw/openclaw.json` | OpenClaw config |
-| gateway.log | `~/.openclaw/logs/gateway.log` | Live gateway logs |
+| openclaw.json (VPS) | `~/.openclaw/openclaw.json` | ESTHER OpenClaw config |
+| openclaw.json (Mac) | `~/.openclaw/openclaw.json` | Ezra OpenClaw config |
+| gateway.log (VPS) | `~/.openclaw/logs/gateway.log` | ESTHER live gateway logs |
+| gateway.log (Mac) | `/tmp/openclaw/openclaw-YYYY-MM-DD.log` | Ezra live gateway logs |
 | task-poller.log | `~/.openclaw/workspace/logs/task-poller.log` | Task dispatch log |
+| make_thumbnail.py | `~/tools/ezra-lab/scripts/make_thumbnail.py` | Ezra thumbnail generator |
 
 ---
 
-*Last updated: 2026-03-30*
+*Last updated: 2026-04-02*
