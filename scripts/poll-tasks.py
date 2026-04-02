@@ -38,6 +38,58 @@ APPROVAL_REQUIRED_ACTIONS = [
 ]
 
 
+def email_client(to_email: str, subject: str, body: str, attachment_path: Path = None) -> bool:
+    """Send email via SendGrid API."""
+    import requests
+    api_key = os.environ.get('SENDGRID_API_KEY', '')
+    if not api_key:
+        # Try secrets.env
+        secrets_path = Path.home() / '.openclaw' / 'workspace' / 'secrets.env'
+        if secrets_path.exists():
+            for line in secrets_path.read_text().splitlines():
+                if line.startswith('SENDGRID_API_KEY='):
+                    api_key = line.split('=', 1)[1].strip().strip('\"\' ')
+                    break
+    if not api_key:
+        log('❌ SENDGRID_API_KEY not found')
+        return False
+
+    payload = {
+        'personalizations': [{'to': [{'email': to_email}]}],
+        'from': {'email': 'noreply@finksecurity.com', 'name': 'Fink Security'},
+        'subject': subject,
+        'content': [{'type': 'text/plain', 'value': body}]
+    }
+
+    if attachment_path and attachment_path.exists():
+        import base64
+        with open(attachment_path, 'rb') as f:
+            encoded = base64.b64encode(f.read()).decode()
+        payload['attachments'] = [{
+            'content': encoded,
+            'filename': attachment_path.name,
+            'type': 'application/pdf',
+            'disposition': 'attachment'
+        }]
+
+    try:
+        r = requests.post(
+            'https://api.sendgrid.com/v3/mail/send',
+            headers={'Authorization': f'Bearer {api_key}', 'Content-Type': 'application/json'},
+            json=payload,
+            timeout=15
+        )
+        if r.status_code in (200, 202):
+            log(f'✅ Email delivered to {to_email}')
+            return True
+        else:
+            log(f'❌ SendGrid error {r.status_code}: {r.text[:100]}')
+            return False
+    except Exception as e:
+        log(f'❌ Email delivery failed: {e}')
+        return False
+
+
 def log(msg: str):
     timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
     line = f"[{timestamp}] {msg}"
@@ -157,6 +209,30 @@ def dispatch_autonomous(job_id: str, action: str, target: str,
         )
         if result.returncode == 0:
             log(f"✅ {job_id} completed successfully")
+            # Deliver results to client via email
+            client_email = task['client_context']['client_email']
+            client_name  = task['client_context'].get('client_name', 'Client')
+            service_name = task['client_context']['service_name']
+
+            # Find output file
+            pdf_files  = list(engagement_dir.glob('*.pdf'))
+            json_files = list(engagement_dir.glob('hibp-*.json'))
+            output_file = pdf_files[0] if pdf_files else (json_files[0] if json_files else None)
+
+            if output_file:
+                subject = f"Your Fink Security {service_name} Report"
+                body = (
+                    f"Hi {client_name},\n\n"
+                    f"Your {service_name} report is ready. Please find it attached.\n\n"
+                    f"Job ID: {job_id}\n\n"
+                    f"If you have any questions, reply to this email or visit finksecurity.com.\n\n"
+                    f"Stay safe,\n"
+                    f"ESTHER\n"
+                    f"Fink Security · finksecurity.com"
+                )
+                email_client(client_email, subject, body, output_file)
+            else:
+                log(f"⚠️  No output file found for {job_id} — skipping email delivery")
         else:
             log(f"⚠️  {job_id} completed with errors: {result.stderr[:200]}")
     except subprocess.TimeoutExpired:
