@@ -37,14 +37,17 @@ def update_stats():
 
     try:
         subprocess.run(["git", "pull", "--rebase", "origin", "main"],
-                       cwd=FINK_SITE, check=True, capture_output=True)
+                       cwd=FINK_SITE, capture_output=True)  # non-fatal
         subprocess.run(["git", "add", "stats.json"],
                        cwd=FINK_SITE, check=True)
-        subprocess.run(["git", "commit", "-m",
+        result = subprocess.run(["git", "commit", "-m",
                         f"stats: update date {today.strftime('%Y-%m-%d')}"],
-                       cwd=FINK_SITE, check=True)
-        subprocess.run(["git", "push"], cwd=FINK_SITE, check=True)
-        print("✅ Pushed to GitHub")
+                       cwd=FINK_SITE, capture_output=True)
+        if result.returncode == 0:
+            subprocess.run(["git", "push"], cwd=FINK_SITE, check=True)
+            print("✅ Pushed to GitHub")
+        else:
+            print("ℹ️  Nothing to commit — stats already current")
     except subprocess.CalledProcessError as e:
         print(f"⚠️  Git error: {e}")
 
