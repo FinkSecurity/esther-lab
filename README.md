@@ -1,10 +1,46 @@
 # esther-lab
 
-**Fink Security** — AI-first cybersecurity research lab.
+**ESTHER** is an autonomous AI security research agent built and operated by [Fink Security](https://finksecurity.com). She runs 24/7 on a hardened Kali Linux VPS, conducts authorized bug bounty research, delivers commercial security reports, and publishes findings to [estherops.tech](https://estherops.tech).
 
-ESTHER (Enumeration, Surveillance, Threat Hunting, Hacking, Exploitation, Reporting) is an autonomous AI security agent built to think like an attacker. This repository is her operational workspace — findings, tools, engagement docs, and lab exercises committed in real time.
+This repository is ESTHER's operational brain — scripts, findings, engagement documentation, and the behavioral rules that govern her autonomy.
 
-> "Your friendly neighborhood threat hunter. She's built to think like an attacker so you don't have to face one unprepared. And most importantly: she's on your side."
+---
+
+## What ESTHER Does
+
+- **Bug Bounty Research** — Multi-phase reconnaissance and vulnerability research against HackerOne targets (X Corp/xAI). Phases include passive OSINT, subdomain enumeration, active probing, and authenticated endpoint testing.
+- **Commercial Security Services** — Automated delivery of Personal Exposure Reports, Breach & Credential Checks, and Home Network Security Checks triggered by Stripe payments.
+- **Autonomous Publishing** — Writes and publishes security research to estherops.tech via Git commits. Posts to @finksecurity on X after every publication.
+- **Threat Intelligence** — Integrates Shodan, HaveIBeenPwned, VirusTotal, AlienVault OTX, and NVD for real-time intelligence.
+
+---
+
+## Architecture
+
+```
+Operator (Telegram) ←→ OpenClaw Gateway ←→ Claude Haiku (OpenRouter)
+                              │
+                    ┌─────────┴──────────┐
+                    │                    │
+              LanceDB Memory        Tool Execution
+              (nomic-embed-text     (shell, git, web,
+               via Ollama)           file system)
+                    │
+              Kali Linux VPS
+              ├── Docker Stack (DVWA, Juice Shop, OpenSearch, Ollama, Portainer)
+              ├── nginx + SSL (api.finksecurity.com)
+              ├── Stripe payment pipeline
+              └── GitHub Actions (estherops.tech, finksecurity.com)
+```
+
+**Stack:**
+- **Agent Runtime:** [OpenClaw](https://openclaw.ai) 2026.4.1
+- **Primary Model:** Claude Haiku 4.5 via OpenRouter
+- **Memory:** LanceDB vector memory (nomic-embed-text embeddings via Ollama)
+- **Communication:** Telegram bot (operator channel)
+- **Infrastructure:** Kali Linux VPS (Hostinger), Docker, nginx, Let's Encrypt SSL
+- **Languages:** Python 3, Bash
+- **CI/CD:** GitHub Actions → GitHub Pages
 
 ---
 
@@ -12,113 +48,95 @@ ESTHER (Enumeration, Surveillance, Threat Hunting, Hacking, Exploitation, Report
 
 ```
 esther-lab/
-├── SOUL.md                        # ESTHER's operating rules, ethics, and methodology
-├── ENVIRONMENT.md                 # VPS infrastructure and tool inventory
-├── AUTHORIZATION-PROTOCOL.md     # Client authorization framework
-├── docker-compose.yml             # Lab Docker stack (OpenSearch, DVWA, Juice Shop, etc.)
-├── LICENSE                        # AGPL-3.0
-│
-├── engagements/                   # Active bug bounty & client engagements
-│   ├── public/                    # HackerOne and public program work
-│   │   ├── playtika/              # Playtika HackerOne program
-│   │   │   ├── scope.md           # In-scope targets and operating rules
-│   │   │   ├── findings/          # Recon output, scan results, nuclei logs
-│   │   │   ├── submissions/       # H1 report drafts (DRAFT-*.md)
-│   │   │   └── TASK-BRIEF.md      # Current phase status and next steps
-│   │   └── x/                     # X Corp / xAI HackerOne program
-│   │       ├── scope.md           # In-scope targets (twitter, x.ai, grok, money)
-│   │       ├── findings/          # Recon output and investigation notes
-│   │       ├── submissions/       # H1 report drafts
-│   │       └── TASK-BRIEF.md      # Current phase status and next steps
-│   └── private/                   # Paid client work (gitignored)
-│
-├── docs/                          # Reference documentation
-│   ├── OPERATOR-HANDBOOK.md       # How to run Fink Security and manage ESTHER
-│   ├── RECON-PLAYBOOK.md          # Full recon methodology — read before every engagement
-│   ├── CLIENT-ENGAGEMENT-TEMPLATE.md  # Template for paid client engagements
-│   ├── LAB-INFRASTRUCTURE.md      # Docker stack and VPS service reference
-│   ├── OPENSEARCH-LOG-INTEGRATION.md  # OpenSearch audit log setup
-│   ├── esther-tool-audit.md       # Verified tool inventory
-│   └── openclaw-vps-guide.md      # OpenClaw workspace configuration
-│
-├── scripts/                       # Automation and utility scripts
-│   ├── esther-verify.py           # Interactive system verification tool (11 checks)
-│   ├── generate-briefing.py       # Auto-generates MISSION-BRIEF.md from repo state
-│   ├── generate-report.py         # Security report generator
-│   ├── hackerone-scope-fetch.py   # Pulls live scope from HackerOne API
-│   ├── nuclei-scan.py             # Targeted nuclei wrapper (enforces profile/rate limits)
-│   └── setup-engagement.py        # Creates engagement directory structure
-│
-├── targets/                       # Lab environments and vulnerable applications
-│   ├── README.md                  # Target index and access instructions
-│   ├── dvwa/                      # DVWA — PHP vulnerable web app (port 8081)
-│   │   └── README.md
-│   └── juice-shop/                # OWASP Juice Shop (port 3000)
-│       ├── README.md
-│       └── exercises/             # Completed walkthroughs (SQLi, auth bypass, API abuse)
-│
-├── posts/                         # Blog content published to estherops.tech
-│   ├── intelligence/              # Threat intelligence reports
-│   ├── labs/                      # Lab writeups and exercises
-│   ├── methods/                   # Methodology articles
-│   └── reports/                   # Formal assessment reports
-│
-├── osint-exercises/               # OSINT tutorials and completed exercises
-│   └── INDEX-WEBCAM-EXERCISE.md   # Boulder webcam OSINT exercise index
-│
-└── logs/                          # Operational logs (not for publication)
-    ├── execution.log
-    ├── auth-failures.log
-    └── overrides.log
+├── engagements/
+│   └── public/
+│       └── x/                    # X Corp/xAI HackerOne engagement
+│           ├── findings/          # Phase-by-phase recon findings
+│           ├── submissions/       # HackerOne submission drafts
+│           └── scope.md           # Program scope
+├── scripts/
+│   ├── esther-verify.py          # System health check (14 checks)
+│   ├── esther-commit.sh          # Verified git commit helper
+│   ├── generate-exposure-report.py  # PDF Personal Exposure Report generator
+│   ├── home-network-check.py     # Shodan-based network security report
+│   ├── hibp-check.py             # HaveIBeenPwned breach check
+│   ├── post-tweet.py             # Autonomous tweet posting
+│   ├── generate-briefing.py      # Daily mission brief generator
+│   ├── load-scope.py             # HackerOne scope loader
+│   ├── poll-tasks.py             # Stripe task dispatcher
+│   ├── write-journal.py          # Nightly session journal
+│   └── nuclei-scan.py            # Scoped nuclei wrapper
+├── docs/
+│   ├── CHEATSHEET.md             # Operations reference
+│   └── RECON-PLAYBOOK.md         # Engagement methodology
+├── SOUL.md                       # Agent behavioral rules
+└── HANDOFF.md                    # Session continuity document
 ```
 
 ---
 
-## Key Directories
+## Key Technical Highlights
 
-**`engagements/`** — Active bug bounty and client work. Each program has its own directory with a `scope.md` (auto-fetched from HackerOne API), `findings/` for raw recon output, `submissions/` for H1 report drafts, and a `TASK-BRIEF.md` tracking current phase and next steps. Private client engagements live in `engagements/private/` which is gitignored.
+### Integrity System
+ESTHER has a documented pattern of SHA fabrication (reporting plausible but non-existent git commits). The integrity system addresses this directly:
+- `esther-verify.py` runs 14 automated checks including real-time GitHub API SHA verification
+- `esther-commit.sh` enforces a pre-commit gate before every push
+- All commits verified against GitHub API — 422 responses flagged immediately
+- SOUL.md contains explicit fabrication rules with consequences documented
 
-**`docs/`** — Permanent reference documentation. Start with `OPERATOR-HANDBOOK.md` for a full picture of how Fink Security operates, and `RECON-PLAYBOOK.md` before any engagement — it covers the full investigation methodology from passive recon through WAF bypass thinking, AEM/LLM-specific techniques, and H1 filing guidance.
+### Payment Pipeline
+Fully automated service delivery:
+```
+Stripe checkout → webhook → handler.py → task file → poll-tasks.py (every 5min)
+→ script execution → PDF generation → SendGrid email → client inbox
+```
+Zero operator involvement after initial Stripe configuration.
 
-**`scripts/`** — Automation tools ESTHER uses on every engagement. `esther-verify.py` runs 11 system health checks including a SHA fabrication detector. `nuclei-scan.py` enforces targeted template selection — ESTHER never runs all 3768 templates. `hackerone-scope-fetch.py` pulls live scope directly from the H1 API before each engagement begins.
+### Vector Memory
+LanceDB semantic memory allows ESTHER to recall past work across sessions without re-establishing context. Built on nomic-embed-text embeddings running locally in Ollama Docker.
 
-**`targets/`** — Local lab environments for practice and tool validation. DVWA and Juice Shop run in Docker on the VPS. Completed exercises are mapped to MITRE ATT&CK techniques.
-
-**`posts/`** — Technical content published live to [estherops.tech](https://estherops.tech). Includes real findings, lab writeups, and security methodology articles.
-
----
-
-## Active Engagements
-
-| Program | Platform | Phase | Status |
-|---------|----------|-------|--------|
-| Playtika | HackerOne | Phase 2 | Active scanning complete, pivot to staging recon |
-| X Corp / xAI | HackerOne | Phase 1→2 | Passive recon complete, Phase 2 in progress |
-
----
-
-## Infrastructure
-
-| Component | Details |
-|-----------|---------|
-| VPS | Kali Linux — 45.82.72.151, SSH port 2222 |
-| Website | [finksecurity.com](https://finksecurity.com) (GitHub Pages) |
-| API | [api.finksecurity.com](https://api.finksecurity.com) (nginx → notify relay) |
-| Research blog | [estherops.tech](https://estherops.tech) (Hugo) |
-| Docker stack | OpenSearch, DVWA, Juice Shop, Portainer, Ollama |
-
----
-
-## Authorization
-
-All external scanning requires explicit authorization:
-
-1. **Client authorizes** via [finksecurity.com](https://finksecurity.com) contact form — digital checkbox, WHOIS logged, task ID generated
-2. **Operator approves** via Telegram (`APPROVE FSC-YYYYMMDD-HHMM`) before ESTHER is tasked
-3. **Bug bounty** — HackerOne safe harbor = written authorization for in-scope targets
-
-ESTHER operates under a strict phase gate model. See `SOUL.md` and `AUTHORIZATION-PROTOCOL.md` for full details.
+### Verification Script
+`esther-verify.py` checks:
+- Git commit authenticity (via GitHub API)
+- HackerOne submission draft status
+- Telegram/notify pipeline health
+- SSL certificate expiry
+- Scope file freshness
+- Tool inventory (18 security tools)
+- Docker stack health
+- LanceDB memory initialization
+- Cron job presence
+- Disk space
+- SHA fabrication detection (interactive)
 
 ---
 
-*Fink Security — AI-first cybersecurity. Built in public.*
+## Companion Projects
+
+| Project | Description |
+|---------|-------------|
+| [estherops.tech](https://estherops.tech) | ESTHER's published research — bug bounty findings, methodology writeups, lab exercises |
+| [finksecurity.com](https://finksecurity.com) | Commercial security services platform |
+| [ezra-lab](https://github.com/FinkSecurity/ezra-lab) | Ezra — autonomous media agent (Mac), generates AI thumbnails via fal.ai FLUX.1 |
+
+---
+
+## Operational Stats (Last 30 Days)
+
+Live stats available at [finksecurity.com/building-esther](https://finksecurity.com/building-esther)
+
+---
+
+## Security & Ethics
+
+All bug bounty research is conducted under HackerOne program authorization. ESTHER operates under strict ethical constraints defined in SOUL.md — no unauthorized scanning, no destructive actions without explicit operator approval, no credential theft or data exfiltration.
+
+Findings are disclosed responsibly through HackerOne's coordinated disclosure process.
+
+---
+
+## About
+
+Built by [Adam Fink](https://finksecurity.com) — solo founder of Fink Security. ESTHER is an experiment in autonomous security research: what happens when you give an AI agent real tools, real targets, and real accountability?
+
+Follow the build at [estherops.tech](https://estherops.tech) and [@finksecurity](https://x.com/finksecurity).
