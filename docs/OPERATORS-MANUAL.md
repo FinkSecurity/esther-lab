@@ -1,909 +1,718 @@
-# OPERATORS MANUAL — Security Research & Bug Bounty Reference
+# Fink Security — Bug Bounty Operators Manual
 
-**For:** Manual security operators conducting reconnaissance, vulnerability assessment, and bug bounty work  
-**Scope:** Hands-on command reference, not infrastructure/organizational commands  
-**Updated:** Sat 2026-04-04  
+A hands-on reference guide for executing security testing tasks from passive reconnaissance through HackerOne submission.
 
 ---
 
-## Table of Contents
+## 1. Passive Reconnaissance
 
-1. [Passive Reconnaissance](#passive-reconnaissance)
-2. [Active Scanning](#active-scanning)
-3. [Web Application Testing](#web-application-testing)
-4. [Network Analysis](#network-analysis)
-5. [Credential & Breach Checking](#credential--breach-checking)
-6. [Exploitation Frameworks](#exploitation-frameworks)
-7. [Findings Documentation](#findings-documentation)
-8. [HackerOne Submission Workflow](#hackerone-submission-workflow)
-9. [Common Patterns & Troubleshooting](#common-patterns--troubleshooting)
+Passive reconnaissance gathers intelligence without touching target infrastructure. Zero footprint.
+
+### 1.1 theHarvester — Email & Subdomain Discovery
+
+**What it does:** Aggregates data from public sources (Google, Bing, Yahoo, DNS brute-force dictionaries) to find subdomains and email addresses associated with a domain.
+
+**Installation check:**
+```bash
+python3 -m theHarvester --version
+```
+
+**Basic usage:**
+```bash
+python3 -m theHarvester -d xiaomi.com -b all -l 500
+```
+
+**Flags explained:**
+- `-d` — Domain to search
+- `-b` — Data sources (all, google, bing, yahoo, baidu, etc.)
+- `-l` — Result limit per source
+
+**Expected output:** List of subdomains, IP addresses, email addresses discovered from public records.
+
+**How to interpret:** Each subdomain is a potential attack surface. Look for:
+- API endpoints (api.*, v1.*, v2.*)
+- Admin/internal services (admin.*, internal.*, staging.*)
+- Regional variants (cn.*, eu.*, us.*)
+- Development/test systems (dev.*, test.*, qa.*)
 
 ---
 
-## Passive Reconnaissance
+### 1.2 Certificate Transparency — crt.sh
 
-Gather intelligence from public sources without triggering IDS/WAF alerts.
+**What it does:** Queries the Certificate Transparency (CT) log — a public record of every SSL/TLS certificate issued. Reveals all subdomains that have ever been issued certificates.
 
-### theHarvester — Email & Host Enumeration
+**Installation check:** None needed — curl + Python built-in.
 
-**Installation:**
+**Basic usage — xiaomi.com:**
 ```bash
-pip install theHarvester
+curl -s "https://crt.sh/?q=%.xiaomi.com&output=json" | python3 -c "import json,sys; [print(d['name_value']) for d in json.load(sys.stdin)]" | sort -u
 ```
 
-**Basic Usage:**
+**Basic usage — mi.com:**
 ```bash
-# Search for emails and hosts associated with a domain
-python3 -m theHarvester -d example.com -l 500 -b google,bing,yahoo
-
-# Common flags:
-# -d DOMAIN          Target domain
-# -l LIMIT           Max results per source (default: 500)
-# -b SOURCES         Data sources (google,bing,yahoo,duckduckgo,etc)
-# -f FILE            Save results to file (HTML, XML, JSON)
+curl -s "https://crt.sh/?q=%.mi.com&output=json" | python3 -c "import json,sys; [print(d['name_value']) for d in json.load(sys.stdin)]" | sort -u
 ```
 
-**Real Example — Xiaomi:**
-```bash
-python3 -m theHarvester -d xiaomi.com -l 500 -b google,bing,yahoo -f xiaomi-harvester.html
-python3 -m theHarvester -d mi.com -l 500 -b google,bing,yahoo
-python3 -m theHarvester -d miui.com -l 500 -b google,bing,yahoo
+**What each part does:**
+- `curl -s "https://crt.sh/?q=%.domain.com&output=json"` — Query CT logs for all subdomains (% = wildcard)
+- `python3 -c "..."` — Parse JSON, extract certificate names
+- `sort -u` — Deduplicate results
+
+**Expected output:**
+```
+account.xiaomi.com
+ai.xiaomi.com
+api.xiaomi.com
+market.xiaomi.com
+...
 ```
 
-**What to Look For:**
-- Email addresses (often reveal naming conventions)
-- Employee names and roles
-- Subdomains discovered through search results
-- Service domains (api.*, dev.*, staging.*, etc)
-- CDN/hosting providers mentioned in results
+**How to interpret:** Every entry here represents a host that was issuing HTTPS certificates at some point. Active = likely still running. Orphaned = decommissioned but may still resolve.
 
 ---
 
-### AMASS — Advanced Subdomain Enumeration
+### 1.3 WHOIS & ASN Lookups
 
-**Installation:**
+**What it does:** Retrieves domain registration and network ownership metadata.
+
+**Basic usage:**
 ```bash
-go install -v github.com/OWASP/Amass/v3/...@latest
+whois xiaomi.com
+whois mi.com
 ```
 
-**Passive Mode (No DNS Queries):**
-```bash
-# Passive enumeration using public data sources only
-amass enum -d example.com -passive
+**Key information to extract:**
+- Registrar and registration date
+- Name servers
+- Administrative contact details (often redacted)
+- Hosting provider ASN (Autonomous System Number)
 
-# Common flags:
-# -d DOMAIN          Target domain
-# -passive           Passive mode (no active DNS queries)
-# -o FILE            Output file
-# -nocolor           Plain text output
+**Example interpretation:**
+```
+Domain Name: XIAOMI.COM
+Registrar: MarkMonitor Inc.
+Name Server: ns1.xiaomi.com
+Registrant Country: CN
 ```
 
-**Real Example:**
-```bash
-amass enum -d xiaomi.com -passive -o xiaomi-amass.txt
-amass enum -d mi.com -passive
-amass enum -d miui.com -passive
-```
-
-**Active Mode (With DNS Resolution):**
-```bash
-# Only after scope approval and Phase 2 active testing authorization
-amass enum -d example.com -active -json
-
-# Requires DNS resolution — use only when explicitly approved
-```
-
-**Output Analysis:**
-- Save results in structured format (JSON, text)
-- Look for subdomain patterns (api-, dev-, test-, staging-)
-- Note CDN providers and hosting infrastructure
-- Track confirmed/unconfirmed subdomains for Phase 2
+This tells you:
+- Domain registered with MarkMonitor (common for large enterprises)
+- Uses custom nameservers (self-hosted DNS)
+- Registrant in China (relevant for geolocation)
 
 ---
 
-### Certificate Transparency (crt.sh)
+### 1.4 DNS Enumeration — dig, host, nslookup
 
-**Web Interface Query:**
+**What it does:** Queries DNS servers to resolve subdomains and retrieve records.
+
+**Basic usage — single lookup:**
 ```bash
-# Direct query for domain
-curl -s "https://crt.sh/?q=example.com&output=json" | jq '.[] | .name_value' | sort -u
-
-# Real example:
-curl -s "https://crt.sh/?q=xiaomi.com&output=json" | jq '.[] | .name_value' | sort -u > xiaomi-certs.txt
+dig api.xiaomi.com +short
+host api.xiaomi.com
+nslookup api.xiaomi.com
 ```
 
-**Pattern Analysis:**
+**Zone transfer attempt (may fail, but try):**
 ```bash
-# Extract unique subdomains from certificate data
-cat xiaomi-certs.txt | tr ',' '\n' | sort -u | grep '*.xiaomi.com'
-
-# Look for wildcard certificates (*.domain.com) — broader coverage
-# Look for unusual subdomain patterns (internal naming conventions)
+dig axfr xiaomi.com @ns1.xiaomi.com
 ```
 
-**Red Flags in Certificate Data:**
-- Staging/test environments (*.staging.*, *.test.*, *.dev.*)
-- Internal naming schemes (*.internal.*, *.vpn.*)
-- Backup/archive domains (*.backup.*, *.old.*)
-- Regional variants that might have weaker security
-
----
-
-### WHOIS & DNS Enumeration
-
-**WHOIS Lookup — Domain Registration:**
+**Reverse DNS lookup (IP to hostname):**
 ```bash
-# Get domain registration and nameserver info
-whois example.com
-
-# Parse specific fields:
-whois example.com | grep -i "registrar\|nameserver\|admin"
-
-# Real example:
-whois xiaomi.com | grep -i "registrar\|nameserver\|updated"
-```
-
-**DNS Enumeration:**
-```bash
-# Standard DNS records
-nslookup example.com
-dig example.com
-
-# Nameserver query
-dig example.com NS
-
-# Mail exchange records
-dig example.com MX
-
-# All records
-dig example.com ANY
-
-# Reverse DNS lookup (IP to hostname)
 dig -x 1.2.3.4
 ```
 
-**AXFR Zone Transfer (rare but check):**
-```bash
-# DNS zone transfer attempt (usually fails on modern systems)
-dig @ns1.example.com example.com AXFR
-
-# If successful, returns all DNS records for the domain
-# Modern systems reject this; failure is expected
+**Expected output:**
+```
+api.xiaomi.com.        300     IN      A       202.120.2.5
 ```
 
-**Real Pattern:**
-```bash
-# Identify all Xiaomi nameservers
-dig xiaomi.com NS +short
-
-# Query each nameserver for additional info
-dig @ns1.xiaomi.com xiaomi.com ANY
-```
+**How to interpret:**
+- Resolves = host is live
+- NXDOMAIN = host doesn't exist (but might be in scope for takeover testing)
+- Points to CDN (Cloudflare, Akamai) = WAF/DDoS protection in place
 
 ---
 
-### Shodan Queries — Passive Service Discovery
+### 1.5 Wayback Machine — Historical Snapshots
 
-**Shodan CLI Installation:**
+**What it does:** Archives snapshots of websites over time. Reveals old endpoints, parameters, and functionality that may no longer be documented.
+
+**Basic usage:**
 ```bash
-pip install shodan
-shodan init [YOUR_API_KEY]
+curl -s "https://archive.org/wayback/available?url=xiaomi.com&output=json" | python3 -m json.tool
 ```
 
-**IP/ASN Lookup:**
+**Manual browsing:**
+Visit https://web.archive.org/web/*/xiaomi.com/ and browse snapshots by year.
+
+**How to interpret:**
+- Old parameter names reveal API structure
+- Archived endpoints may still respond
+- Functionality may have moved but not been removed
+- Version numbers in URLs indicate versioning schemes
+
+---
+
+### 1.6 Google Dorks
+
+**What it does:** Uses Google's advanced search operators to find publicly indexed content.
+
+**Examples:**
 ```bash
-# Find company's IP ranges
-shodan org "Xiaomi" --fields ip_str,port,os | head -50
+# Find subdomains indexed by Google
+site:xiaomi.com filetype:pdf
 
-# Search by domain
-shodan search "xiaomi.com"
-
-# Search by hostname
-shodan search "hostname:xiaomi.com"
-```
-
-**Technology Fingerprinting:**
-```bash
-# Find specific services (Apache, Nginx, etc)
-shodan search "xiaomi.com apache"
-
-# Find cloud infrastructure
-shodan search "xiaomi.com org:amazon"
-
-# Find databases exposed
-shodan search "xiaomi.com elasticsearch port:9200"
-```
-
-**Real Example:**
-```bash
-# Get IP ranges for Xiaomi
-shodan org "Xiaomi Inc" --fields ip_str | head -20
-
-# Search for web servers
-shodan search "org:xiaomi.com http.title"
+# Find API endpoints
+site:xiaomi.com/api
 
 # Find exposed admin panels
-shodan search "org:xiaomi.com /admin"
+site:xiaomi.com "admin" OR "login" OR "panel"
+
+# Find database backups
+site:xiaomi.com filetype:sql
+
+# Find credentials or secrets
+site:xiaomi.com "password" OR "api_key" OR "token"
 ```
 
-**Important Notes:**
-- Free Shodan account is rate-limited (1 page = 100 results)
-- Use filters to narrow results: `org:, country:, port:, os:`
-- Paid API gives 10,000 results/month
-- Always verify findings before reporting (many false positives)
+**How to interpret:** Manual review required. Many results will be false positives, but even one exposed secret is a finding.
 
 ---
 
-### Wayback Machine & Historical Data
+## 2. Subdomain Enumeration
 
-**Command-Line Access:**
+Expand the subdomain list beyond CT logs. These tools are still passive — no network traffic to targets.
+
+### 2.1 amass — Intelligent Subdomain Enumeration
+
+**What it does:** Combines multiple data sources (DNS, certificates, APIs, Shodan) to discover subdomains. More comprehensive than theHarvester.
+
+**Installation check:**
 ```bash
-# Query Wayback Machine for historical snapshots
-curl -s "https://archive.org/wayback/available?url=example.com" | jq '.archived_snapshots'
-
-# Get list of all snapshots
-curl -s "https://api.github.com/repos/iipc/warc-specifications" 
+amass -version
 ```
 
-**Web Access (Simpler):**
-```
-https://web.archive.org/web/*/example.com
+**Basic usage (passive only):**
+```bash
+amass enum -passive -d xiaomi.com -o /tmp/amass-xiaomi.txt
 ```
 
-**What to Look For:**
-- Older versions of admin panels
-- Exposed API documentation
-- Historical subdomain listings
-- Deprecated but still-running services
-- Previous employee email addresses in old pages
+**Flags:**
+- `-passive` — Passive sources only (no active DNS queries)
+- `-d` — Domain
+- `-o` — Output file
+
+**Expected output:** One subdomain per line.
+
+**How to interpret:** Focus on patterns:
+- API subdomains (`v1.api.xiaomi.com`, `api-staging.xiaomi.com`)
+- Geographic regions (`cn.xiaomi.com`, `eu.xiaomi.com`)
+- Service categories (`cloud.xiaomi.com`, `iot.xiaomi.com`)
 
 ---
 
-## Active Scanning
+### 2.2 httpx — Live Host Probing
 
-Conduct active probing to identify live services and vulnerabilities.
+**What it does:** Probes discovered subdomains for HTTP/HTTPS responses, titles, status codes, and technology stack.
 
-### NMAP — Port Scanning & Service Enumeration
-
-**Installation:**
+**Installation check:**
 ```bash
-# Already installed on most Linux systems
-nmap --version
+httpx -version
 ```
 
-**Basic Port Scan:**
+**Basic usage:**
 ```bash
-# Quick scan of top 1000 ports
-nmap -sV example.com
-
-# All ports (slow, takes 5-10 mins)
-nmap -p- example.com
-
-# Aggressive scan with service version detection
-nmap -sV -sC -O example.com
-
-# UDP scan
-nmap -sU example.com
+cat subdomains.txt | httpx -title -tech-detect -status-code -follow-redirects
 ```
 
-**Real Example — Xiaomi Subdomain Scan:**
-```bash
-# Scan discovered subdomains
-nmap -sV api.xiaomi.com
-nmap -p 80,443,8080,8443 -sV dev.xiaomi.com
+**Flags:**
+- `-title` — Extract page title
+- `-tech-detect` — Identify web frameworks (WordPress, React, etc.)
+- `-status-code` — HTTP response code
+- `-follow-redirects` — Follow 30x redirects
+- `-o` — Output file
 
-# Range scan on discovered IPs
-nmap -sV -p 1-10000 1.2.3.0/24
+**Example output:**
+```
+https://api.xiaomi.com [200] [title: Xiaomi API] [NextJS, Nginx]
+https://admin.xiaomi.com [403] [title: Access Denied]
+https://staging.xiaomi.com [200] [title: Xiaomi Staging] [Express, MongoDB]
 ```
 
-**Common Flags:**
-```bash
--sV              Service version detection
--sC              Run default NSE scripts
--O               OS fingerprinting
--p PORT_LIST     Specific ports (80,443,8080 or 1-65535)
--p- --              All 65535 ports
--oX FILE         Save results as XML
--A               Aggressive (all options)
--T4              Timing template (faster, risk of missed services)
---script=SCRIPT  Run specific NSE script
-```
-
-**Useful NSE Scripts:**
-```bash
-# Web server enumeration
-nmap --script http-title,http-methods,http-headers example.com
-
-# SSL/TLS certificate info
-nmap --script ssl-cert example.com
-
-# Detect common vulnerabilities
-nmap --script vuln example.com
-```
+**How to interpret:**
+- 403/401 = authentication required (possible auth bypass)
+- 200 with unexpected title = misconfigured or unintended endpoint
+- Technology stack reveals known vulnerabilities (old Express versions, unpatched CMS)
+- Redirects reveal internal structure
 
 ---
 
-### HTTPX — Web Server Probing
+## 3. Active Scanning
 
-**Installation:**
+Now we touch the targets. Stay in-scope per HackerOne rules.
+
+### 3.1 nmap — Port Scanning & Service Detection
+
+**What it does:** Discovers open ports, identifies running services, and detects OS/version information.
+
+**Installation check:**
 ```bash
-go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
+nmap -version
 ```
 
-**Usage:**
+**Basic usage — SYN scan (default):**
 ```bash
-# Test HTTP connectivity on list of hosts
-cat subdomains.txt | httpx -status-code -title -tech-detect
-
-# Common flags:
-# -status-code      Show HTTP status code
-# -title            Extract page title
-# -tech-detect      Detect technologies (frameworks, CMS)
-# -ports LIST       Custom ports (80,443,8080)
-# -o FILE           Output file
+nmap -sS -p- xiaomi.com
 ```
 
-**Real Example:**
+**Service detection:**
 ```bash
-# Test all discovered Xiaomi subdomains
-cat xiaomi-subdomains.txt | httpx -status-code -title -tech-detect -o xiaomi-http-results.txt
-
-# Test specific ports
-cat xiaomi-subdomains.txt | httpx -ports 80,443,8080,8443,3000,5000 -status-code
+nmap -sV -p 80,443,8080,8443 xiaomi.com
 ```
 
-**What Status Codes Mean:**
-- 200: OK (accessible)
-- 301/302: Redirect (check destination)
-- 401/403: Authentication required / Forbidden (potential IDOR)
-- 404: Not found
-- 500: Server error (potential injection point)
-- 502/503: Gateway error (backend service down)
+**Aggressive scanning (version + OS detection):**
+```bash
+nmap -A -p- xiaomi.com
+```
+
+**Flags:**
+- `-sS` — SYN scan (stealth, fast)
+- `-p-` — All 65535 ports
+- `-sV` — Service version detection
+- `-A` — Aggressive (OS, version, script)
+- `-o` — Output file
+
+**Expected output:**
+```
+PORT    STATE  SERVICE VERSION
+80/tcp  open   http    nginx 1.19.0
+443/tcp open   https   nginx 1.19.0
+8080/tcp open  http    Apache Tomcat 9.0.1
+```
+
+**How to interpret:**
+- Old versions = known CVEs (nginx 1.19.0 is outdated)
+- Unexpected ports (8080, 8443) = development/admin services
+- All ports filtered = WAF in place
 
 ---
 
-### Nuclei — Vulnerability Scanning
+### 3.2 nuclei — Vulnerability Scanning
 
-**Installation:**
+**What it does:** Runs templates against targets to detect known vulnerabilities, misconfigurations, and security issues.
+
+**Installation check:**
 ```bash
-go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
+nuclei -version
 ```
 
-**Usage:**
+**Script wrapper for our engagements:**
 ```bash
-# Scan URL with default templates
-nuclei -u https://example.com
-
-# Scan file of URLs
-nuclei -list urls.txt
-
-# Use specific template category
-nuclei -u https://example.com -tags cves,misconfig
-
-# Common tags:
-# cves               Known CVEs
-# misconfig          Misconfiguration issues
-# xss                Cross-site scripting
-# sqli               SQL injection
-# auth               Authentication bypass
+python3 ~/esther-lab/scripts/nuclei-scan.py --targets targets.txt --output findings.md
 ```
 
-**Real Example:**
+**Direct usage:**
 ```bash
-# Scan all discovered Xiaomi URLs
-nuclei -list xiaomi-urls.txt -o xiaomi-nuclei-results.txt
-
-# Focus on specific vulnerability types
-nuclei -u https://api.xiaomi.com -tags auth,xss,sqli,misconfig
-
-# Scan with custom templates from engagement
-nuclei -u https://xiaomi.com -t ~/esther-lab/nuclei-templates/
+nuclei -l targets.txt -t ~/nuclei-templates/cves/ -o /tmp/nuclei-results.txt
 ```
 
-**Processing Results:**
-```bash
-# Extract only critical/high severity findings
-grep "severity=critical\|severity=high" xiaomi-nuclei-results.txt
+**Flags:**
+- `-l` — Target list file
+- `-t` — Template directory
+- `-o` — Output file
+- `-severity` — Filter by severity (critical, high, medium, low)
 
-# Group by vulnerability type
-sort xiaomi-nuclei-results.txt | uniq -c | sort -rn
+**Expected output:**
 ```
+[CVE-2021-XXXXX] https://api.xiaomi.com/endpoint [Critical]
+[Nginx-Version-Disclosure] https://xiaomi.com [Low]
+[SSL-Outdated-Protocol] https://xiaomi.com [Medium]
+```
+
+**How to interpret:**
+- Critical/High findings are reportable
+- Low findings (info disclosure) still have value
+- Cluster results by endpoint to identify patterns
 
 ---
 
-### FFUF — Web Path Fuzzing
+### 3.3 nikto — Web Server Scanning
 
-**Installation:**
+**What it does:** Scans web servers for misconfigurations, outdated software, and known vulnerabilities.
+
+**Installation check:**
 ```bash
-go install -v github.com/ffuf/ffuf@latest
+nikto -version
 ```
 
-**Usage:**
+**Basic usage:**
 ```bash
-# Fuzz common paths
-ffuf -u https://example.com/FUZZ -w /path/to/wordlist.txt
-
-# Filter results by status code
-ffuf -u https://example.com/FUZZ -w wordlist.txt -mc 200,301,302
-
-# Recursion (subdirectory fuzzing)
-ffuf -u https://example.com/FUZZ -w wordlist.txt -recursion
+nikto -h https://api.xiaomi.com -o /tmp/nikto-results.txt
 ```
 
-**Real Example:**
-```bash
-# Find hidden admin panels
-ffuf -u https://api.xiaomi.com/FUZZ -w ~/esther-lab/wordlists/api-paths.txt -mc 200,401,403
+**Flags:**
+- `-h` — Target host
+- `-p` — Port
+- `-o` — Output file
+- `-Tuning` — Scan categories (1-9)
 
-# API endpoint discovery
-ffuf -u https://xiaomi.com/api/v1/FUZZ -w wordlist.txt
-
-# Common wordlists:
-# /usr/share/wordlists/dirb/common.txt (Kali Linux)
-# ~/esther-lab/wordlists/api-paths.txt (custom)
+**Expected output:**
 ```
++ Server: Nginx/1.19.0
++ /admin/ — Directory indexing enabled
++ Outdated Apache detected
++ Cookies without HttpOnly flag
+```
+
+**How to interpret:** Similar to nuclei — focus on critical/high findings first.
 
 ---
 
-### Nikto — Web Server Scanner
+### 3.4 ffuf — Directory & Parameter Fuzzing
 
-**Installation:**
+**What it does:** Brute-forces URL paths and parameters to discover hidden endpoints and functionality.
+
+**Installation check:**
 ```bash
-# Usually pre-installed on Kali Linux
-nikto -h
+ffuf -version
 ```
 
-**Usage:**
+**Basic usage — directory fuzzing:**
 ```bash
-# Basic scan
-nikto -h example.com
-
-# Specify port
-nikto -h example.com -p 8080
-
-# SSL/TLS scan
-nikto -h https://example.com -ssl
-
-# Output to file
-nikto -h example.com -o scan.html -F htm
+ffuf -u https://api.xiaomi.com/FUZZ -w /usr/share/wordlists/dirb/common.txt -o /tmp/ffuf-dirs.txt
 ```
 
-**Real Example:**
+**Parameter fuzzing:**
 ```bash
-nikto -h https://api.xiaomi.com -o xiaomi-nikto.html -F htm
+ffuf -u "https://api.xiaomi.com/user?FUZZ=test" -w /usr/share/wordlists/dirb/common.txt -o /tmp/ffuf-params.txt
 ```
+
+**Flags:**
+- `-u` — Target URL (FUZZ = variable to replace)
+- `-w` — Wordlist
+- `-o` — Output file
+- `-mc` — Match HTTP codes (e.g., -mc 200,301)
+- `-fc` — Filter HTTP codes (e.g., -fc 404)
+
+**Expected output:**
+```
+/api/v1/users [200]
+/api/v1/accounts [200]
+/admin/panel [403]
+```
+
+**How to interpret:** 200 responses are interesting. 403 responses indicate protected but accessible paths.
 
 ---
 
-## Web Application Testing
+## 4. Web Application Testing
 
-Manual testing for application-level vulnerabilities.
+Manual testing for logic flaws and auth bypass.
 
-### SQL Injection Testing
+### 4.1 curl — Endpoint Probing & Request Manipulation
 
-**SQLMap — Automated SQLi Detection:**
+**What it does:** Sends custom HTTP requests to test authentication, authorization, and parameter handling.
+
+**Basic GET request:**
 ```bash
-# Installation
-sudo apt-get install sqlmap
-
-# Basic scan on URL parameter
-sqlmap -u "https://example.com/search?id=1" -p id
-
-# Common flags:
-# -u URL             Target URL
-# -p PARAM           Vulnerable parameter
-# --dbs              Enumerate databases
-# --tables           List tables
-# --dump             Extract data
-# --risk=3           High risk (more aggressive)
-# --level=5          Maximum testing level
+curl -v https://api.xiaomi.com/user/profile
 ```
 
-**Real Example:**
+**POST with data:**
 ```bash
-# Test discovered parameter
-sqlmap -u "https://xiaomi.com/search?id=1" -p id --dbs
-
-# Authentication-required scan
-sqlmap -u "https://xiaomi.com/account?id=1" -p id --cookie="session=xyz" --dbs
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"username":"test","password":"test"}' \
+  https://api.xiaomi.com/login
 ```
 
-**Manual Testing:**
+**Custom headers (auth bypass):**
 ```bash
-# Test basic SQLi syntax
-curl "https://example.com/search?id=1' OR '1'='1"
-
-# Time-based blind SQLi
-curl "https://example.com/search?id=1' AND SLEEP(5)--"
-
-# Boolean-based blind SQLi
-curl "https://example.com/search?id=1' AND 1=1--"
-curl "https://example.com/search?id=1' AND 1=2--"
+curl -H "Authorization: Bearer fake-token" \
+  -H "X-Admin-Override: true" \
+  https://api.xiaomi.com/admin/users
 ```
+
+**Cookie manipulation:**
+```bash
+curl -b "session_id=12345; admin=true" \
+  https://api.xiaomi.com/admin/settings
+```
+
+**How to interpret:**
+- If endpoints respond to fake tokens = auth bypass
+- If admin=true cookie works = broken access control
+- Errors reveal internal structure and technology
 
 ---
 
-### Cross-Site Scripting (XSS) Testing
+### 4.2 IDOR Testing — Insecure Direct Object References
 
-**Reflected XSS:**
+**Pattern:** Sequential or predictable IDs in URLs.
+
+**Example from Xiaomi:**
 ```bash
-# Test input reflection
-curl "https://example.com/search?q=<script>alert(1)</script>"
+# User 1's profile
+curl https://api.xiaomi.com/user/1/profile
 
-# Common XSS payloads
-<img src=x onerror=alert(1)>
-<svg onload=alert(1)>
-<iframe src="javascript:alert(1)">
-<body onload=alert(1)>
+# Try user 2
+curl https://api.xiaomi.com/user/2/profile
+
+# Try admin (common ID)
+curl https://api.xiaomi.com/user/999/profile
 ```
 
-**Stored XSS:**
-- Test user profile fields (name, bio, avatar)
-- Submit comments or forum posts with XSS payloads
-- Verify if payloads execute when page is reloaded
+**If user 2's data is returned:** IDOR vulnerability.
 
-**DOM-Based XSS:**
-```bash
-# Test client-side JavaScript handlers
-# Look for innerHTML, eval(), document.write() usage
-# Try manipulating DOM via URL fragments or query strings
-```
+**Also try:**
+- UUID modification (change last character)
+- Base64 encoding (ID might be base64)
+- Timestamp-based (use current timestamp ±1)
 
 ---
 
-### Cross-Site Request Forgery (CSRF) Testing
+### 4.3 Authentication Bypass Techniques
 
-**Manual Testing:**
+**Default credentials:**
 ```bash
-# Identify state-changing operations (form submissions, API calls)
-# Check for CSRF token validation
-# Try removing token or using expired token
-# Attempt cross-origin requests
+curl -u admin:admin https://api.xiaomi.com/admin
+curl -u admin:password https://api.xiaomi.com/admin
+curl -u admin:123456 https://api.xiaomi.com/admin
+```
 
-# Example: Check if CSRF protection exists
-curl -X POST "https://example.com/change-password" \
-  -d "old_password=test&new_password=hacked" \
-  -b "session=xyz"
-# If accepted, CSRF vulnerability likely exists
+**JWT token manipulation:**
+```bash
+# Copy a valid JWT from response, modify payload, re-encode
+# If server accepts it = weak validation
+```
+
+**Session fixation:**
+```bash
+# Set custom session ID in request
+# If server accepts it = vulnerability
+```
+
+**Null byte injection:**
+```bash
+curl "https://api.xiaomi.com/admin%00.php"
 ```
 
 ---
 
-### WFUZZ — Parameter Fuzzing
+## 5. Credential & Breach Intelligence
 
-**Installation:**
+### 5.1 HaveIBeenPwned (HIBP) — Breach Database Checks
+
+**What it does:** Searches a database of 12+ billion compromised credentials.
+
+**Online check:**
+Visit https://haveibeenpwned.com and search email addresses found during recon.
+
+**Via API (requires key):**
 ```bash
-pip install wfuzz
+curl -H "User-Agent: Fink-Security" \
+  "https://haveibeenpwned.com/api/v3/breachedaccount/email@xiaomi.com"
 ```
 
-**Usage:**
-```bash
-# Fuzz URL parameters
-wfuzz -z file,/path/to/wordlist -u "https://example.com?FUZZ=1"
-
-# Fuzz POST parameters
-wfuzz -z file,wordlist -X POST -d "user=FUZZ" https://example.com/login
-
-# Hide false positives
-wfuzz -z file,wordlist -u "https://example.com?FUZZ=1" --hc 404
-```
+**How to interpret:** If Xiaomi employee emails appear in breaches, credential stuffing is possible.
 
 ---
 
-## Network Analysis
+### 5.2 Password Cracking — hashcat & john
 
-### Network Reconnaissance
-
-**Traceroute — Path to Target:**
+**hashcat — GPU-accelerated cracking:**
 ```bash
-traceroute example.com
-# Shows hops between your machine and target
+hashcat -m 0 hashes.txt /usr/share/wordlists/rockyou.txt -o cracked.txt
 ```
 
-**Network Range Identification:**
+**john the ripper — CPU cracking:**
 ```bash
-# Use WHOIS to find ASN and IP ranges
-whois -h whois.radb.net "as12345"
-
-# Convert organization to IP ranges
-whois "Xiaomi Inc" | grep -i "^inetnum\|^route:"
+john hashes.txt --wordlist=/usr/share/wordlists/rockyou.txt
 ```
+
+Only use on passwords you've obtained with authorization (from a vuln you found, after HackerOne scope approval).
 
 ---
 
-## Credential & Breach Checking
+## 6. Exploitation Frameworks
 
-### Have I Been Pwned (HIBP) API
+### 6.1 Metasploit — Basic Workflow
 
-**Check for Exposed Credentials:**
+**Check if service is vulnerable:**
 ```bash
-# Check if email in breach database
-curl -s "https://haveibeenpwned.com/api/v3/breachedaccount/user@example.com" \
-  -H "User-Agent: MyApp"
-
-# Check password strength
-# Use pwnedpasswords.com (k-anonymity model)
-```
-
-**Command-Line Tool:**
-```bash
-# Install hibp-checker
-pip install hibp-checker
-
-# Check email
-hibp-checker user@example.com
-```
-
----
-
-### Credential Stuffing Preparation
-
-**Hashcat — Password Cracking:**
-```bash
-# Installation
-sudo apt-get install hashcat
-
-# Identify hash type
-hashcat -a 0 -m 0 hash.txt wordlist.txt  # MD5
-hashcat -a 0 -m 1400 hash.txt wordlist.txt  # SHA256
-```
-
-**John the Ripper:**
-```bash
-# Installation
-sudo apt-get install john
-
-# Crack password hash
-john --wordlist=/usr/share/wordlists/rockyou.txt hashes.txt
-
-# Unshadow system files
-unshadow /etc/passwd /etc/shadow > combined.txt
-john combined.txt
-```
-
----
-
-## Exploitation Frameworks
-
-### Metasploit — Vulnerability Exploitation
-
-**Installation:**
-```bash
-# Pre-installed on Kali Linux
 msfconsole
+> db_connect
+> nmap -Pn -sV -p- 192.168.1.1 -oX output.xml
+> db_import output.xml
+> services
 ```
 
-**Basic Workflow:**
+**Search for exploits:**
 ```bash
-# Search for exploit
-search apache cve-2021-xxxx
+> search CVE-2021-XXXXX
+> show options
+> set RHOSTS 192.168.1.1
+> exploit
+```
 
-# Use exploit
-use exploit/linux/http/apache_xxxx
-set LHOST 192.168.1.100
-set RHOST target.com
-run
+**Only use on lab targets or explicitly in-scope HackerOne assets.**
+
+---
+
+### 6.2 Impacket Tools — Network Exploitation
+
+Common tools for testing network services:
+
+```bash
+# SMB enumeration
+smbclient -L //target
+
+# Kerberos authentication
+GetUserSPN.py domain/user:password
 ```
 
 ---
 
-### Impacket — Protocol-Based Attacks
+## 7. Finding Documentation
 
-**Installation:**
-```bash
-pip install impacket
-```
+### 7.1 Finding Template
 
-**SMB Enumeration:**
-```bash
-# List shares
-smbclient -L //target.com
+Every finding should follow this structure:
 
-# Enumerate users
-python3 -m impacket.lookupsid target.com/user:pass@target.com
-```
-
----
-
-## Findings Documentation
-
-### Recording Findings Format
-
-**Standard Finding Template:**
 ```markdown
-## Vulnerability: [Title]
+## Vulnerability Title
 
-**Severity:** Critical / High / Medium / Low  
-**CVE:** CVE-2021-XXXXX (if applicable)  
-**CVSS Score:** 9.8  
+**Severity:** [Critical/High/Medium/Low]  
+**Type:** [XSS/SQLi/IDOR/Auth Bypass/etc.]  
+**Endpoint:** [https://api.xiaomi.com/path]  
 
 ### Description
-Clear explanation of what was found and why it matters.
+Clear explanation of the vulnerability. What it is, why it's bad, who can exploit it.
 
 ### Proof of Concept
-Step-by-step reproduction:
-1. Navigate to: https://target.com/path
-2. Enter payload: `<script>alert(1)</script>`
-3. Observe: JavaScript executes in browser
+```bash
+curl -v https://api.xiaomi.com/vulnerable-endpoint \
+  -H "Authorization: Bearer eyJhbGc..."
+```
+
+**Result:**
+```
+HTTP/1.1 200 OK
+{
+  "user_id": 2,
+  "username": "other_user",
+  "email": "other@xiaomi.com"
+}
+```
 
 ### Impact
-- Attacker can steal session cookies
-- Access to authenticated user data
-- Potential lateral movement
+What an attacker can do with this. Data theft? Account takeover? Service disruption?
 
 ### Remediation
-- Input validation and output encoding
-- Implement CSP headers
-- Use security.txt guidelines
+How to fix it. Replace vulnerable library? Add input validation? Enable HTTPS-only cookies?
 
-### References
-- CWE-79: Cross-site Scripting
-- OWASP Top 10: A03:2021 – Injection
+### Timeline
+- 2026-04-04: Initial discovery
+- 2026-04-05: HackerOne submission
+- 2026-04-12: Xiaomi acknowledged
+- [Pending remediation date]
 ```
 
 ---
 
-## HackerOne Submission Workflow
+### 7.2 CVSS Scoring
 
-### Before Submission
+Use CVSS 3.1 calculator: https://www.first.org/cvss/calculator/3.1
 
-1. **Verify the Vulnerability:**
-   - Reproduce independently
-   - Confirm it's within program scope
-   - Check it's not already reported
-
-2. **Create Proof of Concept:**
-   - Screenshots or video recording
-   - Step-by-step instructions
-   - No sensitive data in PoC
-
-3. **Check Program Rules:**
-   - Read scope carefully
-   - Verify severity tier alignment
-   - Check bounty ranges
-
-### Submission Steps
-
-1. **Log into HackerOne** → Go to program
-2. **Click "Submit Report"**
-3. **Fill vulnerability details:**
-   - Title: Clear, specific
-   - Weakness Type: Select from dropdown
-   - Severity: CVSS or program severity
-   - URL/Endpoint: Exact location
-   - Description: Clear explanation
-   - PoC: Steps to reproduce
-   - Impact: Business impact
-
-4. **Upload attachments:**
-   - Screenshots
-   - PoC video (MP4)
-   - Logs if relevant
-
-5. **Submit and monitor:**
-   - Response time varies (24h-7 days typically)
-   - Respond to clarifying questions
-   - Track bounty status
-
-### Common Submission Mistakes
-
-- ❌ Reporting already-patched CVEs
-- ❌ Submitting findings outside scope
-- ❌ Including personal data in PoC
-- ❌ Making demands or threats
-- ❌ Publicly disclosing before resolution
+**Quick reference:**
+- **Critical:** 9.0–10.0 (e.g., unauthenticated RCE)
+- **High:** 7.0–8.9 (e.g., auth bypass, privilege escalation)
+- **Medium:** 4.0–6.9 (e.g., XSS, SQLi with auth required)
+- **Low:** 0.1–3.9 (e.g., info disclosure, DoS on non-critical service)
 
 ---
 
-## Common Patterns & Troubleshooting
+### 7.3 Evidence Collection
 
-### API Reconnaissance Patterns
+Always include:
+- Full request/response (curl -v output)
+- Screenshots (if web app)
+- Command syntax used
+- Timestamps
+- Tool versions
 
-**Common API Paths:**
-```
-/api/v1/users
-/api/v2/products
-/api/v3/auth
-/graphql
-/rest/api/latest/
-/jira/rest/api/2/
-```
-
-**API Endpoint Discovery:**
-```bash
-# Check JavaScript for API calls
-curl -s https://example.com | grep -o "https://[^\"]*api[^\"]*" | sort -u
-
-# Check network requests (use browser dev tools)
-# Review OpenAPI/Swagger specs at /swagger, /api-docs, /openapi.json
-```
-
-**Common API Vulnerabilities:**
-- Broken authentication (missing/weak token validation)
-- IDOR (accessing other users' data via ID manipulation)
-- Rate limiting bypass
-- Mass assignment (setting unintended fields)
-- Exposed API keys in responses
+Paste everything verbatim. No fabrication.
 
 ---
 
-### False Positive Filtering
+## 8. HackerOne Submission Workflow
 
-**High HTTP 403 Rate = WAF/IDS Active:**
-```bash
-# Many 403s indicate protective measures
-# Switch to passive reconnaissance
-# Use different IP/VPN if possible
-# Reduce request rate
-```
+### 8.1 Pre-Submission Checklist
 
-**Timeouts = Network Lag or Rate Limiting:**
-```bash
-# Increase timeout
-curl -m 30 https://slow.example.com
+- [ ] Vulnerability confirmed and reproducible
+- [ ] Proof of concept documented
+- [ ] CVSS score calculated
+- [ ] Impact assessment complete
+- [ ] No sensitive data leaked in PoC
+- [ ] Verification that finding is in-scope per program rules
+- [ ] Remediation recommendation included
 
-# Reduce concurrent requests
-# Add delays between requests
-```
+### 8.2 Submission Structure
 
----
+1. **Title** — Clear, specific (e.g., "SQL Injection in User Search API")
+2. **Summary** — 2-3 sentence overview
+3. **Vulnerability Details** — Full description
+4. **Proof of Concept** — Step-by-step reproduction
+5. **Impact** — What attacker can do
+6. **Remediation** — How to fix it
+7. **Timeline** — Discovery date, submission date
 
-### Rate Limiting Management
+### 8.3 Expected Response Timeline
 
-**Identify Rate Limits:**
-```bash
-# Watch for 429 (Too Many Requests) responses
-# Check response headers for Retry-After
-curl -v https://api.example.com | grep -i "x-ratelimit\|retry-after"
-```
-
-**Bypass Techniques (Only if Authorized):**
-```bash
-# Rotate User-Agent
-curl -H "User-Agent: Mozilla/5.0" https://api.example.com
-
-# Add delays between requests
-for i in {1..100}; do curl https://api.example.com; sleep 2; done
-
-# Rotate IPs (VPN/proxy rotation)
-```
+- **Day 1–3:** Program triages and acknowledges
+- **Day 3–7:** Security team validates finding
+- **Day 7–14:** Fix development begins
+- **Day 14–30:** Fix deployed to production
+- **Day 30+:** Bounty paid, program publishes report
 
 ---
 
-## Real Engagement Reference Commands
-
-**Xiaomi Engagement — Phase 1 Commands:**
+## Quick Reference: Command Cheat Sheet
 
 ```bash
+# Certificate transparency
+curl -s "https://crt.sh/?q=%.domain.com&output=json" | python3 -c "import json,sys; [print(d['name_value']) for d in json.load(sys.stdin)]" | sort -u
+
+# DNS enumeration
+dig domain.com +short
+dig axfr domain.com @ns1.domain.com
+
 # Subdomain enumeration
-python3 -m theHarvester -d xiaomi.com -l 500 -b google,bing,yahoo
-amass enum -d xiaomi.com -passive
-curl -s "https://crt.sh/?q=xiaomi.com&output=json" | jq '.[] | .name_value' | sort -u
+amass enum -passive -d domain.com
 
-# IP range discovery
-whois xiaomi.com | grep -i "nameserver\|updated"
-shodan org "Xiaomi Inc" --fields ip_str | head -20
+# Live host probing
+cat subdomains.txt | httpx -title -tech-detect -status-code
 
-# Technology fingerprinting
-cat xiaomi-subdomains.txt | httpx -status-code -title -tech-detect
+# Port scanning
+nmap -sS -p- domain.com
+
+# Web vulnerability scanning
+nuclei -l targets.txt -o findings.txt
+
+# Directory fuzzing
+ffuf -u https://domain.com/FUZZ -w wordlist.txt
+
+# IDOR testing
+curl https://api.domain.com/user/1/profile
+curl https://api.domain.com/user/2/profile
+
+# Auth bypass
+curl -u admin:admin https://api.domain.com/admin
 ```
 
 ---
 
-## Tool Comparison Matrix
-
-| Tool | Purpose | Speed | Passive/Active | Scope |
-|------|---------|-------|---|---|
-| theHarvester | Email/host gathering | Fast | Passive | Public sources |
-| AMASS | Subdomain enumeration | Slow | Both | Multi-source |
-| Shodan | Service discovery | Fast | Passive | Internet-wide |
-| NMAP | Port scanning | Varies | Active | Network-level |
-| Nuclei | Vulnerability scanning | Medium | Active | Web applications |
-| FFUF | Web path fuzzing | Fast | Active | Single target |
-| SQLMap | SQL injection testing | Varies | Active | Application-level |
-
----
-
-**Last Updated:** Sat 2026-04-04  
-**Maintained By:** ESTHER Security Research Agent  
-**Repository:** FinkSecurity/esther-lab
+**Last Updated:** 2026-04-04  
+**Author:** ESTHER  
+**Status:** Live Reference Document
