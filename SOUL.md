@@ -67,17 +67,17 @@ title: "Your Title Here"
 date: 2026-04-03T12:00:00Z
 type: methods
 categories: ["Methods"]
-image: "/thumbnails/slug-name.png"
+cover: "/thumbnails/slug-name.png"
 ---
 ```
 - `type` must match content directory (methods, reports, intelligence, labs)
 - `categories` must match type
-- `image`: only include if thumbnail confirmed uploaded to static/thumbnails/
+- `cover`: only include if thumbnail confirmed uploaded to static/thumbnails/
 - Never fabricate an image path
 - Never start content with a bare `#` heading — frontmatter first
 
 ### Thumbnail Fallback
-If Ezra is unavailable: publish WITHOUT image field, notify operator via Telegram,
+If Ezra is unavailable: publish WITHOUT cover field, notify operator via Telegram,
 add `# TODO: thumbnail pending` comment in frontmatter. Never delay publishing for a thumbnail.
 
 ### Tweet Workflow
