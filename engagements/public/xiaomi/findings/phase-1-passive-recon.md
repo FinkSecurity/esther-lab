@@ -2916,3 +2916,61 @@ zhaoshang.youpin.mi.com
 - zbuvideo.ul.zb.mi.com
 - zbuvideo.zb.mi.com
 - zkong.esl.men.mi.com
+
+---
+
+## WHOIS Intelligence
+
+### xiaomi.com
+- Registrar: eName Technology Co., Ltd.
+- Created: 2003-07-22
+- **Expires: 2026-07-22** ⚠️ Domain expiry within 4 months — worth monitoring
+- Nameservers: NS3.DNSV5.COM, NS4.DNSV5.COM
+
+### mi.com
+- Registrar: Network Solutions, LLC
+- Created: 1998-11-06
+- Expires: 2028-11-05
+- Nameservers: NS3.DNSV5.COM, NS4.DNSV5.COM
+
+**Note:** Both domains share DNSv5 nameservers — same DNS infrastructure
+
+---
+
+## Shodan Intelligence
+
+**Global Infrastructure Presence:**
+- India (primary)
+- Hong Kong
+- Poland
+
+**Exposed Services:**
+- Port 53 (DNS) — TCP/UDP
+- Port 123 (NTP) — UDP
+- Port 179 (BGP) — TCP
+- Fortinet SSL VPN infrastructure detected (Certificate Authority: fortinet-ca2)
+
+**Notable:** Fortinet VPN infrastructure suggests enterprise network perimeter — potential target for authenticated testing in later phases.
+
+---
+
+## Phase 1 Summary
+
+| Metric | Value |
+|--------|-------|
+| xiaomi.com subdomains | 856 |
+| mi.com subdomains | 1,117 |
+| Total unique subdomains | ~1,973 |
+| DNS infrastructure | DNSv5 (shared) |
+| Global regions | India, HK, Poland (confirmed) |
+| Domain expiry risk | xiaomi.com expires Jul 2026 |
+| Notable services | Fortinet VPN, DNS, NTP, BGP |
+
+## Recommended Phase 2 Targets
+
+1. **api.xiaomi.com / api.mi.com** — API endpoints, likely authenticated
+2. **account.xiaomi.com** — Authentication surface, IDOR potential
+3. **ai.xiaomi.com / aiasst.xiaomi.com** — AI services, newer attack surface
+4. **io.mi.com** — IoT infrastructure, historically vulnerable category
+5. **market.xiaomi.com** — App marketplace, file upload and payment flows
+
