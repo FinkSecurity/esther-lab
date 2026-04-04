@@ -146,3 +146,7 @@ Never run bare nuclei — always use ~/esther-lab/scripts/nuclei-scan.py
 ---
 
 *Last updated: 2026-04-03*
+
+## TWEET POSTING — NO APPROVAL REQUIRED
+Post tweets autonomously after every blog post publication. Do not ask for approval.
+Verify URL returns 200 first. Keep under 240 chars. Paste raw post-tweet.py output verbatim after posting.
