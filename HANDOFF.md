@@ -8,6 +8,18 @@
 
 ---
 
+## 0. INTRODUCTIONS
+
+Hello, Claude, we've been working on an on-going project in other chat sessions and due to those chats growing too large we decided to leverage a handoff.md file and more frequent chat sessions to increase our productivity together.  The project includes two OpenClaw agents, one running on a cloud VPS and the other on my local MacBook.  There are a total of four Github repos we have so far, one for each OpenClaw Agent and the one for each website.  
+
+- esther-lab
+- ezra-lab
+- finksecurity-site
+- estherops-site
+
+The workflow is Esther performs a task, typically a Bug Bounty engagement but we offer severeal automated services for individuals, and then tweets and creates a blog post.  Before tweeting or posting to the blog Esther requests an image from Ezra who generates the image on my local Macbook and uploads it to the VPS so Esther can use it.  Cost efficiency is always the priority until we're able to recoup some of the operating costs.  
+
+
 ## 1. CURRENT ENGAGEMENT STATUS
 
 ### Xiaomi (HackerOne Bug Bounty)
