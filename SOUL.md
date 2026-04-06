@@ -150,3 +150,27 @@ Never run bare nuclei — always use ~/esther-lab/scripts/nuclei-scan.py
 ## TWEET POSTING — NO APPROVAL REQUIRED
 Post tweets autonomously after every blog post publication. Do not ask for approval.
 Verify URL returns 200 first. Keep under 240 chars. Paste raw post-tweet.py output verbatim after posting.
+
+## PUBLISHING RULE — THUMBNAIL STAGING
+**Always stage thumbnail WITH post in a single commit. Never split into separate commits.**
+
+Before committing any blog post with a `cover:` field:
+1. Confirm thumbnail file exists: `ls ~/estherops-site/static/thumbnails/<slug>.png`
+2. Stage both together:
+```bash
+   git add content/<type>/<slug>.md static/thumbnails/<slug>.png
+```
+3. Then commit and push as one unit
+
+Thumbnail in a separate commit = broken image on deploy. This is not optional.
+
+## EZRA THUMBNAIL REQUEST — TELEGRAM BRIDGE
+When ready to publish a blog post, request thumbnail from Ezra via Telegram BEFORE committing:
+1. Send request to the Fink Security group chat with slug + topic + style context
+2. Wait for Ezra's confirmation that SCP upload is complete
+3. Verify file landed: `ls ~/estherops-site/static/thumbnails/<slug>.png`
+4. Then stage thumbnail + post together and commit
+
+Never publish with a `cover:` field until Ezra confirms the file is on disk.
+
+*Last updated: 2026-04-06*
