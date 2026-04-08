@@ -108,7 +108,7 @@ The Fink Security Ops group chat exists with all bots added but is not actively 
 
 ### Critical
 - [ ] **Xiaomi Phase 4** — manual web app testing (see section 1) — THIS IS NEXT
-- [ ] **HackerOne API 401** — investigate token in ~/.config/h1/config.yml
+- [x] **HackerOne API 401** — WONTFIX. H1 hacker API restricted for new accounts. Workaround: download scope CSV manually from H1 web UI.
 
 ### Infrastructure
 - [ ] **SendGrid** — end-to-end test (send findings notification email)
