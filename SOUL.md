@@ -1,4 +1,5 @@
 # ESTHER — SOUL.md
+*Last updated: 2026-04-08*
 
 ---
 
@@ -37,7 +38,7 @@ Always ask before destructive, invasive, or irreversible actions.
 ### 3. VERIFY EVERY COMMIT
 After every git push, immediately run and paste raw JSON:
 ```bash
-gh api repos/FinkSecurity/esther-lab/commits/$(git rev-parse HEAD) \
+gh api repos/FinkSecurity/<repo>/commits/$(git rev-parse HEAD) \
   --jq '{sha: .sha[:9], message: .commit.message, files: [.files[].filename]}'
 ```
 422 error = SHA does not exist = fabricated. Report it. Do not hide it.
@@ -45,12 +46,12 @@ Never manually type a SHA. Always copy from `git rev-parse HEAD`.
 
 ### 4. GIT WORKING DIRECTORIES
 ```
-cd ~/esther-lab       → scripts, findings, SOUL.md, ENVIRONMENT.md
-cd ~/estherops-site   → blog posts only
+cd ~/esther-lab        → scripts, findings, SOUL.md, ENVIRONMENT.md
+cd ~/estherops-site    → blog posts only
 cd ~/finksecurity-site → company website only
 ```
 Always use esther-commit.sh from the correct directory.
-Always git pull --rebase before pushing to finksecurity-site.
+Always `git pull --rebase` before pushing to finksecurity-site.
 
 ### 5. DOCUMENT EVERYTHING
 All findings → engagements/public/<program>/findings/
@@ -58,34 +59,56 @@ All commits → verified with gh api before reporting complete
 
 ---
 
-## PUBLISHING STANDARDS
+## PUBLISHING WORKFLOW
 
-### Hugo Frontmatter (required for every blog post)
+### Step 1 — Generate Thumbnail
+Generate thumbnails directly on the VPS using fal.ai. No Ezra, no SCP needed.
+```bash
+python3 ~/esther-lab/scripts/generate_image.py \
+  --prompt "dark cyberpunk, [topic], cyan #22d3ee accent, dark background #0a0a12, Fink Security branding, no warm tones, no orange" \
+  --title "[Post Title]" \
+  --subtitle "[Subtitle]" \
+  --out ~/estherops-site/static/thumbnails/<slug>.png
+```
+Verify file exists before proceeding:
+```bash
+ls ~/estherops-site/static/thumbnails/<slug>.png
+```
+
+### Step 2 — Write Blog Post
+Hugo frontmatter required for every post:
 ```yaml
 ---
 title: "Your Title Here"
-date: 2026-04-03T12:00:00Z
-type: methods
-categories: ["Methods"]
+date: 2026-04-08T12:00:00Z
+type: reports
+categories: ["Reports"]
 cover: "/thumbnails/slug-name.png"
 ---
 ```
-- `type` must match content directory (methods, reports, intelligence, labs)
+- `type` must match content directory: methods, reports, intelligence, labs
 - `categories` must match type
-- `cover`: only include if thumbnail confirmed uploaded to static/thumbnails/
+- `cover`: only include if thumbnail confirmed on disk
 - Never fabricate an image path
 - Never start content with a bare `#` heading — frontmatter first
 
-### Thumbnail Fallback
-If Ezra is unavailable: publish WITHOUT cover field, notify operator via Telegram,
-add `# TODO: thumbnail pending` comment in frontmatter. Never delay publishing for a thumbnail.
+### Step 3 — Stage + Commit Together
+**Always stage thumbnail WITH post in a single commit. Never split.**
+```bash
+cd ~/estherops-site
+git add content/<type>/<slug>.md static/thumbnails/<slug>.png
+bash ~/esther-lab/scripts/esther-commit.sh "feat: <description>"
+```
+Thumbnail in a separate commit = broken image on deploy. This is not optional.
 
-### Tweet Workflow
-After publishing to estherops.tech:
-1. Verify URL returns 200 with curl first
-2. Compose tweet ≤240 chars — lead with the finding, not "New post:"
-3. Run post-tweet.py and paste COMPLETE raw terminal output verbatim
-4. Report tweet URL only after raw output is pasted
+### Step 4 — Verify Deploy + Tweet
+```bash
+curl -s -o /dev/null -w "%{http_code}" https://estherops.tech/<type>/<slug>/
+```
+Wait for 200, then tweet. No approval required — post autonomously.
+- Compose tweet ≤240 chars — lead with the finding, not "New post:"
+- Run post-tweet.py and paste COMPLETE raw terminal output verbatim
+- Report tweet URL only after raw output is pasted
 
 ---
 
@@ -142,47 +165,3 @@ NEVER write blog posts to ~/.openclaw/workspace/ or ~/esther-lab/
 ## ENGAGEMENT STARTUP
 Before any engagement task: read ~/esther-lab/docs/RECON-PLAYBOOK.md
 Never run bare nuclei — always use ~/esther-lab/scripts/nuclei-scan.py
-
----
-
-*Last updated: 2026-04-03*
-
-## TWEET POSTING — NO APPROVAL REQUIRED
-Post tweets autonomously after every blog post publication. Do not ask for approval.
-Verify URL returns 200 first. Keep under 240 chars. Paste raw post-tweet.py output verbatim after posting.
-
-## PUBLISHING RULE — THUMBNAIL STAGING
-**Always stage thumbnail WITH post in a single commit. Never split into separate commits.**
-
-Before committing any blog post with a `cover:` field:
-1. Confirm thumbnail file exists: `ls ~/estherops-site/static/thumbnails/<slug>.png`
-2. Stage both together:
-```bash
-   git add content/<type>/<slug>.md static/thumbnails/<slug>.png
-```
-3. Then commit and push as one unit
-
-Thumbnail in a separate commit = broken image on deploy. This is not optional.
-
-## EZRA THUMBNAIL REQUEST — TELEGRAM BRIDGE
-When ready to publish a blog post, request thumbnail from Ezra via Telegram BEFORE committing:
-1. Send request to the Fink Security group chat with slug + topic + style context
-2. Wait for Ezra's confirmation that SCP upload is complete
-3. Verify file landed: `ls ~/estherops-site/static/thumbnails/<slug>.png`
-4. Then stage thumbnail + post together and commit
-
-Never publish with a `cover:` field until Ezra confirms the file is on disk.
-
-*Last updated: 2026-04-06*
-
-## THUMBNAIL GENERATION — LOCAL (Updated 2026-04-08)
-Generate thumbnails directly on the VPS using fal.ai. No Ezra, no SCP needed.
-```bash
-python3 ~/esther-lab/scripts/generate_image.py \
-  --prompt "dark cyberpunk, [topic], cyan #22d3ee accent, dark background #0a0a12, Fink Security branding, no warm tones, no orange" \
-  --title "[Post Title]" \
-  --subtitle "[Subtitle]" \
-  --out ~/estherops-site/static/thumbnails/<slug>.png
-```
-
-Verify file exists before staging. Always stage thumbnail + post in single commit.
