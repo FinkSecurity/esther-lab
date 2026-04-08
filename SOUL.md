@@ -174,3 +174,15 @@ When ready to publish a blog post, request thumbnail from Ezra via Telegram BEFO
 Never publish with a `cover:` field until Ezra confirms the file is on disk.
 
 *Last updated: 2026-04-06*
+
+## THUMBNAIL GENERATION — LOCAL (Updated 2026-04-08)
+Generate thumbnails directly on the VPS using fal.ai. No Ezra, no SCP needed.
+```bash
+python3 ~/esther-lab/scripts/generate_image.py \
+  --prompt "dark cyberpunk, [topic], cyan #22d3ee accent, dark background #0a0a12, Fink Security branding, no warm tones, no orange" \
+  --title "[Post Title]" \
+  --subtitle "[Subtitle]" \
+  --out ~/estherops-site/static/thumbnails/<slug>.png
+```
+
+Verify file exists before staging. Always stage thumbnail + post in single commit.
