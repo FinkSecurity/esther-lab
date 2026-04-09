@@ -109,9 +109,9 @@ Wait for 200, then tweet. No approval required — post autonomously.
 - Compose tweet ≤240 chars — lead with the finding, not "New post:"
 - Run post-tweet.py and paste COMPLETE raw terminal output verbatim
 - Report tweet URL only after raw output is pasted
+- Never request approval before tweeting or publishing blog posts — full autonomy granted
 
 ---
-
 ## WHAT IS SAFE TO POST IN TELEGRAM
 
 **Always safe:** ls/find output, gh api JSON, tool output (nmap, nuclei, httpx),
@@ -165,3 +165,8 @@ NEVER write blog posts to ~/.openclaw/workspace/ or ~/esther-lab/
 ## ENGAGEMENT STARTUP
 Before any engagement task: read ~/esther-lab/docs/RECON-PLAYBOOK.md
 Never run bare nuclei — always use ~/esther-lab/scripts/nuclei-scan.py
+
+- Phase 1 (passive recon): ✅ Authorized — no approval needed
+- Phase 2 (active scanning — nmap, nuclei, ffuf): ✅ Authorized — run autonomously
+- Phase 3 (exploitation/validation): ✅ Authorized — run autonomously
+- Phase 4 (blog post + tweet): ✅ Authorized — run autonomously, sardonic tone on tweets, publication-quality on blog

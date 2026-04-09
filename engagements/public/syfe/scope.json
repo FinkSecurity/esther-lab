@@ -1,0 +1,233 @@
+{
+  "meta": {
+    "program": "syfe",
+    "generated_at": "2026-04-09T17:32:07.286641+00:00",
+    "source": "HackerOne CSV export (manual download)",
+    "total_assets": 9,
+    "in_scope_count": 9,
+    "out_of_scope_count": 0
+  },
+  "summary": {
+    "bounty_eligible": [
+      "uat-bugbounty.nonprod.syfe.com",
+      "api-uat-bugbounty.nonprod.syfe.com",
+      "www.syfe.com",
+      "api.syfe.com",
+      "alfred.syfe.com",
+      "mark8.syfe.com",
+      "com.syfe",
+      "https://apps.apple.com/sg/app/syfe-stay-invested/id1497156434",
+      "alfred-uat-31.nonprod.syfe.com"
+    ],
+    "staging_targets": [
+      "uat-bugbounty.nonprod.syfe.com",
+      "api-uat-bugbounty.nonprod.syfe.com",
+      "alfred-uat-31.nonprod.syfe.com"
+    ],
+    "production_targets": [
+      "www.syfe.com",
+      "api.syfe.com",
+      "alfred.syfe.com",
+      "mark8.syfe.com",
+      "com.syfe",
+      "https://apps.apple.com/sg/app/syfe-stay-invested/id1497156434"
+    ],
+    "web_count": 7,
+    "mobile_count": 2
+  },
+  "in_scope": [
+    {
+      "identifier": "uat-bugbounty.nonprod.syfe.com",
+      "asset_type": "URL",
+      "category": "web",
+      "instruction": "The primary test environment for the research is provided. The credentials are only valid for this environment.\nNote: Findings on this environment should be applicable on production.",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "max_severity": "critical",
+      "availability_requirement": "low",
+      "confidentiality_requirement": "high",
+      "integrity_requirement": "high",
+      "environment": "staging"
+    },
+    {
+      "identifier": "api-uat-bugbounty.nonprod.syfe.com",
+      "asset_type": "URL",
+      "category": "web",
+      "instruction": "API domain for the test environment.",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "max_severity": "critical",
+      "availability_requirement": "low",
+      "confidentiality_requirement": "high",
+      "integrity_requirement": "high",
+      "environment": "staging"
+    },
+    {
+      "identifier": "www.syfe.com",
+      "asset_type": "URL",
+      "category": "web",
+      "instruction": "Main domain for Syfe. \nPlease self sign-up for the accounts only using your ==@wearehackerone.com== address at [https://www.syfe.com/create-account?utm_source=bug_bounty&medium=bug_bounty](https://www.syfe.com/create-account?utm_source=bug_bounty&medium=bug_bounty) to perform any testing on production. \nRefer to non-qualifying bugs and disqualifiers in program guidelines.",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "max_severity": "critical",
+      "availability_requirement": "high",
+      "confidentiality_requirement": "high",
+      "integrity_requirement": "high",
+      "environment": "production"
+    },
+    {
+      "identifier": "api.syfe.com",
+      "asset_type": "URL",
+      "category": "web",
+      "instruction": "API domain for the user services.",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "max_severity": "critical",
+      "availability_requirement": "high",
+      "confidentiality_requirement": "high",
+      "integrity_requirement": "high",
+      "environment": "production"
+    },
+    {
+      "identifier": "alfred.syfe.com",
+      "asset_type": "URL",
+      "category": "web",
+      "instruction": "Trading service APIs.",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "max_severity": "critical",
+      "availability_requirement": "high",
+      "confidentiality_requirement": "high",
+      "integrity_requirement": "high",
+      "environment": "production"
+    },
+    {
+      "identifier": "mark8.syfe.com",
+      "asset_type": "URL",
+      "category": "web",
+      "instruction": "Market data API service.",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "max_severity": "critical",
+      "availability_requirement": "high",
+      "confidentiality_requirement": "low",
+      "integrity_requirement": "high",
+      "environment": "production"
+    },
+    {
+      "identifier": "com.syfe",
+      "asset_type": "GOOGLE_PLAY_APP_ID",
+      "category": "android",
+      "instruction": "Syfe android application.",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "max_severity": "critical",
+      "availability_requirement": "medium",
+      "confidentiality_requirement": "high",
+      "integrity_requirement": "high",
+      "environment": "production"
+    },
+    {
+      "identifier": "https://apps.apple.com/sg/app/syfe-stay-invested/id1497156434",
+      "asset_type": "APPLE_STORE_APP_ID",
+      "category": "ios",
+      "instruction": "Syfe IOS application.",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "max_severity": "critical",
+      "availability_requirement": "",
+      "confidentiality_requirement": "",
+      "integrity_requirement": "",
+      "environment": "production"
+    },
+    {
+      "identifier": "alfred-uat-31.nonprod.syfe.com",
+      "asset_type": "URL",
+      "category": "web",
+      "instruction": "The APK provided below is intended solely to support dynamic testing against our trading endpoint alfred-uat-31.nonprod.syfe.com\u2028Please claim the test credentials for assessment.\u2028\n\nAPK :\u2028https://drive.google.com/file/d/1YK6s6P7n8AKioli0FHdTiLYV5ebWgbL7/view?usp=drive_link\u2028\u2028\n\nNote:\u2028Static-analysis findings including exported components, manifest misconfigurations, insecure storage patterns, root-detection bypasses, SSL pinning issues, hardcoded secrets, and similar items must be validated against the latest production build.",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "max_severity": "critical",
+      "availability_requirement": "low",
+      "confidentiality_requirement": "high",
+      "integrity_requirement": "high",
+      "environment": "staging"
+    }
+  ],
+  "out_of_scope": [],
+  "burp_validation": {
+    "include": [
+      {
+        "host": "uat-bugbounty.nonprod.syfe.com",
+        "protocol": "http",
+        "port": "^80$"
+      },
+      {
+        "host": "uat-bugbounty.nonprod.syfe.com",
+        "protocol": "https",
+        "port": "^443$"
+      },
+      {
+        "host": "api-uat-bugbounty.nonprod.syfe.com",
+        "protocol": "http",
+        "port": "^80$"
+      },
+      {
+        "host": "api-uat-bugbounty.nonprod.syfe.com",
+        "protocol": "https",
+        "port": "^443$"
+      },
+      {
+        "host": "www.syfe.com",
+        "protocol": "http",
+        "port": "^80$"
+      },
+      {
+        "host": "www.syfe.com",
+        "protocol": "https",
+        "port": "^443$"
+      },
+      {
+        "host": "api.syfe.com",
+        "protocol": "http",
+        "port": "^80$"
+      },
+      {
+        "host": "api.syfe.com",
+        "protocol": "https",
+        "port": "^443$"
+      },
+      {
+        "host": "alfred.syfe.com",
+        "protocol": "http",
+        "port": "^80$"
+      },
+      {
+        "host": "alfred.syfe.com",
+        "protocol": "https",
+        "port": "^443$"
+      },
+      {
+        "host": "mark8.syfe.com",
+        "protocol": "http",
+        "port": "^80$"
+      },
+      {
+        "host": "mark8.syfe.com",
+        "protocol": "https",
+        "port": "^443$"
+      },
+      {
+        "host": "alfred-uat-31.nonprod.syfe.com",
+        "protocol": "http",
+        "port": "^80$"
+      },
+      {
+        "host": "alfred-uat-31.nonprod.syfe.com",
+        "protocol": "https",
+        "port": "^443$"
+      }
+    ],
+    "exclude": []
+  }
+}
