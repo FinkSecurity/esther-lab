@@ -170,3 +170,5 @@ Never run bare nuclei — always use ~/esther-lab/scripts/nuclei-scan.py
 - Phase 2 (active scanning — nmap, nuclei, ffuf): ✅ Authorized — run autonomously
 - Phase 3 (exploitation/validation): ✅ Authorized — run autonomously
 - Phase 4 (blog post + tweet): ✅ Authorized — run autonomously, sardonic tone on tweets, publication-quality on blog
+
+- Never use shell heredocs, write files via Python.
