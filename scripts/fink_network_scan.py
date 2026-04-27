@@ -422,11 +422,14 @@ def analyze_findings(hosts: list) -> dict:
                     "device":     host.get("device_type", "unknown"),
                     "port":       port,
                     "service":    port_info.get("service", port_info.get("banner", "unknown")),
+                    "version":    port_info.get("version", ""),
+                    "product":    port_info.get("product", ""),
                     "mitre_id":   mitre["technique"],
                     "mitre_name": mitre["name"],
                     "tactic":     mitre["tactic"],
                     "risk":       mitre["risk"],
                     "advice":     RISK_ADVICE[mitre["risk"]],
+                    "cve_lookup_ready": bool(port_info.get("product") or port_info.get("version")),
                 })
 
     findings.sort(key=lambda x: ["CRITICAL", "HIGH", "MEDIUM", "LOW"].index(x["risk"]))
@@ -510,6 +513,22 @@ def save_report_local(report: dict) -> str:
         json.dump(report, f, indent=2)
     return path
 
+
+
+def select_delivery_mode() -> str:
+    """Ask customer how they want to handle the report."""
+    print("  REPORT DELIVERY")
+    print("  ─────────────────────────────────────────────────────")
+    print("  [1] Send to Fink Security for analysis (recommended)")
+    print("      ESTHER will analyze findings, map CVEs, and email")
+    print("      you a full plain-English security report.")
+    print()
+    print("  [2] Save locally only")
+    print("      Report saved to your Desktop as JSON.")
+    print("      No data leaves your machine.")
+    print()
+    choice = input("  Select delivery [1/2, default 1]: ").strip()
+    return "local" if choice == "2" else "send"
 
 def send_report(report: dict, job_id: str) -> bool:
     """POST report to Fink Security API."""
@@ -614,21 +633,33 @@ def main():
                           network, hosts, analysis, system_info, job_id)
     report["scan_meta"]["scan_duration"] = f"{duration}s"
 
-    # Save locally
+    # Save locally always
     local_path = save_report_local(report)
     print(f"\n  [+] Report saved: {local_path}")
 
-    # Send to Fink Security
-    print("  [*] Sending report to Fink Security for analysis...")
-    success = send_report(report, job_id)
+    # Delivery choice
+    print()
+    delivery_mode = select_delivery_mode()
+    print()
 
-    if success:
-        print("  [+] Report received. ESTHER will begin analysis shortly.")
-        print("      You'll receive your full security assessment by email.")
+    if delivery_mode == "send":
+        print("  [*] Sending report to Fink Security for analysis...")
+        success = send_report(report, job_id)
+        if success:
+            print("  [+] Report received. ESTHER will begin analysis shortly.")
+            print("      You will receive your full security assessment by email.")
+            print(f"      Job ID: {job_id}")
+        else:
+            print("  [!] Could not send report automatically.")
+            print(f"      Please email {local_path} to hello@finksecurity.com")
+            print(f"      with subject: Network Scan Report — {job_id}")
     else:
-        print("  [!] Could not send report automatically.")
-        print(f"      Please email {local_path} to hello@finksecurity.com")
-        print(f"      with subject: Network Scan Report — {job_id}")
+        print("  [+] Report saved locally only. No data sent.")
+        print(f"      File: {local_path}")
+        print()
+        print("  To submit for analysis later, email the report file to:")
+        print("      hello@finksecurity.com")
+        print(f"      Subject: Network Scan Report — {job_id}")
 
     # Print summary to terminal
     print()
